@@ -1,0 +1,2297 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>直播选品样品间管理系统</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif; background: #f0f2f5; color: #1f1f1f; }
+  
+  .app-container { display: flex; min-height: 100vh; }
+  
+  .sidebar { width: 220px; background: #001529; color: #fff; padding: 20px 0; flex-shrink: 0; }
+  .logo { font-size: 18px; font-weight: 600; padding: 0 20px 20px; border-bottom: 1px solid #1f3a57; display: flex; align-items: center; gap: 8px; }
+  .logo-icon { width: 32px; height: 32px; background: linear-gradient(135deg, #1890ff, #722ed1); border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 16px; }
+  
+  .role-switcher { padding: 16px 20px; border-bottom: 1px solid #1f3a57; }
+  .role-label { font-size: 12px; color: #8c8c8c; margin-bottom: 8px; }
+  .role-tabs { display: flex; background: #1f3a57; border-radius: 6px; padding: 2px; }
+  .role-tab { flex: 1; text-align: center; padding: 6px 0; font-size: 12px; cursor: pointer; border-radius: 4px; transition: all 0.2s; color: #8c8c8c; }
+  .role-tab.active { background: #1890ff; color: #fff; }
+  
+  .nav-menu { margin-top: 16px; }
+  .nav-item { padding: 12px 20px; cursor: pointer; display: flex; align-items: center; gap: 10px; font-size: 14px; transition: all 0.2s; border-left: 3px solid transparent; }
+  .nav-item:hover { background: #1f3a57; }
+  .nav-item.active { background: #1890ff20; border-left-color: #1890ff; color: #1890ff; }
+  .nav-icon { font-size: 16px; width: 20px; text-align: center; }
+  .nav-badge { background: #ff4d4f; color: #fff; font-size: 10px; padding: 1px 6px; border-radius: 10px; margin-left: auto; }
+  
+  .main-content { flex: 1; display: flex; flex-direction: column; min-width: 0; }
+  
+  .header { height: 60px; background: #fff; border-bottom: 1px solid #e8e8e8; display: flex; align-items: center; justify-content: space-between; padding: 0 24px; }
+  .header-title { font-size: 18px; font-weight: 500; }
+  .header-stats { display: flex; gap: 24px; }
+  .stat-item { display: flex; flex-direction: column; align-items: flex-end; }
+  .stat-value { font-size: 20px; font-weight: 600; color: #1890ff; }
+  .stat-label { font-size: 12px; color: #8c8c8c; }
+  
+  .content-area { flex: 1; padding: 20px; overflow-y: auto; }
+  
+  .module-page { display: none; }
+  .module-page.active { display: block; }
+  
+  .page-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+  .page-title { font-size: 20px; font-weight: 600; }
+  .page-actions { display: flex; gap: 8px; }
+  
+  .btn { padding: 8px 16px; border: none; border-radius: 6px; cursor: pointer; font-size: 14px; transition: all 0.2s; display: inline-flex; align-items: center; gap: 6px; }
+  .btn-primary { background: #1890ff; color: #fff; }
+  .btn-primary:hover { background: #40a9ff; }
+  .btn-success { background: #52c41a; color: #fff; }
+  .btn-success:hover { background: #73d13d; }
+  .btn-warning { background: #faad14; color: #fff; }
+  .btn-warning:hover { background: #ffc53d; }
+  .btn-danger { background: #ff4d4f; color: #fff; }
+  .btn-danger:hover { background: #ff7875; }
+  .btn-default { background: #fff; color: #1f1f1f; border: 1px solid #d9d9d9; }
+  .btn-default:hover { border-color: #1890ff; color: #1890ff; }
+  .btn-sm { padding: 4px 12px; font-size: 12px; }
+  .btn:disabled { opacity: 0.5; cursor: not-allowed; }
+  
+  .card { background: #fff; border-radius: 8px; padding: 20px; margin-bottom: 16px; box-shadow: 0 1px 2px rgba(0,0,0,0.03); }
+  .card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
+  .card-title { font-size: 16px; font-weight: 500; }
+  
+  .data-table { width: 100%; border-collapse: collapse; }
+  .data-table th, .data-table td { padding: 12px; text-align: left; border-bottom: 1px solid #f0f0f0; font-size: 13px; }
+  .data-table th { background: #fafafa; font-weight: 500; color: #595959; }
+  .data-table tr:hover { background: #fafafa; }
+  
+  .tag { display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 12px; font-weight: 500; }
+  .tag-blue { background: #e6f7ff; color: #1890ff; }
+  .tag-green { background: #f6ffed; color: #52c41a; }
+  .tag-orange { background: #fff7e6; color: #fa8c16; }
+  .tag-red { background: #fff1f0; color: #f5222d; }
+  .tag-gray { background: #f5f5f5; color: #8c8c8c; }
+  .tag-purple { background: #f9f0ff; color: #722ed1; }
+  
+  .modal-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.45); display: none; align-items: center; justify-content: center; z-index: 1000; }
+  .modal-overlay.active { display: flex; }
+  .modal { background: #fff; border-radius: 8px; width: 560px; max-height: 90vh; overflow-y: auto; }
+  .modal-header { padding: 16px 24px; border-bottom: 1px solid #f0f0f0; display: flex; justify-content: space-between; align-items: center; }
+  .modal-title { font-size: 16px; font-weight: 500; }
+  .modal-close { cursor: pointer; font-size: 20px; color: #8c8c8c; background: none; border: none; }
+  .modal-body { padding: 24px; }
+  .modal-footer { padding: 12px 24px; border-top: 1px solid #f0f0f0; display: flex; justify-content: flex-end; gap: 8px; }
+  
+  .form-group { margin-bottom: 16px; }
+  .form-label { display: block; margin-bottom: 6px; font-size: 14px; color: #595959; }
+  .form-label .required { color: #f5222d; }
+  .form-input { width: 100%; padding: 8px 12px; border: 1px solid #d9d9d9; border-radius: 6px; font-size: 14px; transition: all 0.2s; }
+  .form-input:focus { outline: none; border-color: #1890ff; box-shadow: 0 0 0 2px rgba(24,144,255,0.2); }
+  .form-select { width: 100%; padding: 8px 12px; border: 1px solid #d9d9d9; border-radius: 6px; font-size: 14px; background: #fff; }
+  .form-textarea { width: 100%; padding: 8px 12px; border: 1px solid #d9d9d9; border-radius: 6px; font-size: 14px; resize: vertical; min-height: 80px; }
+  .form-row { display: flex; gap: 16px; }
+  .form-row .form-group { flex: 1; }
+  
+  .alert { padding: 12px 16px; border-radius: 6px; margin-bottom: 16px; display: flex; align-items: flex-start; gap: 10px; }
+  .alert-error { background: #fff1f0; border: 1px solid #ffa39e; color: #f5222d; }
+  .alert-warning { background: #fff7e6; border: 1px solid #ffd591; color: #fa8c16; }
+  .alert-success { background: #f6ffed; border: 1px solid #b7eb8f; color: #52c41a; }
+  .alert-info { background: #e6f7ff; border: 1px solid #91d5ff; color: #1890ff; }
+  .alert-icon { font-size: 16px; flex-shrink: 0; }
+  
+  .demo-container { background: #fffbe6; border: 1px dashed #faad14; border-radius: 8px; padding: 16px; margin-bottom: 20px; }
+  .demo-title { font-size: 14px; font-weight: 500; color: #fa8c16; margin-bottom: 12px; display: flex; align-items: center; gap: 8px; }
+  .demo-content { display: flex; gap: 12px; flex-wrap: wrap; }
+  .demo-btn { padding: 6px 12px; background: #fff; border: 1px solid #faad14; color: #fa8c16; border-radius: 4px; cursor: pointer; font-size: 12px; transition: all 0.2s; }
+  .demo-btn:hover { background: #fff7e6; }
+  
+  .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; margin-bottom: 20px; }
+  .stat-card { background: #fff; border-radius: 8px; padding: 20px; border-left: 4px solid #1890ff; }
+  .stat-card.green { border-left-color: #52c41a; }
+  .stat-card.orange { border-left-color: #faad14; }
+  .stat-card.red { border-left-color: #ff4d4f; }
+  .stat-card-title { font-size: 13px; color: #8c8c8c; margin-bottom: 8px; }
+  .stat-card-value { font-size: 28px; font-weight: 600; }
+  .stat-card-trend { font-size: 12px; margin-top: 4px; }
+  .trend-up { color: #52c41a; }
+  .trend-down { color: #ff4d4f; }
+  
+  .calendar-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px; }
+  .calendar-header { text-align: center; padding: 8px; font-weight: 500; color: #8c8c8c; font-size: 12px; }
+  .calendar-day { background: #fff; border: 1px solid #f0f0f0; border-radius: 4px; padding: 8px; min-height: 80px; cursor: pointer; transition: all 0.2s; position: relative; }
+  .calendar-day:hover { border-color: #1890ff; }
+  .calendar-day.today { background: #e6f7ff; border-color: #1890ff; }
+  .calendar-day.disabled { background: #fafafa; cursor: not-allowed; opacity: 0.5; }
+  .calendar-day-number { font-size: 14px; font-weight: 500; }
+  .calendar-event { font-size: 10px; padding: 2px 4px; border-radius: 2px; margin-top: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .calendar-event.reserved { background: #e6f7ff; color: #1890ff; }
+  .calendar-event.borrowed { background: #fff7e6; color: #fa8c16; }
+  .calendar-event.overdue { background: #fff1f0; color: #f5222d; }
+  
+  .calendar-nav { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
+  .calendar-month { font-size: 16px; font-weight: 500; }
+  
+  .scan-placeholder { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border-radius: 8px; padding: 40px; text-align: center; color: #fff; }
+  .scan-icon { font-size: 64px; margin-bottom: 16px; }
+  .scan-text { font-size: 18px; margin-bottom: 8px; }
+  .scan-subtext { font-size: 14px; opacity: 0.8; margin-bottom: 24px; }
+  .scan-simulator { background: rgba(255,255,255,0.1); border-radius: 8px; padding: 20px; max-width: 400px; margin: 0 auto; }
+  .scan-input { background: rgba(255,255,255,0.9); color: #1f1f1f; border: none; border-radius: 6px; padding: 12px; width: 100%; font-size: 14px; margin-bottom: 12px; }
+  
+  .qc-chart { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-bottom: 20px; }
+  .qc-item { background: #fff; border-radius: 8px; padding: 24px; text-align: center; }
+  .qc-circle { width: 80px; height: 80px; border-radius: 50%; margin: 0 auto 12px; display: flex; align-items: center; justify-content: center; font-size: 24px; font-weight: 600; }
+  .qc-circle.pass { background: conic-gradient(#52c41a var(--p), #f0f0f0 0); color: #52c41a; }
+  .qc-circle.fail { background: conic-gradient(#ff4d4f var(--p), #f0f0f0 0); color: #ff4d4f; }
+  .qc-circle.pending { background: conic-gradient(#faad14 var(--p), #f0f0f0 0); color: #faad14; }
+  .qc-label { font-size: 14px; color: #8c8c8c; }
+  .qc-value { font-size: 20px; font-weight: 600; margin-top: 4px; }
+  
+  .kanban-board { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+  .kanban-column { background: #f5f5f5; border-radius: 8px; padding: 12px; }
+  .kanban-column-header { padding: 8px 12px; margin-bottom: 12px; border-radius: 4px; font-weight: 500; display: flex; justify-content: space-between; align-items: center; }
+  .kanban-column.pending .kanban-column-header { background: #fff7e6; color: #fa8c16; }
+  .kanban-column.passed .kanban-column-header { background: #f6ffed; color: #52c41a; }
+  .kanban-column.failed .kanban-column-header { background: #fff1f0; color: #f5222d; }
+  .kanban-count { background: rgba(0,0,0,0.1); padding: 2px 8px; border-radius: 10px; font-size: 12px; }
+  .kanban-card { background: #fff; border-radius: 6px; padding: 12px; margin-bottom: 8px; cursor: pointer; transition: all 0.2s; border-left: 3px solid transparent; }
+  .kanban-card:hover { box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+  .kanban-card.pending { border-left-color: #faad14; }
+  .kanban-card.passed { border-left-color: #52c41a; }
+  .kanban-card.failed { border-left-color: #ff4d4f; }
+  .kanban-card-title { font-weight: 500; font-size: 13px; margin-bottom: 4px; }
+  .kanban-card-meta { font-size: 11px; color: #8c8c8c; }
+  
+  .conversion-chart { background: #fff; border-radius: 8px; padding: 24px; }
+  .conversion-grid { display: grid; grid-template-columns: 2fr 1fr; gap: 24px; }
+  .chart-placeholder { height: 300px; background: linear-gradient(180deg, #f0f5ff 0%, #fff 100%); border-radius: 8px; display: flex; align-items: flex-end; justify-content: space-around; padding: 20px; }
+  .chart-bar { width: 40px; background: linear-gradient(180deg, #1890ff 0%, #722ed1 100%); border-radius: 4px 4px 0 0; position: relative; transition: all 0.3s; }
+  .chart-bar:hover { opacity: 0.8; }
+  .chart-bar-label { position: absolute; bottom: -24px; left: 50%; transform: translateX(-50%); font-size: 11px; color: #8c8c8c; white-space: nowrap; }
+  .chart-bar-value { position: absolute; top: -20px; left: 50%; transform: translateX(-50%); font-size: 11px; font-weight: 600; color: #1890ff; }
+  
+  .funnel-container { display: flex; flex-direction: column; gap: 4px; }
+  .funnel-step { padding: 12px; border-radius: 4px; color: #fff; text-align: center; position: relative; margin: 0 auto; transition: all 0.3s; }
+  .funnel-step:hover { transform: scale(1.02); }
+  .funnel-step:nth-child(1) { width: 100%; background: linear-gradient(90deg, #1890ff, #40a9ff); }
+  .funnel-step:nth-child(2) { width: 85%; background: linear-gradient(90deg, #722ed1, #9254de); }
+  .funnel-step:nth-child(3) { width: 70%; background: linear-gradient(90deg, #52c41a, #73d13d); }
+  .funnel-step:nth-child(4) { width: 55%; background: linear-gradient(90deg, #faad14, #ffc53d); }
+  .funnel-step:nth-child(5) { width: 40%; background: linear-gradient(90deg, #ff4d4f, #ff7875); }
+  .funnel-label { font-size: 12px; opacity: 0.9; }
+  .funnel-value { font-size: 16px; font-weight: 600; margin-left: 8px; }
+  .funnel-rate { font-size: 11px; opacity: 0.8; margin-left: 8px; }
+  
+  .timeline { position: relative; padding-left: 24px; }
+  .timeline::before { content: ''; position: absolute; left: 8px; top: 0; bottom: 0; width: 2px; background: #e8e8e8; }
+  .timeline-item { position: relative; margin-bottom: 16px; }
+  .timeline-dot { position: absolute; left: -24px; top: 4px; width: 14px; height: 14px; border-radius: 50%; border: 2px solid #1890ff; background: #fff; }
+  .timeline-dot.warning { border-color: #faad14; }
+  .timeline-dot.danger { border-color: #ff4d4f; }
+  .timeline-dot.success { border-color: #52c41a; }
+  .timeline-content { background: #fafafa; padding: 12px; border-radius: 6px; font-size: 13px; }
+  .timeline-time { color: #8c8c8c; font-size: 12px; margin-bottom: 4px; }
+  
+  .progress-bar { height: 8px; background: #f0f0f0; border-radius: 4px; overflow: hidden; }
+  .progress-fill { height: 100%; background: linear-gradient(90deg, #1890ff, #52c41a); border-radius: 4px; transition: width 0.3s; }
+  .progress-fill.warning { background: linear-gradient(90deg, #faad14, #ff4d4f); }
+  
+  .empty-state { text-align: center; padding: 60px 20px; color: #8c8c8c; }
+  .empty-icon { font-size: 48px; margin-bottom: 16px; opacity: 0.5; }
+  
+  .selection-pool { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 16px; }
+  .sample-card { background: #fff; border-radius: 8px; overflow: hidden; border: 1px solid #f0f0f0; transition: all 0.2s; }
+  .sample-card:hover { box-shadow: 0 4px 12px rgba(0,0,0,0.08); transform: translateY(-2px); }
+  .sample-image { height: 160px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); display: flex; align-items: center; justify-content: center; font-size: 48px; color: #fff; }
+  .sample-content { padding: 16px; }
+  .sample-sku { font-size: 12px; color: #8c8c8c; margin-bottom: 4px; }
+  .sample-name { font-size: 15px; font-weight: 500; margin-bottom: 8px; }
+  .sample-meta { display: flex; justify-content: space-between; font-size: 12px; color: #8c8c8c; margin-bottom: 12px; }
+  .sample-actions { display: flex; gap: 8px; }
+  
+  .tabs { display: flex; border-bottom: 1px solid #f0f0f0; margin-bottom: 20px; }
+  .tab { padding: 12px 24px; cursor: pointer; font-size: 14px; border-bottom: 2px solid transparent; transition: all 0.2s; color: #8c8c8c; }
+  .tab:hover { color: #1890ff; }
+  .tab.active { color: #1890ff; border-bottom-color: #1890ff; font-weight: 500; }
+  
+  .role-locked { opacity: 0.6; pointer-events: none; position: relative; }
+  .role-locked::after { content: '🔒 权限不足'; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); background: rgba(0,0,0,0.7); color: #fff; padding: 8px 16px; border-radius: 4px; font-size: 12px; }
+  
+  .notification { position: fixed; top: 80px; right: 24px; background: #fff; border-radius: 8px; padding: 16px; box-shadow: 0 4px 12px rgba(0,0,0,0.15); z-index: 2000; max-width: 320px; border-left: 4px solid #1890ff; animation: slideIn 0.3s ease; }
+  .notification.success { border-left-color: #52c41a; }
+  .notification.warning { border-left-color: #faad14; }
+  .notification.error { border-left-color: #ff4d4f; }
+  .notification-title { font-weight: 500; margin-bottom: 4px; }
+  .notification-message { font-size: 13px; color: #595959; }
+  @keyframes slideIn { from { transform: translateX(100%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
+  
+  .scenario-block { background: #fff; border-radius: 8px; padding: 20px; margin-bottom: 16px; border: 2px solid transparent; }
+  .scenario-block.intercepted { border-color: #ff4d4f; background: #fff1f0; }
+  .scenario-block.allowed { border-color: #52c41a; background: #f6ffed; }
+  .scenario-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
+  .scenario-name { font-weight: 500; display: flex; align-items: center; gap: 8px; }
+  .scenario-status { font-size: 12px; padding: 2px 8px; border-radius: 4px; }
+  
+  .compensation-table { background: #fff; border-radius: 8px; overflow: hidden; }
+  .compensation-header { background: linear-gradient(135deg, #ff4d4f, #ff7875); color: #fff; padding: 16px 20px; }
+  .compensation-title { font-size: 16px; font-weight: 500; }
+  .compensation-amount { font-size: 32px; font-weight: 600; margin: 8px 0; }
+  
+  .freeze-banner { background: linear-gradient(135deg, #ff4d4f, #faad14); color: #fff; padding: 16px 20px; border-radius: 8px; margin-bottom: 16px; display: flex; align-items: center; gap: 12px; }
+  .freeze-icon { font-size: 32px; }
+  .freeze-text h4 { margin-bottom: 4px; }
+  .freeze-text p { font-size: 13px; opacity: 0.9; }
+</style>
+</head>
+<body>
+<div class="app-container">
+  <aside class="sidebar">
+    <div class="logo">
+      <div class="logo-icon">📦</div>
+      <span>直播选品样品间</span>
+    </div>
+    
+    <div class="role-switcher">
+      <div class="role-label">当前身份</div>
+      <div class="role-tabs">
+        <div class="role-tab active" data-role="manager">选品经理</div>
+        <div class="role-tab" data-role="anchor">主播</div>
+        <div class="role-tab" data-role="warehouse">仓管</div>
+      </div>
+    </div>
+    
+    <nav class="nav-menu">
+      <div class="nav-item active" data-module="pool">
+        <span class="nav-icon">🎯</span>
+        <span>选品池</span>
+      </div>
+      <div class="nav-item" data-module="archive">
+        <span class="nav-icon">📁</span>
+        <span>样品档案</span>
+      </div>
+      <div class="nav-item" data-module="calendar">
+        <span class="nav-icon">📅</span>
+        <span>预约日历</span>
+        <span class="nav-badge" id="reservationBadge">3</span>
+      </div>
+      <div class="nav-item" data-module="scan">
+        <span class="nav-icon">📱</span>
+        <span>借还扫码</span>
+      </div>
+      <div class="nav-item" data-module="qc">
+        <span class="nav-icon">🔍</span>
+        <span>质检看板</span>
+        <span class="nav-badge" id="qcBadge">2</span>
+      </div>
+      <div class="nav-item" data-module="overdue">
+        <span class="nav-icon">⏰</span>
+        <span>超期催还</span>
+        <span class="nav-badge" id="overdueBadge">2</span>
+      </div>
+      <div class="nav-item" data-module="inventory">
+        <span class="nav-icon">📊</span>
+        <span>库存盘点</span>
+      </div>
+      <div class="nav-item" data-module="analysis">
+        <span class="nav-icon">📈</span>
+        <span>转化分析</span>
+      </div>
+    </nav>
+  </aside>
+  
+  <main class="main-content">
+    <header class="header">
+      <div class="header-title" id="pageTitle">选品池</div>
+      <div class="header-stats">
+        <div class="stat-item">
+          <span class="stat-value" id="totalSamples">156</span>
+          <span class="stat-label">样品总数</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-value" id="availableSamples">89</span>
+          <span class="stat-label">可预约</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-value" id="borrowedSamples">42</span>
+          <span class="stat-label">借用中</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-value" id="overdueCount">2</span>
+          <span class="stat-label">超期</span>
+        </div>
+      </div>
+    </header>
+    
+    <div class="content-area">
+      <div id="freezeBanner" style="display: none;"></div>
+      
+      <div class="module-page active" id="module-pool">
+        <div class="demo-container">
+          <div class="demo-title">🎬 演示场景 - 点击体验业务规则拦截</div>
+          <div class="demo-content">
+            <button class="demo-btn" onclick="demoScenario('zeroStock')">📦 零库存预约拦截</button>
+            <button class="demo-btn" onclick="demoScenario('qcFail')">❌ 质检不合格拦截</button>
+            <button class="demo-btn" onclick="demoScenario('overdueFreeze')">⏰ 超期冻结拦截</button>
+            <button class="demo-btn" onclick="demoScenario('lostCompensation')">💸 丢失赔付</button>
+            <button class="demo-btn" onclick="resetDemoData()">🔄 重置演示数据</button>
+          </div>
+        </div>
+        
+        <div id="scenarioContainer"></div>
+        
+        <div class="page-header">
+          <div class="page-title">🎯 选品池</div>
+          <div class="page-actions">
+            <button class="btn btn-default btn-sm">📥 导入</button>
+            <button class="btn btn-primary btn-sm" onclick="openAddSampleModal()">+ 新增样品</button>
+          </div>
+        </div>
+        
+        <div class="tabs">
+          <div class="tab active" data-pool-tab="pending">待审批 <span id="pendingCount">(12)</span></div>
+          <div class="tab" data-pool-tab="approved">已通过 <span id="approvedCount">(138)</span></div>
+          <div class="tab" data-pool-tab="rejected">已拒绝 <span id="rejectedCount">(6)</span></div>
+        </div>
+        
+        <div class="selection-pool" id="poolGrid"></div>
+      </div>
+      
+      <div class="module-page" id="module-archive">
+        <div class="page-header">
+          <div class="page-title">📁 样品档案</div>
+          <div class="page-actions">
+            <button class="btn btn-default btn-sm">🔍 搜索</button>
+            <button class="btn btn-default btn-sm">📤 导出</button>
+          </div>
+        </div>
+        
+        <div class="stats-grid">
+          <div class="stat-card">
+            <div class="stat-card-title">样品总数</div>
+            <div class="stat-card-value">156</div>
+            <div class="stat-card-trend trend-up">↑ 12% 较上月</div>
+          </div>
+          <div class="stat-card green">
+            <div class="stat-card-title">在库数量</div>
+            <div class="stat-card-value">89</div>
+            <div class="stat-card-trend trend-up">↑ 57%</div>
+          </div>
+          <div class="stat-card orange">
+            <div class="stat-card-title">借出数量</div>
+            <div class="stat-card-value">42</div>
+            <div class="stat-card-trend trend-down">↓ 8%</div>
+          </div>
+          <div class="stat-card red">
+            <div class="stat-card-title">异常数量</div>
+            <div class="stat-card-value">6</div>
+            <div class="stat-card-trend trend-up">↑ 2 新增</div>
+          </div>
+        </div>
+        
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title">样品列表</div>
+          </div>
+          <table class="data-table" id="archiveTable">
+            <thead>
+              <tr>
+                <th>SKU</th>
+                <th>样品名称</th>
+                <th>品牌方</th>
+                <th>分类</th>
+                <th>库存</th>
+                <th>仓位</th>
+                <th>状态</th>
+                <th>操作</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </div>
+      
+      <div class="module-page" id="module-calendar">
+        <div class="page-header">
+          <div class="page-title">📅 预约日历</div>
+          <div class="page-actions">
+            <button class="btn btn-primary btn-sm" onclick="openReservationModal()">+ 新建预约</button>
+          </div>
+        </div>
+        
+        <div class="card">
+          <div class="calendar-nav">
+            <button class="btn btn-default btn-sm" onclick="changeMonth(-1)">← 上月</button>
+            <div class="calendar-month" id="calendarMonth">2026年6月</div>
+            <button class="btn btn-default btn-sm" onclick="changeMonth(1)">下月 →</button>
+          </div>
+          <div class="calendar-grid" id="calendarGrid"></div>
+        </div>
+        
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title">我的预约</div>
+          </div>
+          <table class="data-table" id="reservationTable">
+            <thead>
+              <tr>
+                <th>预约编号</th>
+                <th>样品</th>
+                <th>主播</th>
+                <th>预约日期</th>
+                <th>用途</th>
+                <th>状态</th>
+                <th>操作</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </div>
+      
+      <div class="module-page" id="module-scan">
+        <div class="page-header">
+          <div class="page-title">📱 借还扫码</div>
+        </div>
+        
+        <div class="tabs">
+          <div class="tab active" data-scan-tab="borrow">借出</div>
+          <div class="tab" data-scan-tab="return">归还</div>
+        </div>
+        
+        <div class="scan-placeholder">
+          <div class="scan-icon">📷</div>
+          <div class="scan-text">扫码借还占位区</div>
+          <div class="scan-subtext">请使用PDA设备扫描样品条码，或手动输入SKU编号</div>
+          <div class="scan-simulator">
+            <input type="text" class="scan-input" id="scanInput" placeholder="输入SKU编号，如: SKU-001">
+            <div style="display: flex; gap: 8px;">
+              <button class="btn btn-success" style="flex: 1;" onclick="processScan()">📷 模拟扫码</button>
+              <button class="btn btn-default" onclick="document.getElementById('scanInput').value=''">清空</button>
+            </div>
+          </div>
+        </div>
+        
+        <div class="card" id="scanResult" style="display: none; margin-top: 20px;">
+          <div class="card-header">
+            <div class="card-title">扫码结果</div>
+          </div>
+          <div id="scanResultContent"></div>
+        </div>
+        
+        <div class="card" style="margin-top: 20px;">
+          <div class="card-header">
+            <div class="card-title">今日借还记录</div>
+          </div>
+          <table class="data-table" id="borrowLogTable">
+            <thead>
+              <tr>
+                <th>时间</th>
+                <th>类型</th>
+                <th>SKU</th>
+                <th>样品</th>
+                <th>关联主播</th>
+                <th>操作人</th>
+                <th>状态</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </div>
+      
+      <div class="module-page" id="module-qc">
+        <div class="page-header">
+          <div class="page-title">🔍 质检看板</div>
+        </div>
+        
+        <div class="qc-chart">
+          <div class="qc-item">
+            <div class="qc-circle pass" style="--p: 88%;">88%</div>
+            <div class="qc-label">质检通过率</div>
+            <div class="qc-value">137 / 156</div>
+          </div>
+          <div class="qc-item">
+            <div class="qc-circle fail" style="--p: 12%;">12%</div>
+            <div class="qc-label">质检不合格</div>
+            <div class="qc-value">19 / 156</div>
+          </div>
+          <div class="qc-item">
+            <div class="qc-circle pending" style="--p: 15%;">15%</div>
+            <div class="qc-label">待质检</div>
+            <div class="qc-value">23 / 156</div>
+          </div>
+        </div>
+        
+        <div class="kanban-board" id="qcKanban"></div>
+        
+        <div class="card" style="margin-top: 20px;">
+          <div class="card-header">
+            <div class="card-title">质检记录</div>
+          </div>
+          <table class="data-table" id="qcTable">
+            <thead>
+              <tr>
+                <th>质检单号</th>
+                <th>SKU</th>
+                <th>样品</th>
+                <th>质检项</th>
+                <th>质检员</th>
+                <th>日期</th>
+                <th>结果</th>
+                <th>操作</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </div>
+      
+      <div class="module-page" id="module-overdue">
+        <div class="page-header">
+          <div class="page-title">⏰ 超期催还</div>
+        </div>
+        
+        <div class="alert alert-warning">
+          <span class="alert-icon">⚠️</span>
+          <div>
+            <strong>超期提醒：</strong>当前有 <span style="color: #f5222d; font-weight: 600;">2</span> 位主播存在超期未还记录，
+            <span style="color: #f5222d; font-weight: 600;">1</span> 位主播已被冻结试用权限。
+            超期3次将自动加入黑名单。
+          </div>
+        </div>
+        
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title">超期记录</div>
+          </div>
+          <table class="data-table" id="overdueTable">
+            <thead>
+              <tr>
+                <th>主播</th>
+                <th>SKU</th>
+                <th>样品</th>
+                <th>应还日期</th>
+                <th>超期天数</th>
+                <th>借用次数</th>
+                <th>状态</th>
+                <th>操作</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
+        
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title">催还记录</div>
+          </div>
+          <div class="timeline" id="reminderTimeline"></div>
+        </div>
+      </div>
+      
+      <div class="module-page" id="module-inventory">
+        <div class="page-header">
+          <div class="page-title">📊 库存盘点</div>
+          <div class="page-actions">
+            <button class="btn btn-primary btn-sm" onclick="startInventory()">+ 新建盘点</button>
+            <button class="btn btn-default btn-sm">📤 导出盘点报告</button>
+          </div>
+        </div>
+        
+        <div class="stats-grid">
+          <div class="stat-card">
+            <div class="stat-card-title">账面库存</div>
+            <div class="stat-card-value">156</div>
+          </div>
+          <div class="stat-card green">
+            <div class="stat-card-title">实际库存</div>
+            <div class="stat-card-value">152</div>
+          </div>
+          <div class="stat-card orange">
+            <div class="stat-card-title">盘亏</div>
+            <div class="stat-card-value">4</div>
+          </div>
+          <div class="stat-card red">
+            <div class="stat-card-title">库存准确率</div>
+            <div class="stat-card-value">97.4%</div>
+          </div>
+        </div>
+        
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title">盘点单列表</div>
+          </div>
+          <table class="data-table" id="inventoryTable">
+            <thead>
+              <tr>
+                <th>盘点单号</th>
+                <th>盘点类型</th>
+                <th>创建时间</th>
+                <th>盘点人</th>
+                <th>状态</th>
+                <th>进度</th>
+                <th>差异</th>
+                <th>操作</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
+        
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title">当前盘点详情</div>
+          </div>
+          <table class="data-table" id="inventoryDetailTable">
+            <thead>
+              <tr>
+                <th>SKU</th>
+                <th>样品</th>
+                <th>仓位</th>
+                <th>账面数量</th>
+                <th>实盘数量</th>
+                <th>差异</th>
+                <th>状态</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </div>
+      
+      <div class="module-page" id="module-analysis">
+        <div class="page-header">
+          <div class="page-title">📈 转化分析</div>
+        </div>
+        
+        <div class="stats-grid">
+          <div class="stat-card">
+            <div class="stat-card-title">总样品数</div>
+            <div class="stat-card-value">156</div>
+            <div class="stat-card-trend trend-up">↑ 12 新增</div>
+          </div>
+          <div class="stat-card green">
+            <div class="stat-card-title">直播上架数</div>
+            <div class="stat-card-value">89</div>
+            <div class="stat-card-trend trend-up">↑ 57%</div>
+          </div>
+          <div class="stat-card orange">
+            <div class="stat-card-title">GMV</div>
+            <div class="stat-card-value">¥128万</div>
+            <div class="stat-card-trend trend-up">↑ 23%</div>
+          </div>
+          <div class="stat-card red">
+            <div class="stat-card-title">转化率</div>
+            <div class="stat-card-value">3.2%</div>
+            <div class="stat-card-trend trend-up">↑ 0.5%</div>
+          </div>
+        </div>
+        
+        <div class="conversion-chart">
+          <div class="conversion-grid">
+            <div>
+              <div class="card-title" style="margin-bottom: 16px;">月度样品转化趋势</div>
+              <div class="chart-placeholder" id="trendChart"></div>
+            </div>
+            <div>
+              <div class="card-title" style="margin-bottom: 16px;">转化漏斗</div>
+              <div class="funnel-container" id="funnelChart">
+                <div class="funnel-step">
+                  <span class="funnel-label">选品池</span>
+                  <span class="funnel-value">156</span>
+                </div>
+                <div class="funnel-step">
+                  <span class="funnel-label">质检通过</span>
+                  <span class="funnel-value">137</span>
+                  <span class="funnel-rate">转化率 87.8%</span>
+                </div>
+                <div class="funnel-step">
+                  <span class="funnel-label">主播试用</span>
+                  <span class="funnel-value">112</span>
+                  <span class="funnel-rate">转化率 81.8%</span>
+                </div>
+                <div class="funnel-step">
+                  <span class="funnel-label">直播上架</span>
+                  <span class="funnel-value">89</span>
+                  <span class="funnel-rate">转化率 79.5%</span>
+                </div>
+                <div class="funnel-step">
+                  <span class="funnel-label">产生销售</span>
+                  <span class="funnel-value">67</span>
+                  <span class="funnel-rate">转化率 75.3%</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="card" style="margin-top: 20px;">
+          <div class="card-header">
+            <div class="card-title">TOP 转化样品</div>
+          </div>
+          <table class="data-table" id="topSamplesTable">
+            <thead>
+              <tr>
+                <th>排名</th>
+                <th>SKU</th>
+                <th>样品</th>
+                <th>品牌方</th>
+                <th>直播场次</th>
+                <th>销量</th>
+                <th>GMV</th>
+                <th>转化率</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+
+<div class="modal-overlay" id="addSampleModal">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title">新增样品</div>
+      <button class="modal-close" onclick="closeModal('addSampleModal')">×</button>
+    </div>
+    <div class="modal-body">
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label"><span class="required">*</span> SKU编号</label>
+          <input type="text" class="form-input" id="newSampleSku" placeholder="如: SKU-2026-001">
+        </div>
+        <div class="form-group">
+          <label class="form-label"><span class="required">*</span> 样品名称</label>
+          <input type="text" class="form-input" id="newSampleName" placeholder="输入样品名称">
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label"><span class="required">*</span> 品牌方</label>
+          <input type="text" class="form-input" id="newSampleBrand" placeholder="输入品牌方名称">
+        </div>
+        <div class="form-group">
+          <label class="form-label"><span class="required">*</span> 分类</label>
+          <select class="form-select" id="newSampleCategory">
+            <option value="">请选择分类</option>
+            <option value="美妆">美妆个护</option>
+            <option value="服饰">服饰鞋包</option>
+            <option value="食品">食品生鲜</option>
+            <option value="家居">家居日用</option>
+            <option value="数码">数码家电</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label"><span class="required">*</span> 库存数量</label>
+          <input type="number" class="form-input" id="newSampleStock" placeholder="0" min="0">
+        </div>
+        <div class="form-group">
+          <label class="form-label">直播场次</label>
+          <input type="text" class="form-input" id="newSampleSession" placeholder="如: 618大促第一场">
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">备注说明</label>
+        <textarea class="form-textarea" id="newSampleRemark" placeholder="选品理由、卖点说明等"></textarea>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-default" onclick="closeModal('addSampleModal')">取消</button>
+      <button class="btn btn-primary" onclick="addSample()">提交审批</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="reservationModal">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title">新建预约</div>
+      <button class="modal-close" onclick="closeModal('reservationModal')">×</button>
+    </div>
+    <div class="modal-body">
+      <div id="reservationAlert"></div>
+      <div class="form-group">
+        <label class="form-label"><span class="required">*</span> 选择样品</label>
+        <select class="form-select" id="reservationSample" onchange="checkReservationRules()">
+          <option value="">请选择样品</option>
+        </select>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label"><span class="required">*</span> 预约日期</label>
+          <input type="date" class="form-input" id="reservationDate">
+        </div>
+        <div class="form-group">
+          <label class="form-label"><span class="required">*</span> 预约主播</label>
+          <select class="form-select" id="reservationAnchor" onchange="checkReservationRules()">
+            <option value="">请选择主播</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-label"><span class="required">*</span> 试用用途</label>
+        <select class="form-select" id="reservationPurpose">
+          <option value="">请选择用途</option>
+          <option value="直播试用">直播试用</option>
+          <option value="拍短视频">拍短视频</option>
+          <option value="产品测评">产品测评</option>
+          <option value="其他">其他</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="form-label">备注</label>
+        <textarea class="form-textarea" id="reservationRemark" placeholder="特殊需求说明"></textarea>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-default" onclick="closeModal('reservationModal')">取消</button>
+      <button class="btn btn-primary" id="reservationSubmitBtn" onclick="submitReservation()">提交预约</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="qcModal">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title">质检处理</div>
+      <button class="modal-close" onclick="closeModal('qcModal')">×</button>
+    </div>
+    <div class="modal-body">
+      <div class="form-group">
+        <label class="form-label">样品信息</label>
+        <div class="form-input" id="qcSampleInfo" style="background: #fafafa;"></div>
+      </div>
+      <div class="form-group">
+        <label class="form-label"><span class="required">*</span> 质检结果</label>
+        <select class="form-select" id="qcResult">
+          <option value="">请选择</option>
+          <option value="pass">质检通过</option>
+          <option value="fail">质检不合格</option>
+        </select>
+      </div>
+      <div class="form-group" id="qcFailReasonGroup" style="display: none;">
+        <label class="form-label"><span class="required">*</span> 不合格原因</label>
+        <select class="form-select" id="qcFailReason">
+          <option value="">请选择原因</option>
+          <option value="外观缺陷">外观缺陷</option>
+          <option value="功能故障">功能故障</option>
+          <option value="参数不符">参数不符</option>
+          <option value="包装破损">包装破损</option>
+          <option value="其他">其他</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="form-label">质检备注</label>
+        <textarea class="form-textarea" id="qcRemark" placeholder="详细质检说明"></textarea>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-default" onclick="closeModal('qcModal')">取消</button>
+      <button class="btn btn-primary" onclick="submitQC()">提交</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="compensationModal">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title">丢失赔付处理</div>
+      <button class="modal-close" onclick="closeModal('compensationModal')">×</button>
+    </div>
+    <div class="modal-body">
+      <div class="compensation-table">
+        <div class="compensation-header">
+          <div class="compensation-title">赔付详情</div>
+          <div class="compensation-amount" id="compensationAmount">¥0.00</div>
+          <div id="compensationDetail" style="font-size: 13px; opacity: 0.9;"></div>
+        </div>
+      </div>
+      <div style="margin-top: 20px;">
+        <div class="form-group">
+          <label class="form-label"><span class="required">*</span> 赔付方式</label>
+          <select class="form-select" id="compensationMethod">
+            <option value="">请选择赔付方式</option>
+            <option value="cash">现金赔付</option>
+            <option value="salary">工资扣除</option>
+            <option value="replace">实物赔偿</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">备注说明</label>
+          <textarea class="form-textarea" id="compensationRemark" placeholder="特殊情况说明"></textarea>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-default" onclick="closeModal('compensationModal')">取消</button>
+      <button class="btn btn-danger" onclick="confirmCompensation()">确认赔付</button>
+    </div>
+  </div>
+</div>
+
+<script>
+let appState = {
+  currentRole: 'manager',
+  currentModule: 'pool',
+  currentMonth: new Date(2026, 5, 1),
+  currentQCSample: null,
+  currentCompensation: null,
+  scanMode: 'borrow'
+};
+
+let samples = [
+  { id: 1, sku: 'SKU-001', name: '水润保湿精华液', brand: '雅诗兰黛', category: '美妆', stock: 15, availableStock: 15, location: 'A-01-01', status: 'approved', approvalStatus: 'approved', qcStatus: 'pass', liveSession: '618大促', icon: '💧', price: 399, gmv: 156000, conversionRate: 4.2, sales: 391 },
+  { id: 2, sku: 'SKU-002', name: '轻薄透气连衣裙', brand: 'ZARA', category: '服饰', stock: 0, availableStock: 0, location: 'B-02-03', status: 'approved', approvalStatus: 'approved', qcStatus: 'pass', liveSession: '夏季新品', icon: '👗', price: 299, gmv: 89700, conversionRate: 3.8, sales: 300 },
+  { id: 3, sku: 'SKU-003', name: '进口牛排礼盒', brand: '大希地', category: '食品', stock: 8, availableStock: 8, location: 'C-01-02', status: 'approved', approvalStatus: 'approved', qcStatus: 'fail', failReason: '包装破损', liveSession: '美食专场', icon: '🥩', price: 199, gmv: 0, conversionRate: 0, sales: 0 },
+  { id: 4, sku: 'SKU-004', name: '北欧风台灯', brand: '宜家', category: '家居', stock: 20, availableStock: 20, location: 'D-03-01', status: 'pending', approvalStatus: 'pending', qcStatus: 'pending', liveSession: '家居节', icon: '💡', price: 159, gmv: 0, conversionRate: 0, sales: 0 },
+  { id: 5, sku: 'SKU-005', name: '无线蓝牙耳机', brand: '小米', category: '数码', stock: 25, availableStock: 25, status: 'approved', approvalStatus: 'approved', qcStatus: 'pass', liveSession: '数码潮品', icon: '🎧', location: 'E-01-05', price: 199, gmv: 234000, conversionRate: 5.1, sales: 1176 },
+  { id: 6, sku: 'SKU-006', name: '限定款口红礼盒', brand: 'MAC', category: '美妆', stock: 0, availableStock: 0, location: 'A-02-04', status: 'lost', approvalStatus: 'approved', qcStatus: 'pass', liveSession: '美妆节', icon: '💄', price: 459, gmv: 0, conversionRate: 0, sales: 0, isLost: true, lostDate: '2026-06-10', lostBy: 'anchor-2' },
+  { id: 7, sku: 'SKU-007', name: '智能手表', brand: '苹果', category: '数码', stock: 10, availableStock: 10, location: 'E-02-01', status: 'locked', approvalStatus: 'approved', qcStatus: 'pass', liveSession: '数码潮品', icon: '⌚', price: 2999, gmv: 450000, conversionRate: 6.2, sales: 150 },
+  { id: 8, sku: 'SKU-008', name: '运动跑鞋', brand: '耐克', category: '服饰', stock: 30, availableStock: 28, location: 'B-01-02', status: 'approved', approvalStatus: 'approved', qcStatus: 'pending', liveSession: '运动专场', icon: '👟', price: 799, gmv: 189000, conversionRate: 3.5, sales: 237 },
+  { id: 9, sku: 'SKU-009', name: '有机坚果礼盒', brand: '三只松鼠', category: '食品', stock: 50, availableStock: 50, location: 'C-02-03', status: 'approved', approvalStatus: 'approved', qcStatus: 'pass', liveSession: '零食节', icon: '🥜', price: 99, gmv: 67000, conversionRate: 4.8, sales: 677 },
+  { id: 10, sku: 'SKU-010', name: '蚕丝被', brand: '水星家纺', category: '家居', stock: 5, availableStock: 5, location: 'D-01-04', status: 'approved', approvalStatus: 'approved', qcStatus: 'pass', liveSession: '家纺专场', icon: '🛏️', price: 899, gmv: 315000, conversionRate: 4.0, sales: 350 },
+  { id: 11, sku: 'SKU-011', name: '精华面霜套装', brand: '兰蔻', category: '美妆', stock: 12, availableStock: 12, location: 'A-03-02', status: 'approved', approvalStatus: 'approved', qcStatus: 'pass', liveSession: '618大促', icon: '🧴', price: 699, gmv: 278000, conversionRate: 4.5, sales: 398 },
+  { id: 12, sku: 'SKU-012', name: '夏季防晒衣', brand: '优衣库', category: '服饰', stock: 0, availableStock: 0, location: 'B-03-05', status: 'approved', approvalStatus: 'approved', qcStatus: 'pass', liveSession: '夏季新品', icon: '🧥', price: 199, gmv: 56000, conversionRate: 3.2, sales: 281 }
+];
+
+let anchors = [
+  { id: 'anchor-1', name: '小美', avatar: '👩‍🦰', borrowCount: 45, overdueCount: 0, isFrozen: false, level: 'S级主播' },
+  { id: 'anchor-2', name: '大壮', avatar: '🧑', borrowCount: 38, overdueCount: 3, isFrozen: true, freezeReason: '超期未还累计3次', level: 'A级主播', frozenDate: '2026-06-08' },
+  { id: 'anchor-3', name: '莉莉', avatar: '👩', borrowCount: 52, overdueCount: 1, isFrozen: false, level: 'A级主播' },
+  { id: 'anchor-4', name: '阿杰', avatar: '🧑‍🦱', borrowCount: 28, overdueCount: 0, isFrozen: false, level: 'B级主播' },
+  { id: 'anchor-5', name: '雨菲', avatar: '👩‍🦰', borrowCount: 61, overdueCount: 0, isFrozen: false, level: 'S级主播' }
+];
+
+let reservations = [
+  { id: 'RES-20260601', sampleId: 1, anchorId: 'anchor-1', date: '2026-06-14', purpose: '直播试用', status: 'approved', createTime: '2026-06-12 10:30' },
+  { id: 'RES-20260602', sampleId: 5, anchorId: 'anchor-3', date: '2026-06-15', purpose: '拍短视频', status: 'pending', createTime: '2026-06-12 14:20' },
+  { id: 'RES-20260603', sampleId: 8, anchorId: 'anchor-5', date: '2026-06-16', purpose: '产品测评', status: 'approved', createTime: '2026-06-12 16:45' },
+  { id: 'RES-20260604', sampleId: 11, anchorId: 'anchor-1', date: '2026-06-18', purpose: '直播试用', status: 'pending', createTime: '2026-06-13 09:15' }
+];
+
+let borrowLogs = [
+  { id: 'BOR-2026061401', type: 'borrow', sku: 'SKU-001', sampleName: '水润保湿精华液', anchorId: 'anchor-1', anchorName: '小美', operator: '仓管小王', time: '2026-06-14 09:30', status: 'success', dueDate: '2026-06-17' },
+  { id: 'BOR-2026061402', type: 'return', sku: 'SKU-009', sampleName: '有机坚果礼盒', anchorId: 'anchor-4', anchorName: '阿杰', operator: '仓管小王', time: '2026-06-14 10:15', status: 'success', returnCondition: '完好' },
+  { id: 'BOR-2026061403', type: 'borrow', sku: 'SKU-010', sampleName: '蚕丝被', anchorId: 'anchor-5', anchorName: '雨菲', operator: '仓管小李', time: '2026-06-14 11:00', status: 'success', dueDate: '2026-06-20' }
+];
+
+let qcRecords = [
+  { id: 'QC-20260601', sampleId: 1, sku: 'SKU-001', sampleName: '水润保湿精华液', items: ['外观检查', '成分检测', '包装检查'], inspector: '质检员小张', date: '2026-06-10', result: 'pass', remark: '各项指标合格' },
+  { id: 'QC-20260602', sampleId: 3, sku: 'SKU-003', sampleName: '进口牛排礼盒', items: ['保质期检查', '包装密封', '温度检测'], inspector: '质检员小李', date: '2026-06-11', result: 'fail', failReason: '包装破损', remark: '外盒有挤压破损痕迹，内部产品疑似受影响' },
+  { id: 'QC-20260603', sampleId: 5, sku: 'SKU-005', sampleName: '无线蓝牙耳机', items: ['功能测试', '续航测试', '外观检查'], inspector: '质检员小张', date: '2026-06-12', result: 'pass', remark: '音质清晰，续航达标' }
+];
+
+let overdueRecords = [
+  { id: 'OD-20260601', anchorId: 'anchor-2', anchorName: '大壮', sku: 'SKU-006', sampleName: '限定款口红礼盒', dueDate: '2026-06-08', overdueDays: 6, borrowCount: 38, status: 'overdue', reportedLost: true },
+  { id: 'OD-20260602', anchorId: 'anchor-3', anchorName: '莉莉', sku: 'SKU-004', sampleName: '北欧风台灯', dueDate: '2026-06-12', overdueDays: 2, borrowCount: 52, status: 'overdue', reportedLost: false }
+];
+
+let reminders = [
+  { id: 'RM-20260601', anchorId: 'anchor-3', anchorName: '莉莉', content: '您借用的「北欧风台灯」已超期2天，请尽快归还', time: '2026-06-14 09:00', type: 'warning', read: false },
+  { id: 'RM-20260602', anchorId: 'anchor-2', anchorName: '大壮', content: '您借用的「限定款口红礼盒」已超期6天，系统已自动冻结您的试用权限', time: '2026-06-13 18:00', type: 'danger', read: true },
+  { id: 'RM-20260603', anchorId: 'anchor-2', anchorName: '大壮', content: '您借用的「限定款口红礼盒」已报丢失，请配合处理赔付事宜', time: '2026-06-12 14:30', type: 'danger', read: true },
+  { id: 'RM-20260604', anchorId: 'anchor-1', anchorName: '小美', content: '您预约的「水润保湿精华液」已通过审批，请按时取用', time: '2026-06-12 15:00', type: 'success', read: false }
+];
+
+let inventoryOrders = [
+  { id: 'INV-20260601', type: '月度盘点', createTime: '2026-06-01 09:00', operator: '仓管小王', status: 'completed', progress: 100, diff: 2, remark: '盘亏2件，已处理' },
+  { id: 'INV-20260614', type: '日常抽盘', createTime: '2026-06-14 08:30', operator: '仓管小李', status: 'in_progress', progress: 65, diff: 4, remark: '进行中' }
+];
+
+let inventoryDetails = [
+  { sku: 'SKU-001', sampleName: '水润保湿精华液', location: 'A-01-01', bookQty: 15, actualQty: 15, diff: 0, status: 'matched' },
+  { sku: 'SKU-002', sampleName: '轻薄透气连衣裙', location: 'B-02-03', bookQty: 0, actualQty: 0, diff: 0, status: 'matched' },
+  { sku: 'SKU-003', sampleName: '进口牛排礼盒', location: 'C-01-02', bookQty: 8, actualQty: 8, diff: 0, status: 'matched' },
+  { sku: 'SKU-005', sampleName: '无线蓝牙耳机', location: 'E-01-05', bookQty: 25, actualQty: 24, diff: -1, status: 'diff' },
+  { sku: 'SKU-006', sampleName: '限定款口红礼盒', location: 'A-02-04', bookQty: 1, actualQty: 0, diff: -1, status: 'lost' },
+  { sku: 'SKU-007', sampleName: '智能手表', location: 'E-02-01', bookQty: 10, actualQty: 10, diff: 0, status: 'matched' },
+  { sku: 'SKU-010', sampleName: '蚕丝被', location: 'D-01-04', bookQty: 5, actualQty: 5, diff: 0, status: 'matched' },
+  { sku: 'SKU-012', sampleName: '夏季防晒衣', location: 'B-03-05', bookQty: 3, actualQty: 1, diff: -2, status: 'diff' }
+];
+
+let currentPoolTab = 'pending';
+
+function getAnchorById(id) {
+  return anchors.find(a => a.id === id);
+}
+
+function getSampleById(id) {
+  return samples.find(s => s.id === id);
+}
+
+function getStatusTag(status, type = 'status') {
+  const tags = {
+    'approved': '<span class="tag tag-green">已通过</span>',
+    'pending': '<span class="tag tag-orange">待审批</span>',
+    'rejected': '<span class="tag tag-red">已拒绝</span>',
+    'pass': '<span class="tag tag-green">质检通过</span>',
+    'fail': '<span class="tag tag-red">质检不合格</span>',
+    'lost': '<span class="tag tag-red">已丢失</span>',
+    'locked': '<span class="tag tag-purple">已锁定</span>',
+    'overdue': '<span class="tag tag-red">超期</span>',
+    'returned': '<span class="tag tag-green">已归还</span>',
+    'borrowed': '<span class="tag tag-orange">借用中</span>',
+    'in_progress': '<span class="tag tag-blue">进行中</span>',
+    'completed': '<span class="tag tag-green">已完成</span>',
+    'matched': '<span class="tag tag-green">账实相符</span>',
+    'diff': '<span class="tag tag-orange">有差异</span>',
+    'normal': '<span class="tag tag-green">正常</span>',
+    'frozen': '<span class="tag tag-red">已冻结</span>'
+  };
+  return tags[status] || '<span class="tag tag-gray">未知</span>';
+}
+
+function showNotification(title, message, type = 'info') {
+  const notification = document.createElement('div');
+  notification.className = `notification ${type}`;
+  notification.innerHTML = `
+    <div class="notification-title">${title}</div>
+    <div class="notification-message">${message}</div>
+  `;
+  document.body.appendChild(notification);
+  setTimeout(() => {
+    notification.style.opacity = '0';
+    notification.style.transform = 'translateX(100%)';
+    notification.style.transition = 'all 0.3s ease';
+    setTimeout(() => notification.remove(), 300);
+  }, 3000);
+}
+
+function updateStats() {
+  const total = samples.length;
+  const available = samples.filter(s => s.availableStock > 0 && s.status === 'approved' && s.qcStatus === 'pass' && !s.isLost && s.status !== 'locked').length;
+  const borrowed = borrowLogs.filter(b => b.type === 'borrow' && b.status === 'success').length;
+  const overdue = overdueRecords.length;
+  
+  document.getElementById('totalSamples').textContent = total;
+  document.getElementById('availableSamples').textContent = available;
+  document.getElementById('borrowedSamples').textContent = borrowed;
+  document.getElementById('overdueCount').textContent = overdue;
+  
+  document.getElementById('reservationBadge').textContent = reservations.filter(r => r.status === 'pending').length;
+  document.getElementById('qcBadge').textContent = samples.filter(s => s.qcStatus === 'pending').length;
+  document.getElementById('overdueBadge').textContent = overdue;
+}
+
+function updateFreezeBanner() {
+  const banner = document.getElementById('freezeBanner');
+  const currentAnchorId = appState.currentRole === 'anchor' ? 'anchor-2' : null;
+  const currentAnchor = currentAnchorId ? getAnchorById(currentAnchorId) : null;
+  
+  if (currentAnchor && currentAnchor.isFrozen) {
+    banner.style.display = 'flex';
+    banner.className = 'freeze-banner';
+    banner.innerHTML = `
+      <div class="freeze-icon">❄️</div>
+      <div class="freeze-text">
+        <h4>账号已被冻结</h4>
+        <p>冻结原因：${currentAnchor.freezeReason} | 冻结日期：${currentAnchor.frozenDate}</p>
+      </div>
+    `;
+  } else {
+    banner.style.display = 'none';
+  }
+}
+
+function switchRole(role) {
+  appState.currentRole = role;
+  document.querySelectorAll('.role-tab').forEach(tab => {
+    tab.classList.toggle('active', tab.dataset.role === role);
+  });
+  
+  updateFreezeBanner();
+  renderAll();
+}
+
+function switchModule(module) {
+  appState.currentModule = module;
+  document.querySelectorAll('.nav-item').forEach(item => {
+    item.classList.toggle('active', item.dataset.module === module);
+  });
+  document.querySelectorAll('.module-page').forEach(page => {
+    page.classList.toggle('active', page.id === `module-${module}`);
+  });
+  
+  const titles = {
+    'pool': '选品池',
+    'archive': '样品档案',
+    'calendar': '预约日历',
+    'scan': '借还扫码',
+    'qc': '质检看板',
+    'overdue': '超期催还',
+    'inventory': '库存盘点',
+    'analysis': '转化分析'
+  };
+  document.getElementById('pageTitle').textContent = titles[module];
+}
+
+function openModal(id) {
+  document.getElementById(id).classList.add('active');
+}
+
+function closeModal(id) {
+  document.getElementById(id).classList.remove('active');
+}
+
+function openAddSampleModal() {
+  if (appState.currentRole !== 'manager') {
+    showNotification('权限不足', '只有选品经理可以新增样品', 'error');
+    return;
+  }
+  document.getElementById('newSampleSku').value = '';
+  document.getElementById('newSampleName').value = '';
+  document.getElementById('newSampleBrand').value = '';
+  document.getElementById('newSampleCategory').value = '';
+  document.getElementById('newSampleStock').value = '';
+  document.getElementById('newSampleSession').value = '';
+  document.getElementById('newSampleRemark').value = '';
+  openModal('addSampleModal');
+}
+
+function addSample() {
+  const sku = document.getElementById('newSampleSku').value.trim();
+  const name = document.getElementById('newSampleName').value.trim();
+  const brand = document.getElementById('newSampleBrand').value.trim();
+  const category = document.getElementById('newSampleCategory').value;
+  const stock = parseInt(document.getElementById('newSampleStock').value) || 0;
+  const session = document.getElementById('newSampleSession').value.trim();
+  
+  if (!sku || !name || !brand || !category) {
+    showNotification('提交失败', '请填写必填项', 'error');
+    return;
+  }
+  
+  const icons = { '美妆': '💄', '服饰': '👗', '食品': '🍎', '家居': '🏠', '数码': '📱' };
+  const newSample = {
+    id: samples.length + 1,
+    sku,
+    name,
+    brand,
+    category,
+    stock,
+    availableStock: stock,
+    location: 'TBD',
+    status: 'pending',
+    approvalStatus: 'pending',
+    qcStatus: 'pending',
+    liveSession: session || '未安排',
+    icon: icons[category] || '📦',
+    price: 0,
+    gmv: 0,
+    conversionRate: 0,
+    sales: 0
+  };
+  
+  samples.unshift(newSample);
+  closeModal('addSampleModal');
+  showNotification('提交成功', '样品已提交审批', 'success');
+  renderPool();
+  updateStats();
+}
+
+function renderPool() {
+  const filteredSamples = samples.filter(s => s.approvalStatus === currentPoolTab);
+  document.getElementById('pendingCount').textContent = `(${samples.filter(s => s.approvalStatus === 'pending').length})`;
+  document.getElementById('approvedCount').textContent = `(${samples.filter(s => s.approvalStatus === 'approved').length})`;
+  document.getElementById('rejectedCount').textContent = `(${samples.filter(s => s.approvalStatus === 'rejected').length})`;
+  
+  const grid = document.getElementById('poolGrid');
+  
+  if (filteredSamples.length === 0) {
+    grid.innerHTML = '<div class="empty-state"><div class="empty-icon">📭</div><div>暂无数据</div></div>';
+    return;
+  }
+  
+  grid.innerHTML = filteredSamples.map(s => `
+    <div class="sample-card">
+      <div class="sample-image">${s.icon}</div>
+      <div class="sample-content">
+        <div class="sample-sku">${s.sku} · ${s.brand}</div>
+        <div class="sample-name">${s.name}</div>
+        <div class="sample-meta">
+          <span>库存: ${s.availableStock}</span>
+          <span>${s.liveSession}</span>
+        </div>
+        <div class="sample-meta">
+          ${getStatusTag(s.approvalStatus)}
+          ${getStatusTag(s.qcStatus)}
+          ${s.isLost ? '<span class="tag tag-red">已丢失</span>' : ''}
+          ${s.status === 'locked' ? '<span class="tag tag-purple">已锁定</span>' : ''}
+        </div>
+        <div class="sample-actions">
+          ${s.approvalStatus === 'pending' && appState.currentRole === 'manager' ? `
+            <button class="btn btn-success btn-sm" onclick="approveSample(${s.id})">通过</button>
+            <button class="btn btn-danger btn-sm" onclick="rejectSample(${s.id})">拒绝</button>
+          ` : ''}
+          ${s.approvalStatus === 'approved' && s.qcStatus === 'pass' && s.availableStock > 0 && !s.isLost && s.status !== 'locked' ? `
+            <button class="btn btn-primary btn-sm" onclick="quickReserve(${s.id})">预约</button>
+          ` : ''}
+          ${s.approvalStatus === 'approved' && s.qcStatus === 'pending' && appState.currentRole !== 'anchor' ? `
+            <button class="btn btn-warning btn-sm" onclick="openQCModal(${s.id})">质检</button>
+          ` : ''}
+        </div>
+      </div>
+    </div>
+  `).join('');
+}
+
+function approveSample(id) {
+  const sample = getSampleById(id);
+  if (sample) {
+    sample.approvalStatus = 'approved';
+    sample.status = 'approved';
+    showNotification('审批通过', `${sample.name} 已通过审批`, 'success');
+    renderPool();
+    updateStats();
+  }
+}
+
+function rejectSample(id) {
+  const sample = getSampleById(id);
+  if (sample) {
+    sample.approvalStatus = 'rejected';
+    sample.status = 'rejected';
+    showNotification('已拒绝', `${sample.name} 审批被拒绝`, 'warning');
+    renderPool();
+    updateStats();
+  }
+}
+
+function quickReserve(sampleId) {
+  if (appState.currentRole !== 'anchor') {
+    showNotification('提示', '请切换到主播身份进行预约', 'warning');
+    return;
+  }
+  
+  const sample = getSampleById(sampleId);
+  if (!sample) return;
+  
+  const rules = checkReservationEligibility(sampleId, 'anchor-2');
+  if (!rules.eligible) {
+    showNotification('无法预约', rules.message, 'error');
+    return;
+  }
+  
+  document.getElementById('reservationSample').value = sampleId;
+  document.getElementById('reservationAnchor').value = 'anchor-2';
+  document.getElementById('reservationDate').value = '2026-06-15';
+  checkReservationRules();
+  openModal('reservationModal');
+}
+
+function checkReservationEligibility(sampleId, anchorId) {
+  const sample = getSampleById(sampleId);
+  const anchor = getAnchorById(anchorId);
+  
+  if (!sample) {
+    return { eligible: false, message: '样品不存在', reason: 'notFound' };
+  }
+  
+  if (sample.approvalStatus !== 'approved') {
+    return { eligible: false, message: '样品未通过审批，无法预约', reason: 'notApproved' };
+  }
+  
+  if (sample.qcStatus !== 'pass') {
+    return { eligible: false, message: '样品质检不合格，无法预约上架', reason: 'qcFailed' };
+  }
+  
+  if (sample.availableStock <= 0) {
+    return { eligible: false, message: '库存为零，无法预约', reason: 'zeroStock' };
+  }
+  
+  if (sample.isLost) {
+    return { eligible: false, message: '样品已丢失，无法预约', reason: 'lost' };
+  }
+  
+  if (sample.status === 'locked') {
+    return { eligible: false, message: '样品已锁定，无法预约', reason: 'locked' };
+  }
+  
+  if (anchor && anchor.isFrozen) {
+    return { eligible: false, message: '您的账号因超期未还已被冻结，请联系管理员', reason: 'frozen' };
+  }
+  
+  if (anchor && anchor.overdueCount > 0) {
+    return { eligible: true, message: '', warning: `您有 ${anchor.overdueCount} 条超期记录，请及时归还`, reason: 'hasOverdue' };
+  }
+  
+  return { eligible: true, message: '', reason: 'ok' };
+}
+
+function openReservationModal() {
+  if (appState.currentRole !== 'anchor') {
+    showNotification('提示', '请切换到主播身份进行预约', 'warning');
+    return;
+  }
+  
+  const sampleSelect = document.getElementById('reservationSample');
+  sampleSelect.innerHTML = '<option value="">请选择样品</option>' + 
+    samples.filter(s => s.approvalStatus === 'approved' && s.qcStatus === 'pass' && s.availableStock > 0 && !s.isLost && s.status !== 'locked')
+      .map(s => `<option value="${s.id}">${s.sku} - ${s.name} (库存: ${s.availableStock})</option>`).join('');
+  
+  const anchorSelect = document.getElementById('reservationAnchor');
+  anchorSelect.innerHTML = '<option value="">请选择主播</option>' +
+    anchors.filter(a => !a.isFrozen).map(a => `<option value="${a.id}">${a.avatar} ${a.name} (${a.level})</option>`).join('');
+  
+  document.getElementById('reservationDate').value = '';
+  document.getElementById('reservationPurpose').value = '';
+  document.getElementById('reservationRemark').value = '';
+  document.getElementById('reservationAlert').innerHTML = '';
+  document.getElementById('reservationSubmitBtn').disabled = true;
+  
+  openModal('reservationModal');
+}
+
+function checkReservationRules() {
+  const sampleId = parseInt(document.getElementById('reservationSample').value);
+  const anchorId = document.getElementById('reservationAnchor').value;
+  const alertDiv = document.getElementById('reservationAlert');
+  const submitBtn = document.getElementById('reservationSubmitBtn');
+  
+  if (!sampleId || !anchorId) {
+    alertDiv.innerHTML = '';
+    submitBtn.disabled = true;
+    return;
+  }
+  
+  const result = checkReservationEligibility(sampleId, anchorId);
+  
+  if (!result.eligible) {
+    alertDiv.innerHTML = `<div class="alert alert-error"><span class="alert-icon">❌</span><div>${result.message}</div></div>`;
+    submitBtn.disabled = true;
+  } else if (result.warning) {
+    alertDiv.innerHTML = `<div class="alert alert-warning"><span class="alert-icon">⚠️</span><div>${result.warning}</div></div>`;
+    submitBtn.disabled = false;
+  } else {
+    alertDiv.innerHTML = `<div class="alert alert-success"><span class="alert-icon">✅</span><div>符合预约条件，可以提交</div></div>`;
+    submitBtn.disabled = false;
+  }
+}
+
+function submitReservation() {
+  const sampleId = parseInt(document.getElementById('reservationSample').value);
+  const anchorId = document.getElementById('reservationAnchor').value;
+  const date = document.getElementById('reservationDate').value;
+  const purpose = document.getElementById('reservationPurpose').value;
+  
+  const result = checkReservationEligibility(sampleId, anchorId);
+  if (!result.eligible) {
+    showNotification('预约失败', result.message, 'error');
+    return;
+  }
+  
+  const sample = getSampleById(sampleId);
+  const anchor = getAnchorById(anchorId);
+  
+  const newReservation = {
+    id: 'RES-' + Date.now().toString().slice(-8),
+    sampleId,
+    anchorId,
+    date,
+    purpose,
+    status: 'pending',
+    createTime: new Date().toLocaleString('zh-CN')
+  };
+  
+  reservations.unshift(newReservation);
+  
+  closeModal('reservationModal');
+  showNotification('预约成功', `${anchor.name} 已预约 ${sample.name}`, 'success');
+  renderCalendar();
+  renderReservations();
+  updateStats();
+}
+
+function openQCModal(sampleId) {
+  const sample = getSampleById(sampleId);
+  if (!sample) return;
+  
+  appState.currentQCSample = sampleId;
+  document.getElementById('qcSampleInfo').innerHTML = `${sample.sku} - ${sample.name} (${sample.brand})`;
+  document.getElementById('qcResult').value = '';
+  document.getElementById('qcFailReason').value = '';
+  document.getElementById('qcRemark').value = '';
+  document.getElementById('qcFailReasonGroup').style.display = 'none';
+  
+  document.getElementById('qcResult').onchange = function() {
+    document.getElementById('qcFailReasonGroup').style.display = this.value === 'fail' ? 'block' : 'none';
+  };
+  
+  openModal('qcModal');
+}
+
+function submitQC() {
+  const sampleId = appState.currentQCSample;
+  const result = document.getElementById('qcResult').value;
+  const failReason = document.getElementById('qcFailReason').value;
+  const remark = document.getElementById('qcRemark').value;
+  
+  if (!result) {
+    showNotification('提交失败', '请选择质检结果', 'error');
+    return;
+  }
+  
+  if (result === 'fail' && !failReason) {
+    showNotification('提交失败', '请选择不合格原因', 'error');
+    return;
+  }
+  
+  const sample = getSampleById(sampleId);
+  if (sample) {
+    sample.qcStatus = result;
+    if (result === 'fail') {
+      sample.failReason = failReason;
+    }
+    
+    const qcItems = {
+      '美妆': ['外观检查', '成分检测', '包装检查', '保质期检查'],
+      '服饰': ['外观检查', '尺寸测量', '面料检测', '做工检查'],
+      '食品': ['保质期检查', '包装密封', '温度检测', '外观检查'],
+      '家居': ['外观检查', '功能测试', '尺寸测量', '包装检查'],
+      '数码': ['功能测试', '外观检查', '配件检查', '包装检查']
+    };
+    
+    const newQCRecord = {
+      id: 'QC-' + Date.now().toString().slice(-8),
+      sampleId,
+      sku: sample.sku,
+      sampleName: sample.name,
+      items: qcItems[sample.category] || ['外观检查', '功能测试'],
+      inspector: '质检员小张',
+      date: new Date().toISOString().split('T')[0],
+      result,
+      failReason: result === 'fail' ? failReason : undefined,
+      remark
+    };
+    
+    qcRecords.unshift(newQCRecord);
+    
+    closeModal('qcModal');
+    showNotification(result === 'pass' ? '质检通过' : '质检不合格', `${sample.name} ${result === 'pass' ? '质检通过，可以上架' : '质检不合格，禁止上架'}`, result === 'pass' ? 'success' : 'error');
+    renderPool();
+    renderQC();
+    updateStats();
+  }
+}
+
+function renderArchive() {
+  const table = document.getElementById('archiveTable').querySelector('tbody');
+  table.innerHTML = samples.map(s => {
+    let statusDisplay = '';
+    if (s.isLost) statusDisplay = getStatusTag('lost');
+    else if (s.status === 'locked') statusDisplay = getStatusTag('locked');
+    else if (s.qcStatus === 'fail') statusDisplay = getStatusTag('fail');
+    else if (s.availableStock > 0) statusDisplay = getStatusTag('normal');
+    else statusDisplay = getStatusTag('borrowed');
+    
+    return `
+      <tr>
+        <td><code>${s.sku}</code></td>
+        <td>${s.icon} ${s.name}</td>
+        <td>${s.brand}</td>
+        <td>${s.category}</td>
+        <td>${s.availableStock} / ${s.stock}</td>
+        <td>${s.location}</td>
+        <td>${statusDisplay}</td>
+        <td>
+          <button class="btn btn-default btn-sm" onclick="viewSampleDetail(${s.id})">详情</button>
+          ${appState.currentRole === 'warehouse' ? `<button class="btn btn-warning btn-sm" onclick="adjustLocation(${s.id})">调仓</button>` : ''}
+        </td>
+      </tr>
+    `;
+  }).join('');
+}
+
+function viewSampleDetail(id) {
+  const sample = getSampleById(id);
+  if (sample) {
+    showNotification('样品详情', `${sample.name} - ${sample.brand} | 库存: ${sample.availableStock}/${sample.stock}`, 'info');
+  }
+}
+
+function adjustLocation(id) {
+  const sample = getSampleById(id);
+  if (sample) {
+    const newLocation = prompt('请输入新仓位:', sample.location);
+    if (newLocation) {
+      sample.location = newLocation;
+      showNotification('调仓成功', `${sample.name} 已移至 ${newLocation}`, 'success');
+      renderArchive();
+    }
+  }
+}
+
+function changeMonth(delta) {
+  appState.currentMonth = new Date(appState.currentMonth.getFullYear(), appState.currentMonth.getMonth() + delta, 1);
+  renderCalendar();
+}
+
+function renderCalendar() {
+  const year = appState.currentMonth.getFullYear();
+  const month = appState.currentMonth.getMonth();
+  document.getElementById('calendarMonth').textContent = `${year}年${month + 1}月`;
+  
+  const firstDay = new Date(year, month, 1).getDay();
+  const daysInMonth = new Date(year, month + 1, 0).getDate();
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+  
+  const weekDays = ['日', '一', '二', '三', '四', '五', '六'];
+  let html = weekDays.map(d => `<div class="calendar-header">${d}</div>`).join('');
+  
+  for (let i = 0; i < firstDay; i++) {
+    html += '<div class="calendar-day disabled"></div>';
+  }
+  
+  for (let day = 1; day <= daysInMonth; day++) {
+    const dateStr = `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+    const currentDate = new Date(year, month, day);
+    const isToday = currentDate.getTime() === today.getTime();
+    
+    const dayReservations = reservations.filter(r => r.date === dateStr);
+    const dayBorrows = borrowLogs.filter(b => b.type === 'borrow' && b.time.startsWith(dateStr));
+    const dayOverdue = overdueRecords.filter(o => {
+      const due = new Date(o.dueDate);
+      return currentDate > due && o.status === 'overdue';
+    });
+    
+    let eventsHtml = '';
+    if (dayReservations.length > 0) {
+      eventsHtml += `<div class="calendar-event reserved">预约: ${dayReservations.length}</div>`;
+    }
+    if (dayBorrows.length > 0) {
+      eventsHtml += `<div class="calendar-event borrowed">借出: ${dayBorrows.length}</div>`;
+    }
+    if (dayOverdue.length > 0) {
+      eventsHtml += `<div class="calendar-event overdue">超期: ${dayOverdue.length}</div>`;
+    }
+    
+    const isDisabled = currentDate < today;
+    
+    html += `
+      <div class="calendar-day ${isToday ? 'today' : ''} ${isDisabled ? 'disabled' : ''}" onclick="${isDisabled ? '' : `selectDate('${dateStr}')`}">
+        <div class="calendar-day-number">${day}</div>
+        ${eventsHtml}
+      </div>
+    `;
+  }
+  
+  document.getElementById('calendarGrid').innerHTML = html;
+}
+
+function selectDate(dateStr) {
+  document.getElementById('reservationDate').value = dateStr;
+  openReservationModal();
+}
+
+function renderReservations() {
+  const table = document.getElementById('reservationTable').querySelector('tbody');
+  table.innerHTML = reservations.map(r => {
+    const sample = getSampleById(r.sampleId);
+    const anchor = getAnchorById(r.anchorId);
+    return `
+      <tr>
+        <td><code>${r.id}</code></td>
+        <td>${sample ? sample.icon + ' ' + sample.name : '-'}</td>
+        <td>${anchor ? anchor.avatar + ' ' + anchor.name : '-'}</td>
+        <td>${r.date}</td>
+        <td>${r.purpose}</td>
+        <td>${getStatusTag(r.status)}</td>
+        <td>
+          ${r.status === 'pending' && appState.currentRole === 'manager' ? `
+            <button class="btn btn-success btn-sm" onclick="approveReservation('${r.id}')">通过</button>
+            <button class="btn btn-danger btn-sm" onclick="rejectReservation('${r.id}')">拒绝</button>
+          ` : ''}
+          ${r.status === 'approved' && appState.currentRole === 'warehouse' ? `
+            <button class="btn btn-primary btn-sm" onclick="processBorrow('${r.id}')">借出</button>
+          ` : ''}
+        </td>
+      </tr>
+    `;
+  }).join('');
+}
+
+function approveReservation(id) {
+  const r = reservations.find(x => x.id === id);
+  if (r) {
+    r.status = 'approved';
+    showNotification('审批通过', '预约已通过', 'success');
+    renderReservations();
+    updateStats();
+  }
+}
+
+function rejectReservation(id) {
+  const r = reservations.find(x => x.id === id);
+  if (r) {
+    r.status = 'rejected';
+    showNotification('已拒绝', '预约已拒绝', 'warning');
+    renderReservations();
+    updateStats();
+  }
+}
+
+function processBorrow(reservationId) {
+  const r = reservations.find(x => x.id === reservationId);
+  if (!r) return;
+  
+  const sample = getSampleById(r.sampleId);
+  const anchor = getAnchorById(r.anchorId);
+  
+  if (!sample || sample.availableStock <= 0) {
+    showNotification('借出失败', '库存不足', 'error');
+    return;
+  }
+  
+  sample.availableStock--;
+  
+  const dueDate = new Date();
+  dueDate.setDate(dueDate.getDate() + 7);
+  
+  const newBorrow = {
+    id: 'BOR-' + Date.now().toString().slice(-8),
+    type: 'borrow',
+    sku: sample.sku,
+    sampleName: sample.name,
+    anchorId: r.anchorId,
+    anchorName: anchor ? anchor.name : '',
+    operator: '仓管小李',
+    time: new Date().toLocaleString('zh-CN'),
+    status: 'success',
+    dueDate: dueDate.toISOString().split('T')[0],
+    reservationId
+  };
+  
+  borrowLogs.unshift(newBorrow);
+  r.status = 'completed';
+  
+  showNotification('借出成功', `${sample.name} 已借出给 ${anchor.name}`, 'success');
+  renderReservations();
+  renderBorrowLogs();
+  renderArchive();
+  updateStats();
+}
+
+function setScanMode(mode) {
+  appState.scanMode = mode;
+  document.querySelectorAll('[data-scan-tab]').forEach(tab => {
+    tab.classList.toggle('active', tab.dataset.scanTab === mode);
+  });
+}
+
+function processScan() {
+  const sku = document.getElementById('scanInput').value.trim();
+  if (!sku) {
+    showNotification('请输入SKU', '', 'warning');
+    return;
+  }
+  
+  const sample = samples.find(s => s.sku === sku);
+  const resultDiv = document.getElementById('scanResult');
+  const contentDiv = document.getElementById('scanResultContent');
+  
+  resultDiv.style.display = 'block';
+  
+  if (!sample) {
+    contentDiv.innerHTML = `
+      <div class="alert alert-error">
+        <span class="alert-icon">❌</span>
+        <div>未找到 SKU: ${sku} 对应的样品</div>
+      </div>
+    `;
+    return;
+  }
+  
+  const rules = checkReservationEligibility(sample.id, 'anchor-2');
+  
+  if (appState.scanMode === 'borrow') {
+    if (!rules.eligible) {
+      contentDiv.innerHTML = `
+        <div class="scenario-block intercepted">
+          <div class="scenario-header">
+            <div class="scenario-name">❌ 借出拦截 - ${sample.sku} ${sample.name}</div>
+            <span class="scenario-status" style="background: #fff1f0; color: #f5222d;">拦截</span>
+          </div>
+          <div style="color: #595959; font-size: 13px; margin-bottom: 12px;">
+            拦截原因：${rules.message}
+          </div>
+          <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+            ${sample.availableStock <= 0 ? `<span class="tag tag-red">库存: ${sample.availableStock}</span>` : ''}
+            ${sample.qcStatus === 'fail' ? `<span class="tag tag-red">质检: ${sample.failReason || '不合格'}</span>` : ''}
+            ${sample.isLost ? `<span class="tag tag-red">状态: 已丢失</span>` : ''}
+            ${sample.status === 'locked' ? `<span class="tag tag-purple">状态: 已锁定</span>` : ''}
+          </div>
+        </div>
+      `;
+      showNotification('借出失败', rules.message, 'error');
+    } else {
+      contentDiv.innerHTML = `
+        <div class="scenario-block allowed">
+          <div class="scenario-header">
+            <div class="scenario-name">✅ 可以借出 - ${sample.sku} ${sample.name}</div>
+            <span class="scenario-status" style="background: #f6ffed; color: #52c41a;">允许</span>
+          </div>
+          <div style="color: #595959; font-size: 13px; margin-bottom: 12px;">
+            ${sample.icon} ${sample.name} - ${sample.brand}<br>
+            库存: ${sample.availableStock} / ${sample.stock} | 仓位: ${sample.location}
+          </div>
+          <button class="btn btn-primary btn-sm" onclick="confirmScanBorrow(${sample.id})">确认借出</button>
+        </div>
+      `;
+    }
+  } else {
+    const borrowed = borrowLogs.find(b => b.sku === sku && b.type === 'borrow' && !b.returned);
+    if (!borrowed) {
+      contentDiv.innerHTML = `
+        <div class="alert alert-warning">
+          <span class="alert-icon">⚠️</span>
+          <div>该样品当前没有借出记录</div>
+        </div>
+      `;
+    } else {
+      contentDiv.innerHTML = `
+        <div class="scenario-block allowed">
+          <div class="scenario-header">
+            <div class="scenario-name">📦 归还登记 - ${sample.sku} ${sample.name}</div>
+            <span class="scenario-status" style="background: #e6f7ff; color: #1890ff;">待确认</span>
+          </div>
+          <div style="color: #595959; font-size: 13px; margin-bottom: 12px;">
+            借用人: ${borrowed.anchorName} | 借出时间: ${borrowed.time}<br>
+            应还日期: ${borrowed.dueDate}
+          </div>
+          <div style="margin-bottom: 12px;">
+            <label class="form-label">归还状态</label>
+            <select class="form-select" id="returnCondition">
+              <option value="完好">完好</option>
+              <option value="轻微损坏">轻微损坏</option>
+              <option value="严重损坏">严重损坏</option>
+              <option value="丢失">丢失</option>
+            </select>
+          </div>
+          <button class="btn btn-success btn-sm" onclick="confirmScanReturn(${sample.id}, '${borrowed.id}')">确认归还</button>
+        </div>
+      `;
+    }
+  }
+}
+
+function confirmScanBorrow(sampleId) {
+  const sample = getSampleById(sampleId);
+  if (!sample || sample.availableStock <= 0) return;
+  
+  sample.availableStock--;
+  
+  const dueDate = new Date();
+  dueDate.setDate(dueDate.getDate() + 7);
+  
+  const newBorrow = {
+    id: 'BOR-' + Date.now().toString().slice(-8),
+    type: 'borrow',
+    sku: sample.sku,
+    sampleName: sample.name,
+    anchorId: 'anchor-1',
+    anchorName: '小美',
+    operator: '仓管小李',
+    time: new Date().toLocaleString('zh-CN'),
+    status: 'success',
+    dueDate: dueDate.toISOString().split('T')[0]
+  };
+  
+  borrowLogs.unshift(newBorrow);
+  
+  document.getElementById('scanResult').style.display = 'none';
+  document.getElementById('scanInput').value = '';
+  
+  showNotification('借出成功', `${sample.name} 已借出`, 'success');
+  renderBorrowLogs();
+  renderArchive();
+  updateStats();
+}
+
+function confirmScanReturn(sampleId, borrowId) {
+  const sample = getSampleById(sampleId);
+  const borrow = borrowLogs.find(b => b.id === borrowId);
+  const condition = document.getElementById('returnCondition').value;
+  
+  if (!sample || !borrow) return;
+  
+  if (condition === '丢失') {
+    sample.isLost = true;
+    sample.status = 'lost';
+    sample.lostDate = new Date().toISOString().split('T')[0];
+    sample.lostBy = borrow.anchorId;
+    
+    const anchor = getAnchorById(borrow.anchorId);
+    if (anchor) {
+      anchor.overdueCount++;
+      if (anchor.overdueCount >= 3) {
+        anchor.isFrozen = true;
+        anchor.freezeReason = '累计丢失/超期3次';
+        anchor.frozenDate = new Date().toISOString().split('T')[0];
+      }
+    }
+    
+    openCompensationModal(sample, borrow);
+  } else {
+    sample.availableStock++;
+    borrow.returned = true;
+    borrow.returnCondition = condition;
+    borrow.returnTime = new Date().toLocaleString('zh-CN');
+    
+    const returnLog = {
+      id: 'BOR-' + Date.now().toString().slice(-8),
+      type: 'return',
+      sku: sample.sku,
+      sampleName: sample.name,
+      anchorId: borrow.anchorId,
+      anchorName: borrow.anchorName,
+      operator: '仓管小李',
+      time: new Date().toLocaleString('zh-CN'),
+      status: 'success',
+      returnCondition: condition
+    };
+    borrowLogs.unshift(returnLog);
+  }
+  
+  document.getElementById('scanResult').style.display = 'none';
+  document.getElementById('scanInput').value = '';
+  
+  if (condition !== '丢失') {
+    showNotification('归还成功', `${sample.name} 已归还（${condition}）`, 'success');
+  }
+  
+  renderBorrowLogs();
+  renderArchive();
+  renderOverdue();
+  updateStats();
+}
+
+function renderBorrowLogs() {
+  const table = document.getElementById('borrowLogTable').querySelector('tbody');
+  const todayLogs = borrowLogs.filter(b => b.time.startsWith('2026-06-14'));
+  
+  if (todayLogs.length === 0) {
+    table.innerHTML = '<tr><td colspan="7" class="empty-state">今日暂无借还记录</td></tr>';
+    return;
+  }
+  
+  table.innerHTML = todayLogs.map(b => `
+    <tr>
+      <td>${b.time.split(' ')[1]}</td>
+      <td>${b.type === 'borrow' ? '<span class="tag tag-orange">借出</span>' : '<span class="tag tag-green">归还</span>'}</td>
+      <td><code>${b.sku}</code></td>
+      <td>${b.sampleName}</td>
+      <td>${b.anchorName}</td>
+      <td>${b.operator}</td>
+      <td>${getStatusTag(b.status)}</td>
+    </tr>
+  `).join('');
+}
+
+function renderQC() {
+  const pending = samples.filter(s => s.qcStatus === 'pending');
+  const passed = samples.filter(s => s.qcStatus === 'pass');
+  const failed = samples.filter(s => s.qcStatus === 'fail');
+  
+  const kanban = document.getElementById('qcKanban');
+  kanban.innerHTML = `
+    <div class="kanban-column pending">
+      <div class="kanban-column-header">
+        <span>待质检</span>
+        <span class="kanban-count">${pending.length}</span>
+      </div>
+      ${pending.map(s => `
+        <div class="kanban-card pending" onclick="openQCModal(${s.id})">
+          <div class="kanban-card-title">${s.icon} ${s.name}</div>
+          <div class="kanban-card-meta">${s.sku} · ${s.brand} · 库存: ${s.availableStock}</div>
+        </div>
+      `).join('')}
+    </div>
+    <div class="kanban-column passed">
+      <div class="kanban-column-header">
+        <span>质检通过</span>
+        <span class="kanban-count">${passed.length}</span>
+      </div>
+      ${passed.slice(0, 5).map(s => `
+        <div class="kanban-card passed">
+          <div class="kanban-card-title">${s.icon} ${s.name}</div>
+          <div class="kanban-card-meta">${s.sku} · ${s.brand}</div>
+        </div>
+      `).join('')}
+    </div>
+    <div class="kanban-column failed">
+      <div class="kanban-column-header">
+        <span>质检不合格</span>
+        <span class="kanban-count">${failed.length}</span>
+      </div>
+      ${failed.map(s => `
+        <div class="kanban-card failed">
+          <div class="kanban-card-title">${s.icon} ${s.name}</div>
+          <div class="kanban-card-meta">${s.sku} · 原因: ${s.failReason || '未填写'}</div>
+        </div>
+      `).join('')}
+    </div>
+  `;
+  
+  const table = document.getElementById('qcTable').querySelector('tbody');
+  table.innerHTML = qcRecords.map(q => `
+    <tr>
+      <td><code>${q.id}</code></td>
+      <td><code>${q.sku}</code></td>
+      <td>${q.sampleName}</td>
+      <td>${q.items.join('、')}</td>
+      <td>${q.inspector}</td>
+      <td>${q.date}</td>
+      <td>${getStatusTag(q.result)}</td>
+      <td><button class="btn btn-default btn-sm">查看</button></td>
+    </tr>
+  `).join('');
+}
+
+function renderOverdue() {
+  const table = document.getElementById('overdueTable').querySelector('tbody');
+  table.innerHTML = overdueRecords.map(o => `
+    <tr>
+      <td>${getAnchorById(o.anchorId)?.avatar || '👤'} ${o.anchorName}</td>
+      <td><code>${o.sku}</code></td>
+      <td>${o.sampleName}</td>
+      <td>${o.dueDate}</td>
+      <td><span class="tag tag-red">${o.overdueDays}天</span></td>
+      <td>${o.borrowCount}</td>
+      <td>${o.reportedLost ? '<span class="tag tag-red">已报失</span>' : '<span class="tag tag-orange">超期中</span>'}</td>
+      <td>
+        <button class="btn btn-warning btn-sm" onclick="sendReminder('${o.id}')">催还</button>
+        ${o.reportedLost ? `<button class="btn btn-danger btn-sm" onclick="processLoss('${o.id}')">赔付</button>` : ''}
+      </td>
+    </tr>
+  `).join('');
+  
+  const timeline = document.getElementById('reminderTimeline');
+  timeline.innerHTML = reminders.map(r => `
+    <div class="timeline-item">
+      <div class="timeline-dot ${r.type === 'danger' ? 'danger' : r.type === 'warning' ? 'warning' : 'success'}"></div>
+      <div class="timeline-content">
+        <div class="timeline-time">${r.time}</div>
+        <div>${r.anchorName}: ${r.content}</div>
+      </div>
+    </div>
+  `).join('');
+}
+
+function sendReminder(id) {
+  const record = overdueRecords.find(o => o.id === id);
+  if (record) {
+    const anchor = getAnchorById(record.anchorId);
+    showNotification('催还成功', `已向 ${anchor?.name || record.anchorName} 发送催还通知`, 'success');
+  }
+}
+
+function processLoss(id) {
+  const record = overdueRecords.find(o => o.id === id);
+  if (record) {
+    const sample = samples.find(s => s.sku === record.sku);
+    const borrow = { anchorId: record.anchorId, anchorName: record.anchorName };
+    if (sample) {
+      openCompensationModal(sample, borrow);
+    }
+  }
+}
+
+function openCompensationModal(sample, borrow) {
+  appState.currentCompensation = { sample, borrow };
+  
+  const compensationAmount = (sample.price * 1.5);
+  document.getElementById('compensationAmount').textContent = `¥${compensationAmount.toFixed(2)}`;
+  document.getElementById('compensationDetail').innerHTML = `
+    样品: ${sample.icon} ${sample.name} (${sample.sku})<br>
+    原价: ¥${sample.price} × 1.5倍赔付 = <strong>¥${compensationAmount.toFixed(2)}</strong><br>
+    责任人: ${borrow.anchorName}
+  `;
+  document.getElementById('compensationMethod').value = '';
+  document.getElementById('compensationRemark').value = '';
+  
+  openModal('compensationModal');
+}
+
+function confirmCompensation() {
+  const method = document.getElementById('compensationMethod').value;
+  if (!method) {
+    showNotification('提交失败', '请选择赔付方式', 'error');
+    return;
+  }
+  
+  const { sample, borrow } = appState.currentCompensation;
+  const methodNames = { cash: '现金赔付', salary: '工资扣除', replace: '实物赔偿' };
+  
+  const record = overdueRecords.find(o => o.anchorId === borrow.anchorId && o.sku === sample.sku);
+  if (record) {
+    record.status = 'resolved';
+  }
+  
+  closeModal('compensationModal');
+  showNotification('赔付完成', `${borrow.anchorName} 的 ${sample.name} 赔付已处理（${methodNames[method]}）`, 'success');
+  
+  renderOverdue();
+  renderArchive();
+}
+
+function renderInventory() {
+  const table = document.getElementById('inventoryTable').querySelector('tbody');
+  table.innerHTML = inventoryOrders.map(o => `
+    <tr>
+      <td><code>${o.id}</code></td>
+      <td>${o.type}</td>
+      <td>${o.createTime}</td>
+      <td>${o.operator}</td>
+      <td>${getStatusTag(o.status)}</td>
+      <td>
+        <div class="progress-bar">
+          <div class="progress-fill ${o.progress < 100 ? 'warning' : ''}" style="width: ${o.progress}%"></div>
+        </div>
+        <span style="font-size: 11px; color: #8c8c8c;">${o.progress}%</span>
+      </td>
+      <td>${o.diff > 0 ? `<span class="tag tag-orange">盘亏 ${o.diff}</span>` : '<span class="tag tag-green">无差异</span>'}</td>
+      <td><button class="btn btn-default btn-sm">详情</button></td>
+    </tr>
+  `).join('');
+  
+  const detailTable = document.getElementById('inventoryDetailTable').querySelector('tbody');
+  detailTable.innerHTML = inventoryDetails.map(d => `
+    <tr>
+      <td><code>${d.sku}</code></td>
+      <td>${d.sampleName}</td>
+      <td>${d.location}</td>
+      <td>${d.bookQty}</td>
+      <td>${d.actualQty}</td>
+      <td>${d.diff !== 0 ? `<span class="tag ${d.diff > 0 ? 'tag-green' : 'tag-red'}">${d.diff > 0 ? '+' : ''}${d.diff}</span>` : '<span class="tag tag-green">0</span>'}</td>
+      <td>${getStatusTag(d.status)}</td>
+    </tr>
+  `).join('');
+}
+
+function startInventory() {
+  if (appState.currentRole !== 'warehouse') {
+    showNotification('权限不足', '只有仓管可以创建盘点单', 'error');
+    return;
+  }
+  
+  const newOrder = {
+    id: 'INV-' + Date.now().toString().slice(-8),
+    type: '临时盘点',
+    createTime: new Date().toLocaleString('zh-CN'),
+    operator: '仓管小李',
+    status: 'in_progress',
+    progress: 0,
+    diff: 0,
+    remark: '新建'
+  };
+  
+  inventoryOrders.unshift(newOrder);
+  showNotification('创建成功', '盘点单已创建', 'success');
+  renderInventory();
+}
+
+function renderAnalysis() {
+  const months = ['1月', '2月', '3月', '4月', '5月', '6月'];
+  const values = [28, 35, 42, 38, 52, 67];
+  
+  const maxValue = Math.max(...values);
+  const chart = document.getElementById('trendChart');
+  chart.innerHTML = values.map((v, i) => `
+    <div class="chart-bar" style="height: ${(v / maxValue) * 100}%;">
+      <span class="chart-bar-value">${v}</span>
+      <span class="chart-bar-label">${months[i]}</span>
+    </div>
+  `).join('');
+  
+  const topTable = document.getElementById('topSamplesTable').querySelector('tbody');
+  const topSamples = [...samples].filter(s => s.sales > 0).sort((a, b) => b.gmv - a.gmv).slice(0, 5);
+  
+  topTable.innerHTML = topSamples.map((s, i) => `
+    <tr>
+      <td><span class="tag ${i === 0 ? 'tag-orange' : i === 1 ? 'tag-gray' : i === 2 ? 'tag-orange' : 'tag-blue'}">${i + 1}</span></td>
+      <td><code>${s.sku}</code></td>
+      <td>${s.icon} ${s.name}</td>
+      <td>${s.brand}</td>
+      <td>${s.liveSession}</td>
+      <td>${s.sales.toLocaleString()}</td>
+      <td>¥${s.gmv.toLocaleString()}</td>
+      <td><span class="tag tag-green">${s.conversionRate}%</span></td>
+    </tr>
+  `).join('');
+}
+
+function demoScenario(type) {
+  const container = document.getElementById('scenarioContainer');
+  let html = '';
+  
+  if (type === 'zeroStock') {
+    const sample = getSampleById(2);
+    const result = checkReservationEligibility(2, 'anchor-1');
+    html = `
+      <div class="scenario-block intercepted">
+        <div class="scenario-header">
+          <div class="scenario-name">📦 场景1: 零库存预约拦截</div>
+          <span class="scenario-status" style="background: #fff1f0; color: #f5222d;">❌ 已拦截</span>
+        </div>
+        <div style="color: #595959; font-size: 13px; margin-bottom: 12px;">
+          <strong>样品:</strong> ${sample.icon} ${sample.name} (${sample.sku})<br>
+          <strong>当前库存:</strong> <span style="color: #f5222d; font-weight: 600;">${sample.availableStock}</span> / ${sample.stock}<br>
+          <strong>拦截原因:</strong> ${result.message}
+        </div>
+        <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+          <span class="tag tag-red">库存为零</span>
+          <span class="tag tag-orange">禁止预约</span>
+          <span class="tag tag-gray">需要补货</span>
+        </div>
+      </div>
+    `;
+    showNotification('零库存拦截', '库存为零，无法预约', 'error');
+  } else if (type === 'qcFail') {
+    const sample = getSampleById(3);
+    const result = checkReservationEligibility(3, 'anchor-1');
+    html = `
+      <div class="scenario-block intercepted">
+        <div class="scenario-header">
+          <div class="scenario-name">❌ 场景2: 质检不合格拦截</div>
+          <span class="scenario-status" style="background: #fff1f0; color: #f5222d;">❌ 已拦截</span>
+        </div>
+        <div style="color: #595959; font-size: 13px; margin-bottom: 12px;">
+          <strong>样品:</strong> ${sample.icon} ${sample.name} (${sample.sku})<br>
+          <strong>质检状态:</strong> <span style="color: #f5222d; font-weight: 600;">不合格</span><br>
+          <strong>不合格原因:</strong> ${sample.failReason}<br>
+          <strong>拦截原因:</strong> ${result.message}
+        </div>
+        <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+          <span class="tag tag-red">质检不合格</span>
+          <span class="tag tag-orange">禁止上架</span>
+          <span class="tag tag-gray">待退回品牌方</span>
+        </div>
+      </div>
+    `;
+    showNotification('质检不合格', '质检不合格，禁止上架', 'error');
+  } else if (type === 'overdueFreeze') {
+    const anchor = getAnchorById('anchor-2');
+    html = `
+      <div class="scenario-block intercepted">
+        <div class="scenario-header">
+          <div class="scenario-name">⏰ 场景3: 超期冻结拦截</div>
+          <span class="scenario-status" style="background: #fff1f0; color: #f5222d;">❌ 已冻结</span>
+        </div>
+        <div style="color: #595959; font-size: 13px; margin-bottom: 12px;">
+          <strong>主播:</strong> ${anchor.avatar} ${anchor.name} (${anchor.level})<br>
+          <strong>超期次数:</strong> <span style="color: #f5222d; font-weight: 600;">${anchor.overdueCount} 次</span><br>
+          <strong>冻结状态:</strong> <span style="color: #f5222d; font-weight: 600;">${anchor.isFrozen ? '已冻结' : '正常'}</span><br>
+          <strong>冻结原因:</strong> ${anchor.freezeReason}
+        </div>
+        <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+          <span class="tag tag-red">账号已冻结</span>
+          <span class="tag tag-orange">禁止预约</span>
+          <span class="tag tag-gray">超期3次自动冻结</span>
+        </div>
+        <div style="margin-top: 12px; padding-top: 12px; border-top: 1px dashed #ffccc; font-size: 12px; color: #8c8c8c;">
+          💡 切换到"主播"身份，可以看到页面顶部冻结提示横幅
+        </div>
+      </div>
+    `;
+    showNotification('账号已冻结', '该主播因超期未还已被冻结', 'error');
+  } else if (type === 'lostCompensation') {
+    const sample = getSampleById(6);
+    const anchor = getAnchorById('anchor-2');
+    const compensationAmount = sample.price * 1.5;
+    html = `
+      <div class="scenario-block intercepted">
+        <div class="scenario-header">
+          <div class="scenario-name">💸 场景4: 丢失赔付</div>
+          <span class="scenario-status" style="background: #fff1f0; color: #f5222d;">💸 待赔付</span>
+        </div>
+        <div style="color: #595959; font-size: 13px; margin-bottom: 12px;">
+          <strong>丢失样品:</strong> ${sample.icon} ${sample.name} (${sample.sku})<br>
+          <strong>丢失日期:</strong> ${sample.lostDate}<br>
+          <strong>责任人:</strong> ${anchor.avatar} ${anchor.name}<br>
+          <strong>赔付金额:</strong> <span style="color: #f5222d; font-weight: 600; font-size: 18px;">¥${compensationAmount.toFixed(2)}</span><br>
+          <small style="color: #8c8c8c;">(原价 ¥${sample.price} × 1.5倍赔付)</small>
+        </div>
+        <div style="display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 12px;">
+          <span class="tag tag-red">样品丢失</span>
+          <span class="tag tag-orange">1.5倍赔付</span>
+          <span class="tag tag-purple">影响信用</span>
+        </div>
+        <button class="btn btn-danger btn-sm" onclick="demoCompensation()">立即处理赔付</button>
+      </div>
+    `;
+    showNotification('丢失赔付', '请处理丢失样品的赔付事宜', 'warning');
+  }
+  
+  container.innerHTML = html;
+}
+
+function demoCompensation() {
+  const sample = getSampleById(6);
+  const borrow = { anchorId: 'anchor-2', anchorName: '大壮' };
+  openCompensationModal(sample, borrow);
+}
+
+function resetDemoData() {
+  document.getElementById('scenarioContainer').innerHTML = '';
+  showNotification('已重置', '演示数据已重置', 'success');
+}
+
+function renderAll() {
+  renderPool();
+  renderArchive();
+  renderCalendar();
+  renderReservations();
+  renderBorrowLogs();
+  renderQC();
+  renderOverdue();
+  renderInventory();
+  renderAnalysis();
+  updateStats();
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+  document.querySelectorAll('.role-tab').forEach(tab => {
+    tab.addEventListener('click', function() {
+      switchRole(this.dataset.role);
+    });
+  });
+  
+  document.querySelectorAll('.nav-item').forEach(item => {
+    item.addEventListener('click', function() {
+      switchModule(this.dataset.module);
+    });
+  });
+  
+  document.querySelectorAll('[data-pool-tab]').forEach(tab => {
+    tab.addEventListener('click', function() {
+      currentPoolTab = this.dataset.poolTab;
+      document.querySelectorAll('[data-pool-tab]').forEach(t => t.classList.toggle('active', t === this));
+      renderPool();
+    });
+  });
+  
+  document.querySelectorAll('[data-scan-tab]').forEach(tab => {
+    tab.addEventListener('click', function() {
+      setScanMode(this.dataset.scanTab);
+    });
+  });
+  
+  document.getElementById('scanInput').addEventListener('keypress', function(e) {
+    if (e.key === 'Enter') {
+      processScan();
+    }
+  });
+  
+  renderAll();
+});
+</script>
+</body>
+</html>
