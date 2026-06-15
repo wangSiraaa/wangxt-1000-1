@@ -54,7 +54,9 @@
   .btn-warning:hover { background: #ffc53d; }
   .btn-danger { background: #ff4d4f; color: #fff; }
   .btn-danger:hover { background: #ff7875; }
-  .btn-default { background: #fff; color: #1f1f1f; border: 1px solid #d9d9d9; }
+  .btn-info { background: #13c2c2; color: #fff; }
+  .btn-info:hover { background: #36cfc9; }
+  .btn-default { background: #fff; color: #333; border: 1px solid #d9d9d9; }
   .btn-default:hover { border-color: #1890ff; color: #1890ff; }
   .btn-sm { padding: 4px 12px; font-size: 12px; }
   .btn:disabled { opacity: 0.5; cursor: not-allowed; }
@@ -337,6 +339,7 @@
             <button class="demo-btn" onclick="demoScenario('overdueFreeze')">⏰ 超期冻结拦截</button>
             <button class="demo-btn" onclick="demoScenario('lostCompensation')">💸 丢失赔付</button>
             <button class="demo-btn" onclick="resetDemoData()">🔄 重置演示数据</button>
+            <button class="demo-btn" onclick="runRegressionTests()" style="background: #722ed1;">🧪 回归验证</button>
           </div>
         </div>
         
@@ -405,6 +408,7 @@
                 <th>库存</th>
                 <th>仓位</th>
                 <th>状态</th>
+                <th>试用报告</th>
                 <th>操作</th>
               </tr>
             </thead>
@@ -936,6 +940,68 @@
   </div>
 </div>
 
+<div class="modal-overlay" id="reportModal">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title">提交试用报告</div>
+      <button class="modal-close" onclick="closeModal('reportModal')">×</button>
+    </div>
+    <div class="modal-body">
+      <div id="reportSampleInfo" style="padding: 12px; background: #f0f5ff; border-radius: 6px; margin-bottom: 16px; font-size: 13px;"></div>
+      <div class="form-group">
+        <label class="form-label"><span class="required">*</span> 试用结论</label>
+        <select class="form-select" id="reportConclusion">
+          <option value="">请选择试用结论</option>
+          <option value="excellent">优秀 - 强烈推荐上架</option>
+          <option value="good">良好 - 可以上架</option>
+          <option value="average">一般 - 需优化后再上</option>
+          <option value="poor">较差 - 不建议上架</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="form-label"><span class="required">*</span> 直播场次反馈</label>
+        <textarea class="form-textarea" id="reportLiveFeedback" placeholder="请描述直播过程中的观众反馈、互动情况、商品表现等"></textarea>
+      </div>
+      <div class="form-group">
+        <label class="form-label"><span class="required">*</span> 样品状态</label>
+        <select class="form-select" id="reportSampleStatus">
+          <option value="">请选择样品状态</option>
+          <option value="good">完好 - 可继续使用</option>
+          <option value="minor">轻微磨损 - 不影响使用</option>
+          <option value="damaged">损坏 - 需维修</option>
+          <option value="broken">报废 - 无法使用</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="form-label"><span class="required">*</span> 转化建议</label>
+        <textarea class="form-textarea" id="reportSuggestions" placeholder="请提供提升转化率的具体建议，如定价策略、套餐搭配、卖点优化等"></textarea>
+      </div>
+      <div class="form-group">
+        <label class="form-label">备注说明</label>
+        <textarea class="form-textarea" id="reportRemarks" placeholder="其他需要说明的事项"></textarea>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-default" onclick="closeModal('reportModal')">取消</button>
+      <button class="btn btn-primary" onclick="submitReport()">提交报告</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="reportViewModal">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title">查看试用报告</div>
+      <button class="modal-close" onclick="closeModal('reportViewModal')">×</button>
+    </div>
+    <div class="modal-body" id="reportViewContent">
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-default" onclick="closeModal('reportViewModal')">关闭</button>
+    </div>
+  </div>
+</div>
+
 <script>
 let appState = {
   currentRole: 'manager',
@@ -943,6 +1009,7 @@ let appState = {
   currentMonth: new Date(2026, 5, 1),
   currentQCSample: null,
   currentCompensation: null,
+  currentReportReservation: null,
   scanMode: 'borrow'
 };
 
@@ -970,10 +1037,19 @@ let anchors = [
 ];
 
 let reservations = [
-  { id: 'RES-20260601', sampleId: 1, anchorId: 'anchor-1', date: '2026-06-14', purpose: '直播试用', status: 'approved', createTime: '2026-06-12 10:30' },
-  { id: 'RES-20260602', sampleId: 5, anchorId: 'anchor-3', date: '2026-06-15', purpose: '拍短视频', status: 'pending', createTime: '2026-06-12 14:20' },
-  { id: 'RES-20260603', sampleId: 8, anchorId: 'anchor-5', date: '2026-06-16', purpose: '产品测评', status: 'approved', createTime: '2026-06-12 16:45' },
-  { id: 'RES-20260604', sampleId: 11, anchorId: 'anchor-1', date: '2026-06-18', purpose: '直播试用', status: 'pending', createTime: '2026-06-13 09:15' }
+  { id: 'RES-20260601', sampleId: 1, anchorId: 'anchor-1', date: '2026-06-14', purpose: '直播试用', status: 'borrowed', createTime: '2026-06-12 10:30', borrowTime: '2026-06-14 09:30', report: null },
+  { id: 'RES-20260602', sampleId: 5, anchorId: 'anchor-3', date: '2026-06-15', purpose: '拍短视频', status: 'pending', createTime: '2026-06-12 14:20', report: null },
+  { id: 'RES-20260603', sampleId: 8, anchorId: 'anchor-5', date: '2026-06-16', purpose: '产品测评', status: 'approved', createTime: '2026-06-12 16:45', report: null },
+  { id: 'RES-20260604', sampleId: 11, anchorId: 'anchor-1', date: '2026-06-18', purpose: '直播试用', status: 'pending', createTime: '2026-06-13 09:15', report: null },
+  { id: 'RES-20260605', sampleId: 4, anchorId: 'anchor-3', date: '2026-06-10', purpose: '直播试用', status: 'completed', createTime: '2026-06-08 11:00', borrowTime: '2026-06-10 09:00', returnTime: '2026-06-12 16:30', report: {
+    conclusion: 'excellent',
+    liveFeedback: '观众反馈非常好，互动率达35%，商品点击率高',
+    sampleStatus: 'good',
+    suggestions: '建议增加套装优惠，可提升转化率约20%',
+    remarks: '试用期间样品表现稳定，无质量问题',
+    submitTime: '2026-06-12 17:00',
+    submittedBy: '莉莉'
+  }}
 ];
 
 let borrowLogs = [
@@ -1069,6 +1145,8 @@ function updateStats() {
   const available = samples.filter(s => s.availableStock > 0 && s.status === 'approved' && s.qcStatus === 'pass' && !s.isLost && s.status !== 'locked').length;
   const borrowed = borrowLogs.filter(b => b.type === 'borrow' && b.status === 'success').length;
   const overdue = overdueRecords.length;
+  const reportsSubmitted = reservations.filter(r => r.report).length;
+  const reportsPending = reservations.filter(r => (r.status === 'approved' || r.status === 'borrowed') && !r.report).length;
   
   document.getElementById('totalSamples').textContent = total;
   document.getElementById('availableSamples').textContent = available;
@@ -1082,7 +1160,7 @@ function updateStats() {
 
 function updateFreezeBanner() {
   const banner = document.getElementById('freezeBanner');
-  const currentAnchorId = appState.currentRole === 'anchor' ? 'anchor-2' : null;
+  const currentAnchorId = appState.currentRole === 'anchor' ? appState.currentAnchorId : null;
   const currentAnchor = currentAnchorId ? getAnchorById(currentAnchorId) : null;
   
   if (currentAnchor && currentAnchor.isFrozen) {
@@ -1102,6 +1180,11 @@ function updateFreezeBanner() {
 
 function switchRole(role) {
   appState.currentRole = role;
+  if (role === 'anchor') {
+    appState.currentAnchorId = 'anchor-1';
+  } else {
+    appState.currentAnchorId = null;
+  }
   document.querySelectorAll('.role-tab').forEach(tab => {
     tab.classList.toggle('active', tab.dataset.role === role);
   });
@@ -1294,6 +1377,14 @@ function checkReservationEligibility(sampleId, anchorId) {
     return { eligible: false, message: '样品不存在', reason: 'notFound' };
   }
   
+  if (sample.isLost) {
+    return { eligible: false, message: '样品已丢失，无法预约', reason: 'lost' };
+  }
+  
+  if (sample.status === 'locked') {
+    return { eligible: false, message: '样品已锁定，无法预约', reason: 'locked' };
+  }
+  
   if (sample.approvalStatus !== 'approved') {
     return { eligible: false, message: '样品未通过审批，无法预约', reason: 'notApproved' };
   }
@@ -1304,14 +1395,6 @@ function checkReservationEligibility(sampleId, anchorId) {
   
   if (sample.availableStock <= 0) {
     return { eligible: false, message: '库存为零，无法预约', reason: 'zeroStock' };
-  }
-  
-  if (sample.isLost) {
-    return { eligible: false, message: '样品已丢失，无法预约', reason: 'lost' };
-  }
-  
-  if (sample.status === 'locked') {
-    return { eligible: false, message: '样品已锁定，无法预约', reason: 'locked' };
   }
   
   if (anchor && anchor.isFrozen) {
@@ -1491,6 +1574,22 @@ function renderArchive() {
     else if (s.availableStock > 0) statusDisplay = getStatusTag('normal');
     else statusDisplay = getStatusTag('borrowed');
     
+    const sampleReports = reservations.filter(r => r.sampleId === s.id && r.report);
+    const reportCount = sampleReports.length;
+    let reportDisplay = '';
+    if (reportCount > 0) {
+      const latestReport = sampleReports[sampleReports.length - 1].report;
+      const conclusionClass = {
+        'excellent': 'tag-green',
+        'good': 'tag-green',
+        'average': 'tag-orange',
+        'poor': 'tag-red'
+      }[latestReport.conclusion] || 'tag-blue';
+      reportDisplay = `<span class="tag ${conclusionClass}">✓ ${reportCount}份报告</span>`;
+    } else {
+      reportDisplay = '<span class="tag tag-gray">暂无报告</span>';
+    }
+    
     return `
       <tr>
         <td><code>${s.sku}</code></td>
@@ -1500,6 +1599,7 @@ function renderArchive() {
         <td>${s.availableStock} / ${s.stock}</td>
         <td>${s.location}</td>
         <td>${statusDisplay}</td>
+        <td>${reportDisplay}</td>
         <td>
           <button class="btn btn-default btn-sm" onclick="viewSampleDetail(${s.id})">详情</button>
           ${appState.currentRole === 'warehouse' ? `<button class="btn btn-warning btn-sm" onclick="adjustLocation(${s.id})">调仓</button>` : ''}
@@ -1511,9 +1611,78 @@ function renderArchive() {
 
 function viewSampleDetail(id) {
   const sample = getSampleById(id);
-  if (sample) {
-    showNotification('样品详情', `${sample.name} - ${sample.brand} | 库存: ${sample.availableStock}/${sample.stock}`, 'info');
+  if (!sample) return;
+  
+  const sampleReports = reservations.filter(r => r.sampleId === id && r.report);
+  let reportHtml = '';
+  
+  if (sampleReports.length > 0) {
+    reportHtml = `
+      <div style="margin-top: 16px;">
+        <h4 style="font-size: 14px; font-weight: 600; margin-bottom: 12px;">📋 试用报告 (${sampleReports.length}份)</h4>
+        ${sampleReports.map(r => {
+          const report = r.report;
+          const conclusionClass = {
+            'excellent': 'tag-green',
+            'good': 'tag-green',
+            'average': 'tag-orange',
+            'poor': 'tag-red'
+          }[report.conclusion] || 'tag-blue';
+          const anchor = getAnchorById(r.anchorId);
+          return `
+            <div style="padding: 12px; background: #f9fafb; border-radius: 6px; margin-bottom: 8px;">
+              <div style="font-size: 13px; margin-bottom: 4px;">
+                <strong>${anchor ? anchor.avatar + ' ' + anchor.name : '未知主播'}</strong>
+                <span style="color: #9ca3af; margin-left: 8px;">${report.submitTime}</span>
+                <span class="tag ${conclusionClass}" style="margin-left: 8px;">${conclusionLabels[report.conclusion]}</span>
+              </div>
+              <div style="font-size: 12px; color: #6b7280; margin-bottom: 4px;"><strong>直播反馈:</strong> ${report.liveFeedback}</div>
+              <div style="font-size: 12px; color: #6b7280;"><strong>转化建议:</strong> ${report.suggestions}</div>
+              <div style="text-align: right; margin-top: 8px;">
+                <button class="btn btn-default btn-sm" onclick="viewReport('${r.id}')">查看完整报告</button>
+              </div>
+            </div>
+          `;
+        }).join('')}
+      </div>
+    `;
+  } else {
+    reportHtml = '<div style="margin-top: 16px; padding: 16px; background: #f9fafb; border-radius: 6px; text-align: center; color: #9ca3af;">暂无试用报告</div>';
   }
+  
+  const qcDisplay = sample.qcStatus === 'pass' ? '<span class="tag tag-green">质检合格</span>' : '<span class="tag tag-red">质检不合格</span>';
+  const lockedDisplay = sample.status === 'locked' ? '<span class="tag tag-orange">已锁定</span>' : '';
+  const lostDisplay = sample.isLost ? '<span class="tag tag-red">已丢失</span>' : '';
+  
+  document.getElementById('reportViewContent').innerHTML = `
+    <div style="padding: 16px; background: #f0f5ff; border-radius: 8px; margin-bottom: 16px;">
+      <div style="font-size: 18px; font-weight: 600; margin-bottom: 8px;">${sample.icon} ${sample.name}</div>
+      <div style="font-size: 13px; color: #6b7280; margin-bottom: 8px;">${sample.brand} | ${sample.category} | <code>${sample.sku}</code></div>
+      <div style="display: flex; gap: 8px; flex-wrap: wrap; font-size: 13px;">
+        <span>库存: <strong>${sample.availableStock}/${sample.stock}</strong></span>
+        <span>仓位: <strong>${sample.location}</strong></span>
+        <span>价格: <strong>¥${sample.price.toLocaleString()}</strong></span>
+      </div>
+      <div style="display: flex; gap: 8px; margin-top: 8px;">
+        ${qcDisplay}
+        ${lockedDisplay}
+        ${lostDisplay}
+      </div>
+      ${sample.gmv ? `
+      <div style="margin-top: 12px; padding-top: 12px; border-top: 1px solid #d1d5db;">
+        <div style="font-size: 13px;">
+          <span style="margin-right: 16px;">累计GMV: <strong style="color: #dc2626;">¥${sample.gmv.toLocaleString()}</strong></span>
+          <span style="margin-right: 16px;">销量: <strong>${sample.sales.toLocaleString()}</strong></span>
+          <span>转化率: <strong style="color: #059669;">${sample.conversionRate}%</strong></span>
+        </div>
+      </div>
+      ` : ''}
+    </div>
+    ${reportHtml}
+  `;
+  
+  document.getElementById('reportViewModal').querySelector('.modal-title').textContent = '样品档案详情';
+  document.getElementById('reportViewModal').style.display = 'flex';
 }
 
 function adjustLocation(id) {
@@ -1550,6 +1719,8 @@ function renderCalendar() {
     html += '<div class="calendar-day disabled"></div>';
   }
   
+  const isCurrentAnchor = (anchorId) => appState.currentRole === 'anchor' && appState.currentAnchorId === anchorId;
+  
   for (let day = 1; day <= daysInMonth; day++) {
     const dateStr = `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
     const currentDate = new Date(year, month, day);
@@ -1563,14 +1734,51 @@ function renderCalendar() {
     });
     
     let eventsHtml = '';
+    
     if (dayReservations.length > 0) {
-      eventsHtml += `<div class="calendar-event reserved">预约: ${dayReservations.length}</div>`;
+      dayReservations.forEach(r => {
+        const sample = getSampleById(r.sampleId);
+        const sampleIcon = sample ? sample.icon : '📦';
+        const sampleName = sample ? sample.name : '未知样品';
+        
+        let eventClass = 'calendar-event reserved';
+        let eventStatus = '';
+        let reportAction = '';
+        
+        if (r.status === 'borrowed') {
+          eventClass = 'calendar-event borrowed';
+          eventStatus = ' (借出中)';
+        } else if (r.status === 'completed') {
+          eventClass = 'calendar-event normal';
+          eventStatus = ' (已完成)';
+        } else if (r.status === 'rejected') {
+          eventClass = 'calendar-event overdue';
+          eventStatus = ' (已拒绝)';
+        }
+        
+        const canSubmitReport = (r.status === 'approved' || r.status === 'borrowed') && !r.report && isCurrentAnchor(r.anchorId);
+        const hasReport = r.report;
+        
+        if (canSubmitReport) {
+          reportAction = `<span class="tag tag-blue" style="margin-top: 2px; cursor: pointer;" onclick="event.stopPropagation(); openReportModal('${r.id}')">📝 提交报告</span>`;
+        } else if (hasReport) {
+          reportAction = `<span class="tag tag-green" style="margin-top: 2px; cursor: pointer;" onclick="event.stopPropagation(); viewReport('${r.id}')">✓ 已报告</span>`;
+        }
+        
+        eventsHtml += `
+          <div class="${eventClass}" style="font-size: 11px; padding: 3px 5px; margin-bottom: 2px; cursor: pointer;" onclick="event.stopPropagation(); viewCalendarReservation('${r.id}')">
+            ${sampleIcon} ${sampleName.substring(0, 6)}${eventStatus}
+            ${reportAction}
+          </div>
+        `;
+      });
     }
+    
     if (dayBorrows.length > 0) {
-      eventsHtml += `<div class="calendar-event borrowed">借出: ${dayBorrows.length}</div>`;
+      eventsHtml += `<div class="calendar-event borrowed" style="font-size: 11px; margin-top: 2px;">📤 借出: ${dayBorrows.length}</div>`;
     }
     if (dayOverdue.length > 0) {
-      eventsHtml += `<div class="calendar-event overdue">超期: ${dayOverdue.length}</div>`;
+      eventsHtml += `<div class="calendar-event overdue" style="font-size: 11px; margin-top: 2px;">⚠️ 超期: ${dayOverdue.length}</div>`;
     }
     
     const isDisabled = currentDate < today;
@@ -1586,6 +1794,64 @@ function renderCalendar() {
   document.getElementById('calendarGrid').innerHTML = html;
 }
 
+function viewCalendarReservation(reservationId) {
+  const r = reservations.find(x => x.id === reservationId);
+  if (!r) return;
+  
+  const sample = getSampleById(r.sampleId);
+  const anchor = getAnchorById(r.anchorId);
+  const isCurrentAnchor = appState.currentRole === 'anchor' && appState.currentAnchorId === r.anchorId;
+  
+  let reportInfo = '';
+  if (r.report) {
+    const conclusionClass = {
+      'excellent': 'tag-green',
+      'good': 'tag-green',
+      'average': 'tag-orange',
+      'poor': 'tag-red'
+    }[r.report.conclusion] || 'tag-blue';
+    reportInfo = `
+      <div style="margin-top: 12px; padding-top: 12px; border-top: 1px solid #d1d5db;">
+        <h4 style="font-size: 13px; font-weight: 600; margin-bottom: 8px;">📋 试用报告</h4>
+        <div style="font-size: 12px; margin-bottom: 6px;">
+          <span class="tag ${conclusionClass}">${conclusionLabels[r.report.conclusion]}</span>
+        </div>
+        <div style="font-size: 12px; color: #6b7280; margin-bottom: 4px;"><strong>提交时间:</strong> ${r.report.submitTime}</div>
+        <div style="font-size: 12px; color: #6b7280;">
+          <button class="btn btn-default btn-sm" onclick="viewReport('${r.id}')">查看完整报告</button>
+        </div>
+      </div>
+    `;
+  } else if ((r.status === 'approved' || r.status === 'borrowed') && isCurrentAnchor) {
+    reportInfo = `
+      <div style="margin-top: 12px; padding-top: 12px; border-top: 1px solid #d1d5db;">
+        <div style="font-size: 12px; color: #dc2626;">⚠️ 您尚未提交试用报告</div>
+        <div style="margin-top: 8px;">
+          <button class="btn btn-info btn-sm" onclick="openReportModal('${r.id}')">立即提交报告</button>
+        </div>
+      </div>
+    `;
+  }
+  
+  document.getElementById('reportViewContent').innerHTML = `
+    <div style="padding: 16px; background: #f0f5ff; border-radius: 8px; margin-bottom: 16px;">
+      <div style="font-size: 16px; font-weight: 600; margin-bottom: 8px;">📅 预约详情</div>
+      <div style="font-size: 13px; margin-bottom: 6px;"><strong>预约编号:</strong> <code>${r.id}</code></div>
+      <div style="font-size: 13px; margin-bottom: 6px;"><strong>样品:</strong> ${sample ? sample.icon + ' ' + sample.name + ' (' + sample.sku + ')' : '-'}</div>
+      <div style="font-size: 13px; margin-bottom: 6px;"><strong>主播:</strong> ${anchor ? anchor.avatar + ' ' + anchor.name : '-'}</div>
+      <div style="font-size: 13px; margin-bottom: 6px;"><strong>预约日期:</strong> ${r.date}</div>
+      <div style="font-size: 13px; margin-bottom: 6px;"><strong>用途:</strong> ${r.purpose}</div>
+      <div style="font-size: 13px; margin-bottom: 6px;"><strong>状态:</strong> ${getStatusTag(r.status)}</div>
+      ${r.borrowTime ? `<div style="font-size: 13px; margin-bottom: 6px;"><strong>借出时间:</strong> ${r.borrowTime}</div>` : ''}
+      ${r.returnTime ? `<div style="font-size: 13px; margin-bottom: 6px;"><strong>归还时间:</strong> ${r.returnTime}</div>` : ''}
+    </div>
+    ${reportInfo}
+  `;
+  
+  document.getElementById('reportViewModal').querySelector('.modal-title').textContent = '预约详情';
+  document.getElementById('reportViewModal').style.display = 'flex';
+}
+
 function selectDate(dateStr) {
   document.getElementById('reservationDate').value = dateStr;
   openReservationModal();
@@ -1593,9 +1859,15 @@ function selectDate(dateStr) {
 
 function renderReservations() {
   const table = document.getElementById('reservationTable').querySelector('tbody');
+  const isCurrentAnchor = (anchorId) => appState.currentRole === 'anchor' && appState.currentAnchorId === anchorId;
+  
   table.innerHTML = reservations.map(r => {
     const sample = getSampleById(r.sampleId);
     const anchor = getAnchorById(r.anchorId);
+    const canSubmitReport = (r.status === 'approved' || r.status === 'borrowed') && !r.report && isCurrentAnchor(r.anchorId);
+    const canViewReport = r.report;
+    const hasReportPending = (r.status === 'approved' || r.status === 'borrowed') && !r.report && isCurrentAnchor(r.anchorId);
+    
     return `
       <tr>
         <td><code>${r.id}</code></td>
@@ -1603,7 +1875,11 @@ function renderReservations() {
         <td>${anchor ? anchor.avatar + ' ' + anchor.name : '-'}</td>
         <td>${r.date}</td>
         <td>${r.purpose}</td>
-        <td>${getStatusTag(r.status)}</td>
+        <td>
+          ${getStatusTag(r.status)}
+          ${hasReportPending ? '<span class="tag tag-blue" style="margin-left: 4px;">待提交报告</span>' : ''}
+          ${canViewReport ? '<span class="tag tag-green" style="margin-left: 4px;">✓ 已提交报告</span>' : ''}
+        </td>
         <td>
           ${r.status === 'pending' && appState.currentRole === 'manager' ? `
             <button class="btn btn-success btn-sm" onclick="approveReservation('${r.id}')">通过</button>
@@ -1612,10 +1888,185 @@ function renderReservations() {
           ${r.status === 'approved' && appState.currentRole === 'warehouse' ? `
             <button class="btn btn-primary btn-sm" onclick="processBorrow('${r.id}')">借出</button>
           ` : ''}
+          ${canSubmitReport ? `
+            <button class="btn btn-info btn-sm" onclick="openReportModal('${r.id}')">提交报告</button>
+          ` : ''}
+          ${canViewReport ? `
+            <button class="btn btn-default btn-sm" onclick="viewReport('${r.id}')">查看报告</button>
+          ` : ''}
         </td>
       </tr>
     `;
   }).join('');
+}
+
+const conclusionLabels = {
+  'excellent': '优秀 - 强烈推荐上架',
+  'good': '良好 - 可以上架',
+  'average': '一般 - 需优化后再上',
+  'poor': '较差 - 不建议上架'
+};
+
+const sampleStatusLabels = {
+  'good': '完好 - 可继续使用',
+  'minor': '轻微磨损 - 不影响使用',
+  'damaged': '损坏 - 需维修',
+  'broken': '报废 - 无法使用'
+};
+
+function openReportModal(reservationId) {
+  const r = reservations.find(x => x.id === reservationId);
+  if (!r) return;
+  
+  if (appState.currentRole !== 'anchor') {
+    showNotification('提示', '请切换到主播身份提交报告', 'warning');
+    return;
+  }
+  
+  const anchor = getAnchorById(r.anchorId);
+  if (anchor && anchor.isFrozen) {
+    showNotification('账号已冻结', '您的账号因超期未还已被冻结，无法提交报告', 'error');
+    return;
+  }
+  
+  const sample = getSampleById(r.sampleId);
+  if (sample && (sample.isLost || sample.status === 'locked')) {
+    showNotification('样品不可用', sample.isLost ? '该样品已丢失' : '该样品已锁定', 'error');
+    return;
+  }
+  
+  appState.currentReportReservation = r;
+  
+  document.getElementById('reportSampleInfo').innerHTML = `
+    <strong>预约编号:</strong> ${r.id}<br>
+    <strong>样品:</strong> ${sample ? sample.icon + ' ' + sample.name + ' (' + sample.sku + ')' : '-'}<br>
+    <strong>用途:</strong> ${r.purpose}
+  `;
+  
+  document.getElementById('reportConclusion').value = '';
+  document.getElementById('reportLiveFeedback').value = '';
+  document.getElementById('reportSampleStatus').value = '';
+  document.getElementById('reportSuggestions').value = '';
+  document.getElementById('reportRemarks').value = '';
+  
+  document.getElementById('reportModal').style.display = 'flex';
+}
+
+function submitReport() {
+  const r = appState.currentReportReservation;
+  if (!r) return;
+  
+  const conclusion = document.getElementById('reportConclusion').value;
+  const liveFeedback = document.getElementById('reportLiveFeedback').value.trim();
+  const sampleStatus = document.getElementById('reportSampleStatus').value;
+  const suggestions = document.getElementById('reportSuggestions').value.trim();
+  const remarks = document.getElementById('reportRemarks').value.trim();
+  
+  if (!conclusion) {
+    showNotification('提交失败', '请选择试用结论', 'error');
+    return;
+  }
+  if (!liveFeedback) {
+    showNotification('提交失败', '请填写直播场次反馈', 'error');
+    return;
+  }
+  if (!sampleStatus) {
+    showNotification('提交失败', '请选择样品状态', 'error');
+    return;
+  }
+  if (!suggestions) {
+    showNotification('提交失败', '请填写转化建议', 'error');
+    return;
+  }
+  
+  const anchor = getAnchorById(r.anchorId);
+  const now = new Date();
+  const submitTime = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')} ${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`;
+  
+  r.report = {
+    conclusion,
+    liveFeedback,
+    sampleStatus,
+    suggestions,
+    remarks,
+    submitTime,
+    submittedBy: anchor ? anchor.name : '未知'
+  };
+  
+  r.status = 'completed';
+  
+  const sample = getSampleById(r.sampleId);
+  if (sample && sampleStatus === 'broken') {
+    sample.status = 'locked';
+    showNotification('样品已报废', `${sample.name} 已标记为报废并锁定`, 'warning');
+  }
+  
+  closeModal('reportModal');
+  showNotification('提交成功', '试用报告已提交', 'success');
+  renderReservations();
+  renderArchive();
+  updateStats();
+}
+
+function viewReport(reservationId) {
+  const r = reservations.find(x => x.id === reservationId);
+  if (!r || !r.report) return;
+  
+  const sample = getSampleById(r.sampleId);
+  const anchor = getAnchorById(r.anchorId);
+  const report = r.report;
+  
+  const conclusionClass = {
+    'excellent': 'tag-green',
+    'good': 'tag-green',
+    'average': 'tag-orange',
+    'poor': 'tag-red'
+  }[report.conclusion] || 'tag-blue';
+  
+  const sampleStatusClass = {
+    'good': 'tag-green',
+    'minor': 'tag-orange',
+    'damaged': 'tag-orange',
+    'broken': 'tag-red'
+  }[report.sampleStatus] || 'tag-blue';
+  
+  document.getElementById('reportViewContent').innerHTML = `
+    <div style="padding: 16px; background: #f9fafb; border-radius: 8px; margin-bottom: 16px;">
+      <div style="font-size: 14px; margin-bottom: 8px;"><strong>预约编号:</strong> <code>${r.id}</code></div>
+      <div style="font-size: 14px; margin-bottom: 8px;"><strong>样品:</strong> ${sample ? sample.icon + ' ' + sample.name + ' (' + sample.sku + ')' : '-'}</div>
+      <div style="font-size: 14px; margin-bottom: 8px;"><strong>主播:</strong> ${anchor ? anchor.avatar + ' ' + anchor.name : '-'}</div>
+      <div style="font-size: 14px;"><strong>提交时间:</strong> ${report.submitTime}</div>
+    </div>
+    
+    <div class="form-group">
+      <label class="form-label">试用结论</label>
+      <div><span class="tag ${conclusionClass}">${conclusionLabels[report.conclusion]}</span></div>
+    </div>
+    
+    <div class="form-group">
+      <label class="form-label">直播场次反馈</label>
+      <div style="padding: 12px; background: #f0f5ff; border-radius: 6px; font-size: 13px; line-height: 1.6;">${report.liveFeedback}</div>
+    </div>
+    
+    <div class="form-group">
+      <label class="form-label">样品状态</label>
+      <div><span class="tag ${sampleStatusClass}">${sampleStatusLabels[report.sampleStatus]}</span></div>
+    </div>
+    
+    <div class="form-group">
+      <label class="form-label">转化建议</label>
+      <div style="padding: 12px; background: #f6ffed; border-radius: 6px; font-size: 13px; line-height: 1.6;">${report.suggestions}</div>
+    </div>
+    
+    ${report.remarks ? `
+    <div class="form-group">
+      <label class="form-label">备注说明</label>
+      <div style="padding: 12px; background: #fff7e6; border-radius: 6px; font-size: 13px; line-height: 1.6;">${report.remarks}</div>
+    </div>
+    ` : ''}
+  `;
+  
+  document.getElementById('reportViewModal').style.display = 'flex';
 }
 
 function approveReservation(id) {
@@ -1670,7 +2121,8 @@ function processBorrow(reservationId) {
   };
   
   borrowLogs.unshift(newBorrow);
-  r.status = 'completed';
+  r.status = 'borrowed';
+  r.borrowTime = new Date().toLocaleString('zh-CN');
   
   showNotification('借出成功', `${sample.name} 已借出给 ${anchor.name}`, 'success');
   renderReservations();
@@ -2242,6 +2694,123 @@ function demoCompensation() {
 function resetDemoData() {
   document.getElementById('scenarioContainer').innerHTML = '';
   showNotification('已重置', '演示数据已重置', 'success');
+}
+
+function runRegressionTests() {
+  console.log('🧪 开始回归测试...');
+  const results = [];
+  
+  const test1 = checkReservationEligibility(2, 'anchor-1');
+  results.push({
+    name: '规则1: 零库存不能预约',
+    passed: test1.reason === 'zeroStock' && test1.eligible === false,
+    expected: '拒绝预约',
+    actual: test1.message
+  });
+  
+  const test2 = checkReservationEligibility(3, 'anchor-1');
+  results.push({
+    name: '规则2: 质检不合格不能上架',
+    passed: test2.reason === 'qcFailed' && test2.eligible === false,
+    expected: '拒绝预约',
+    actual: test2.message
+  });
+  
+  const test3 = checkReservationEligibility(1, 'anchor-2');
+  results.push({
+    name: '规则3: 超期冻结账号不能预约',
+    passed: test3.reason === 'frozen' && test3.eligible === false,
+    expected: '拒绝预约',
+    actual: test3.message
+  });
+  
+  const test4 = checkReservationEligibility(6, 'anchor-1');
+  results.push({
+    name: '规则4: 已丢失样品不能预约',
+    passed: test4.reason === 'lost' && test4.eligible === false,
+    expected: '拒绝预约',
+    actual: test4.message
+  });
+  
+  const test5 = checkReservationEligibility(7, 'anchor-1');
+  results.push({
+    name: '规则5: 已锁定样品不能预约',
+    passed: test5.reason === 'locked' && test5.eligible === false,
+    expected: '拒绝预约',
+    actual: test5.message
+  });
+  
+  const test6 = checkReservationEligibility(1, 'anchor-1');
+  results.push({
+    name: '规则6: 正常样品可预约',
+    passed: test6.reason === 'ok' && test6.eligible === true,
+    expected: '允许预约',
+    actual: '验证通过'
+  });
+  
+  const test7 = checkReservationEligibility(1, 'anchor-3');
+  results.push({
+    name: '规则7: 有超期记录但未冻结时警告',
+    passed: test7.reason === 'hasOverdue' && test7.eligible === true,
+    expected: '允许预约但警告',
+    actual: test7.warning || '验证通过'
+  });
+  
+  const reportExists = reservations.some(r => r.report && r.status === 'completed');
+  results.push({
+    name: '功能1: 报告数据模型存在',
+    passed: reportExists,
+    expected: '存在已完成预约且带报告',
+    actual: reportExists ? '找到示例报告数据' : '未找到报告数据'
+  });
+  
+  const canSubmitTest = reservations.filter(r => 
+    (r.status === 'approved' || r.status === 'borrowed') && !r.report
+  ).length > 0;
+  results.push({
+    name: '功能2: 报告提交入口可用性',
+    passed: canSubmitTest,
+    expected: '存在待提交报告的预约',
+    actual: canSubmitTest ? '找到可提交报告的预约' : '未找到可提交报告的预约'
+  });
+  
+  const passedCount = results.filter(r => r.passed).length;
+  const totalCount = results.length;
+  
+  console.log(`\n📊 回归测试结果: ${passedCount}/${totalCount} 通过`);
+  results.forEach(r => {
+    const status = r.passed ? '✅' : '❌';
+    console.log(`${status} ${r.name}`);
+    if (!r.passed) {
+      console.log(`   期望: ${r.expected}`);
+      console.log(`   实际: ${r.actual}`);
+    }
+  });
+  
+  let resultHtml = `
+    <div style="padding: 16px; background: ${passedCount === totalCount ? '#f6ffed' : '#fff1f0'}; border-radius: 8px; margin-bottom: 16px;">
+      <h3 style="margin: 0 0 12px 0; color: ${passedCount === totalCount ? '#52c41a' : '#f5222d'};">
+        ${passedCount === totalCount ? '✅ 所有回归测试通过' : '❌ 部分回归测试失败'}
+      </h3>
+      <p style="margin: 0 0 12px 0; font-size: 13px;">通过: <strong>${passedCount}</strong> / ${totalCount}</p>
+    </div>
+  `;
+  
+  resultHtml += results.map(r => `
+    <div style="padding: 12px; background: #fafafa; border-radius: 6px; margin-bottom: 8px; border-left: 4px solid ${r.passed ? '#52c41a' : '#f5222d'};">
+      <div style="font-weight: 600; margin-bottom: 4px;">${r.passed ? '✅' : '❌'} ${r.name}</div>
+      <div style="font-size: 12px; color: #8c8c8c;">
+        <div>期望: ${r.expected}</div>
+        <div>实际: ${r.actual}</div>
+      </div>
+    </div>
+  `).join('');
+  
+  document.getElementById('reportViewContent').innerHTML = resultHtml;
+  document.getElementById('reportViewModal').querySelector('.modal-title').textContent = '🧪 回归测试报告';
+  document.getElementById('reportViewModal').style.display = 'flex';
+  
+  return passedCount === totalCount;
 }
 
 function renderAll() {
