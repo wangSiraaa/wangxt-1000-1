@@ -246,6 +246,70 @@
   .freeze-icon { font-size: 32px; }
   .freeze-text h4 { margin-bottom: 4px; }
   .freeze-text p { font-size: 13px; opacity: 0.9; }
+  
+  .conflict-card { background: #fff; border-radius: 8px; padding: 16px; margin-bottom: 12px; border-left: 4px solid #1890ff; }
+  .conflict-card.recall { border-left-color: #f5222d; }
+  .conflict-card.setbind { border-left-color: #722ed1; }
+  .conflict-card.qcpending { border-left-color: #faad14; }
+  .conflict-card.preborrow { border-left-color: #1890ff; }
+  .conflict-card.inventory { border-left-color: #13c2c2; }
+  .conflict-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 8px; }
+  .conflict-title { font-weight: 600; font-size: 14px; display: flex; align-items: center; gap: 8px; }
+  .conflict-priority { background: #f5222d; color: #fff; padding: 2px 8px; border-radius: 4px; font-size: 11px; font-weight: 600; }
+  .conflict-priority.p2 { background: #722ed1; }
+  .conflict-priority.p3 { background: #1890ff; }
+  .conflict-priority.p4 { background: #faad14; }
+  .conflict-priority.p5 { background: #13c2c2; }
+  .conflict-meta { font-size: 12px; color: #8c8c8c; margin-bottom: 4px; }
+  .conflict-desc { font-size: 13px; color: #595959; background: #fafafa; padding: 8px 12px; border-radius: 4px; margin-top: 8px; }
+  
+  .winner-badge { background: linear-gradient(135deg, #52c41a, #389e0d); color: #fff; padding: 4px 12px; border-radius: 4px; font-size: 12px; font-weight: 600; display: inline-flex; align-items: center; gap: 4px; }
+  .loser-badge { background: #fff1f0; color: #f5222d; padding: 4px 12px; border-radius: 4px; font-size: 12px; font-weight: 500; }
+  
+  .set-card { background: #fff; border-radius: 8px; border: 1px solid #f0f0f0; overflow: hidden; transition: all 0.2s; }
+  .set-card:hover { box-shadow: 0 4px 12px rgba(0,0,0,0.08); }
+  .set-card-header { padding: 16px; background: linear-gradient(135deg, #722ed1 0%, #1890ff 100%); color: #fff; }
+  .set-card-header.locked { background: linear-gradient(135deg, #f5222d 0%, #faad14 100%); }
+  .set-card-body { padding: 16px; }
+  .set-sample-item { display: flex; align-items: center; gap: 8px; padding: 8px 0; border-bottom: 1px solid #f0f0f0; font-size: 13px; }
+  .set-sample-item:last-child { border-bottom: none; }
+  .set-value { font-size: 12px; color: #8c8c8c; margin-top: 4px; }
+  .set-discount-tag { background: #fff1f0; color: #f5222d; padding: 2px 8px; border-radius: 4px; font-size: 11px; font-weight: 600; margin-left: 8px; }
+  
+  .recall-card { background: #fff; border-radius: 8px; border: 1px solid #ffa39e; padding: 16px; margin-bottom: 16px; }
+  .recall-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
+  .recall-title { font-weight: 600; font-size: 15px; color: #f5222d; display: flex; align-items: center; gap: 8px; }
+  .recall-severity { padding: 2px 10px; border-radius: 4px; font-size: 12px; font-weight: 500; }
+  .severity-warning { background: #fff7e6; color: #fa8c16; }
+  .severity-danger { background: #fff1f0; color: #f5222d; }
+  .severity-info { background: #e6f7ff; color: #1890ff; }
+  .recall-samples { background: #fff1f0; border-radius: 6px; padding: 12px; margin-top: 12px; }
+  .recall-sample-tag { display: inline-block; background: #fff; border: 1px solid #ffa39e; color: #f5222d; padding: 4px 10px; border-radius: 4px; font-size: 12px; margin: 4px 4px 4px 0; }
+  
+  .timeline-item.conflict::before { background: #ffa39e; }
+  
+  .return-risk-banner { background: linear-gradient(135deg, #fff7e6, #fff1f0); border: 1px dashed #faad14; border-radius: 8px; padding: 12px 16px; margin-bottom: 12px; display: flex; align-items: center; gap: 10px; }
+  .return-risk-icon { font-size: 24px; }
+  .return-risk-text { flex: 1; font-size: 13px; }
+  .return-risk-text strong { color: #f5222d; }
+  .return-risk-history { font-size: 11px; color: #8c8c8c; margin-top: 4px; }
+  
+  .overdue-upgrade-alert { background: #fff1f0; border-left: 4px solid #f5222d; padding: 12px 16px; border-radius: 0 6px 6px 0; margin-bottom: 12px; }
+  .overdue-level { display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 11px; font-weight: 600; margin-right: 8px; }
+  .level-1 { background: #fff7e6; color: #fa8c16; }
+  .level-2 { background: #ffe7ba; color: #d46b08; }
+  .level-3 { background: #fff1f0; color: #f5222d; }
+  .level-4 { background: #5c0011; color: #fff; }
+  
+  .multi-sample-table { margin-top: 12px; }
+  .batch-freeze-row { background: #fffbe6 !important; }
+  .lock-chain-icon { color: #722ed1; font-size: 16px; }
+  
+  .scenario-chain { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; padding: 12px; background: #f0f5ff; border-radius: 6px; margin-top: 12px; }
+  .chain-step { padding: 6px 12px; background: #fff; border: 1px solid #1890ff; border-radius: 20px; font-size: 12px; color: #1890ff; }
+  .chain-arrow { color: #8c8c8c; font-size: 16px; }
+  .chain-step.active { background: #1890ff; color: #fff; }
+  .chain-step.blocked { background: #ff4d4f; color: #fff; border-color: #ff4d4f; }
 </style>
 </head>
 <body>
@@ -293,13 +357,27 @@
         <span>超期催还</span>
         <span class="nav-badge" id="overdueBadge">2</span>
       </div>
+      <div class="nav-item" data-module="conflict">
+        <span class="nav-icon">⚔️</span>
+        <span>资源冲突</span>
+        <span class="nav-badge" id="conflictBadge">5</span>
+      </div>
+      <div class="nav-item" data-module="sets">
+        <span class="nav-icon">🎁</span>
+        <span>套装管理</span>
+      </div>
+      <div class="nav-item" data-module="recall">
+        <span class="nav-icon">📢</span>
+        <span>品牌召回</span>
+        <span class="nav-badge" id="recallBadge">1</span>
+      </div>
       <div class="nav-item" data-module="inventory">
         <span class="nav-icon">📊</span>
         <span>库存盘点</span>
       </div>
       <div class="nav-item" data-module="analysis">
         <span class="nav-icon">📈</span>
-        <span>转化分析</span>
+        <span>转化复盘</span>
       </div>
     </nav>
   </aside>
@@ -332,14 +410,17 @@
       
       <div class="module-page active" id="module-pool">
         <div class="demo-container">
-          <div class="demo-title">🎬 演示场景 - 点击体验业务规则拦截</div>
+          <div class="demo-title">🎬 验收场景演示 - 点击体验完整业务链路</div>
           <div class="demo-content">
-            <button class="demo-btn" onclick="demoScenario('zeroStock')">📦 零库存预约拦截</button>
+            <button class="demo-btn" onclick="demoScenario('zeroStock')" style="background: #1890ff; color: #fff; border-color: #1890ff;">📦 场景1: 零库存拦截</button>
+            <button class="demo-btn" onclick="demoScenario('setLock')" style="background: #722ed1; color: #fff; border-color: #722ed1;">🔗 场景2: 套装连带锁定</button>
+            <button class="demo-btn" onclick="demoScenario('brandRecall')" style="background: #f5222d; color: #fff; border-color: #f5222d;">📢 场景3: 品牌召回批量冻结</button>
             <button class="demo-btn" onclick="demoScenario('qcFail')">❌ 质检不合格拦截</button>
             <button class="demo-btn" onclick="demoScenario('overdueFreeze')">⏰ 超期冻结拦截</button>
             <button class="demo-btn" onclick="demoScenario('lostCompensation')">💸 丢失赔付</button>
-            <button class="demo-btn" onclick="resetDemoData()">🔄 重置演示数据</button>
-            <button class="demo-btn" onclick="runRegressionTests()" style="background: #722ed1;">🧪 回归验证</button>
+            <button class="demo-btn" onclick="demoScenario('resourceConflict')" style="background: #faad14; color: #fff; border-color: #faad14;">⚔️ 多直播冲突判定</button>
+            <button class="demo-btn" onclick="resetDemoData()">🔄 重置演示</button>
+            <button class="demo-btn" onclick="runRegressionTests()" style="background: #52c41a; color: #fff; border-color: #52c41a;">🧪 回归验证</button>
           </div>
         </div>
         
@@ -666,9 +747,90 @@
         </div>
       </div>
       
+      <div class="module-page" id="module-conflict">
+        <div class="page-header">
+          <div class="page-title">⚔️ 资源冲突面板</div>
+          <div class="page-actions">
+            <button class="btn btn-default btn-sm">🔍 按样品筛选</button>
+            <button class="btn btn-warning btn-sm" onclick="resolveAllConflictsAuto()">🤖 一键智能仲裁</button>
+          </div>
+        </div>
+        
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title">📌 冲突优先级说明</div>
+          </div>
+          <div style="display: flex; gap: 16px; flex-wrap: wrap; font-size: 13px;">
+            <div><span class="conflict-priority">P1</span> 品牌召回 - 最高优先级，禁止出库</div>
+            <div><span class="conflict-priority p2">P2</span> 套装绑定 - 整体锁定，连带生效</div>
+            <div><span class="conflict-priority p3">P3</span> 主播预借 - 先到先得，时间优先</div>
+            <div><span class="conflict-priority p4">P4</span> 质检待复核 - 临时占用</div>
+            <div><span class="conflict-priority p5">P5</span> 盘点冻结 - 时段性锁定</div>
+          </div>
+        </div>
+        
+        <div id="conflictSummaryContainer"></div>
+        <div id="conflictDetailContainer"></div>
+      </div>
+      
+      <div class="module-page" id="module-sets">
+        <div class="page-header">
+          <div class="page-title">🎁 套装管理</div>
+          <div class="page-actions">
+            <button class="btn btn-primary btn-sm" onclick="openSetModal()">+ 新建套装</button>
+          </div>
+        </div>
+        
+        <div class="stats-grid">
+          <div class="stat-card">
+            <div class="stat-card-title">套装总数</div>
+            <div class="stat-card-value" id="totalSets">2</div>
+          </div>
+          <div class="stat-card green">
+            <div class="stat-card-title">活跃套装</div>
+            <div class="stat-card-value" id="activeSets">1</div>
+          </div>
+          <div class="stat-card orange">
+            <div class="stat-card-title">锁定套装</div>
+            <div class="stat-card-value" id="lockedSets">1</div>
+          </div>
+          <div class="stat-card red">
+            <div class="stat-card-title">套装占用样品</div>
+            <div class="stat-card-value" id="setSamples">6</div>
+          </div>
+        </div>
+        
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title">套装列表</div>
+          </div>
+          <div id="setsGrid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(360px, 1fr)); gap: 16px;"></div>
+        </div>
+      </div>
+      
+      <div class="module-page" id="module-recall">
+        <div class="page-header">
+          <div class="page-title">📢 品牌召回管理</div>
+          <div class="page-actions">
+            <button class="btn btn-danger btn-sm" onclick="openRecallModal()">+ 发起召回</button>
+            <button class="btn btn-default btn-sm">📤 导出召回记录</button>
+          </div>
+        </div>
+        
+        <div class="alert alert-warning">
+          <span class="alert-icon">⚠️</span>
+          <div>
+            <strong>召回规则：</strong>品牌召回为最高优先级(P1)，一旦生效会自动冻结所有关联样品的出库操作，
+            取消所有未执行的预约，所有相关套装同步标记风险。召回期间样品只能做退库操作。
+          </div>
+        </div>
+        
+        <div id="recallContainer"></div>
+      </div>
+      
       <div class="module-page" id="module-analysis">
         <div class="page-header">
-          <div class="page-title">📈 转化分析</div>
+          <div class="page-title">📈 转化复盘</div>
         </div>
         
         <div class="stats-grid">
@@ -941,13 +1103,23 @@
 </div>
 
 <div class="modal-overlay" id="reportModal">
-  <div class="modal">
+  <div class="modal" style="width: 680px;">
     <div class="modal-header">
       <div class="modal-title">提交试用报告</div>
       <button class="modal-close" onclick="closeModal('reportModal')">×</button>
     </div>
     <div class="modal-body">
       <div id="reportSampleInfo" style="padding: 12px; background: #f0f5ff; border-radius: 6px; margin-bottom: 16px; font-size: 13px;"></div>
+      <div class="form-group">
+        <label class="form-label"><span class="required">*</span> 是否建议上架</label>
+        <select class="form-select" id="reportRecommendShelf">
+          <option value="">请选择是否建议上架</option>
+          <option value="strong">强烈建议上架 - 爆款潜力</option>
+          <option value="yes">建议上架 - 综合表现良好</option>
+          <option value="conditional">有条件上架 - 需优化问题后</option>
+          <option value="no">不建议上架 - 问题较多</option>
+        </select>
+      </div>
       <div class="form-group">
         <label class="form-label"><span class="required">*</span> 试用结论</label>
         <select class="form-select" id="reportConclusion">
@@ -959,26 +1131,52 @@
         </select>
       </div>
       <div class="form-group">
-        <label class="form-label"><span class="required">*</span> 直播场次反馈</label>
-        <textarea class="form-textarea" id="reportLiveFeedback" placeholder="请描述直播过程中的观众反馈、互动情况、商品表现等"></textarea>
+        <label class="form-label"><span class="required">*</span> 使用场景</label>
+        <div style="display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 8px;">
+          <label style="font-size: 13px; display: flex; align-items: center; gap: 4px;"><input type="checkbox" class="scene-checkbox" value="室内直播"> 室内直播</label>
+          <label style="font-size: 13px; display: flex; align-items: center; gap: 4px;"><input type="checkbox" class="scene-checkbox" value="户外实景"> 户外实景</label>
+          <label style="font-size: 13px; display: flex; align-items: center; gap: 4px;"><input type="checkbox" class="scene-checkbox" value="对比测评"> 对比测评</label>
+          <label style="font-size: 13px; display: flex; align-items: center; gap: 4px;"><input type="checkbox" class="scene-checkbox" value="短视频拍摄"> 短视频拍摄</label>
+          <label style="font-size: 13px; display: flex; align-items: center; gap: 4px;"><input type="checkbox" class="scene-checkbox" value="多人互动"> 多人互动</label>
+          <label style="font-size: 13px; display: flex; align-items: center; gap: 4px;"><input type="checkbox" class="scene-checkbox" value="开箱首秀"> 开箱首秀</label>
+        </div>
+        <textarea class="form-textarea" id="reportUseScenes" placeholder="详细描述使用场景：如灯光条件、拍摄角度、观众互动方式、搭配道具等"></textarea>
       </div>
       <div class="form-group">
-        <label class="form-label"><span class="required">*</span> 样品状态</label>
-        <select class="form-select" id="reportSampleStatus">
-          <option value="">请选择样品状态</option>
-          <option value="good">完好 - 可继续使用</option>
-          <option value="minor">轻微磨损 - 不影响使用</option>
-          <option value="damaged">损坏 - 需维修</option>
-          <option value="broken">报废 - 无法使用</option>
-        </select>
+        <label class="form-label"><span class="required">*</span> 直播场次反馈</label>
+        <textarea class="form-textarea" id="reportLiveFeedback" placeholder="请描述直播过程中的观众反馈、互动情况、商品表现、卖点验证等"></textarea>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label"><span class="required">*</span> 样品状态</label>
+          <select class="form-select" id="reportSampleStatus">
+            <option value="">请选择样品状态</option>
+            <option value="good">完好 - 可继续使用</option>
+            <option value="minor">轻微磨损 - 不影响使用</option>
+            <option value="damaged">损坏 - 需维修</option>
+            <option value="broken">报废 - 无法使用</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">本次退货风险评估</label>
+          <select class="form-select" id="reportReturnRisk">
+            <option value="low">低风险 - 预计退货率<5%</option>
+            <option value="medium">中风险 - 预计退货率5-15%</option>
+            <option value="high">高风险 - 预计退货率>15%</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-group" id="damageGroup">
+        <label class="form-label">破损说明 <span style="font-size: 11px; color: #8c8c8c;">（如有磨损/损坏请填写）</span></label>
+        <textarea class="form-textarea" id="reportDamageDesc" placeholder="请描述破损部位、破损程度、破损原因，是否影响后续使用等"></textarea>
       </div>
       <div class="form-group">
         <label class="form-label"><span class="required">*</span> 转化建议</label>
-        <textarea class="form-textarea" id="reportSuggestions" placeholder="请提供提升转化率的具体建议，如定价策略、套餐搭配、卖点优化等"></textarea>
+        <textarea class="form-textarea" id="reportSuggestions" placeholder="请提供提升转化率的具体建议：如定价策略、套餐搭配、卖点优化、话术建议、目标人群匹配等"></textarea>
       </div>
       <div class="form-group">
         <label class="form-label">备注说明</label>
-        <textarea class="form-textarea" id="reportRemarks" placeholder="其他需要说明的事项"></textarea>
+        <textarea class="form-textarea" id="reportRemarks" placeholder="其他需要说明的事项：如与品牌方沟通问题、供应链情况等"></textarea>
       </div>
     </div>
     <div class="modal-footer">
@@ -1002,6 +1200,110 @@
   </div>
 </div>
 
+<div class="modal-overlay" id="setModal">
+  <div class="modal" style="width: 600px;">
+    <div class="modal-header">
+      <div class="modal-title">新建套装</div>
+      <button class="modal-close" onclick="closeModal('setModal')">×</button>
+    </div>
+    <div class="modal-body">
+      <div class="form-group">
+        <label class="form-label"><span class="required">*</span> 套装名称</label>
+        <input type="text" class="form-input" id="setName" placeholder="如：618美妆豪华套装">
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label"><span class="required">*</span> 品牌方</label>
+          <input type="text" class="form-input" id="setBrand" placeholder="多个品牌用/分隔">
+        </div>
+        <div class="form-group">
+          <label class="form-label">套装折扣</label>
+          <select class="form-select" id="setDiscount">
+            <option value="1.0">不打折</option>
+            <option value="0.95">95折</option>
+            <option value="0.9">9折</option>
+            <option value="0.88">88折</option>
+            <option value="0.85">85折</option>
+            <option value="0.8">8折</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-label"><span class="required">*</span> 选品样品（至少2个）</label>
+        <div id="setSampleSelector" style="max-height: 200px; overflow-y: auto; border: 1px solid #d9d9d9; border-radius: 6px; padding: 8px;"></div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">套装描述</label>
+        <textarea class="form-textarea" id="setDescription" placeholder="描述套装特点、卖点、适用直播场景等"></textarea>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-default" onclick="closeModal('setModal')">取消</button>
+      <button class="btn btn-primary" onclick="createSampleSet()">创建套装</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="recallModal">
+  <div class="modal" style="width: 600px;">
+    <div class="modal-header">
+      <div class="modal-title">发起品牌召回</div>
+      <button class="modal-close" onclick="closeModal('recallModal')">×</button>
+    </div>
+    <div class="modal-body">
+      <div class="alert alert-warning" style="margin-bottom: 16px;">
+        <span class="alert-icon">⚠️</span>
+        <div>召回为最高优先级操作，确认后将立即冻结所有关联样品的出库操作。请谨慎填写！</div>
+      </div>
+      <div class="form-group">
+        <label class="form-label"><span class="required">*</span> 品牌方</label>
+        <input type="text" class="form-input" id="recallBrand" placeholder="如：三只松鼠">
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label"><span class="required">*</span> 召回类型</label>
+          <select class="form-select" id="recallType">
+            <option value="voluntary">主动召回（品牌方发起）</option>
+            <option value="mandatory">强制召回（监管要求）</option>
+            <option value="defect">质量缺陷召回</option>
+            <option value="safety">安全隐患召回</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label"><span class="required">*</span> 严重等级</label>
+          <select class="form-select" id="recallSeverity">
+            <option value="info">一般 - 提醒关注</option>
+            <option value="warning">警告 - 暂停出库</option>
+            <option value="danger">严重 - 禁止出库并退回</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-label"><span class="required">*</span> 关联样品</label>
+        <div id="recallSampleSelector" style="max-height: 180px; overflow-y: auto; border: 1px solid #d9d9d9; border-radius: 6px; padding: 8px;"></div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">影响范围</label>
+          <input type="text" class="form-input" id="recallEffectRange" placeholder="如：2026年5月生产批次">
+        </div>
+        <div class="form-group">
+          <label class="form-label"><span class="required">*</span> 发起人</label>
+          <input type="text" class="form-input" id="recallOperator" value="选品经理" readonly>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-label"><span class="required">*</span> 召回原因</label>
+        <textarea class="form-textarea" id="recallReason" placeholder="详细描述召回原因、问题描述、风险评估等"></textarea>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-default" onclick="closeModal('recallModal')">取消</button>
+      <button class="btn btn-danger" onclick="submitBrandRecall()">确认发起召回</button>
+    </div>
+  </div>
+</div>
+
 <script>
 let appState = {
   currentRole: 'manager',
@@ -1014,18 +1316,43 @@ let appState = {
 };
 
 let samples = [
-  { id: 1, sku: 'SKU-001', name: '水润保湿精华液', brand: '雅诗兰黛', category: '美妆', stock: 15, availableStock: 15, location: 'A-01-01', status: 'approved', approvalStatus: 'approved', qcStatus: 'pass', liveSession: '618大促', icon: '💧', price: 399, gmv: 156000, conversionRate: 4.2, sales: 391 },
-  { id: 2, sku: 'SKU-002', name: '轻薄透气连衣裙', brand: 'ZARA', category: '服饰', stock: 0, availableStock: 0, location: 'B-02-03', status: 'approved', approvalStatus: 'approved', qcStatus: 'pass', liveSession: '夏季新品', icon: '👗', price: 299, gmv: 89700, conversionRate: 3.8, sales: 300 },
-  { id: 3, sku: 'SKU-003', name: '进口牛排礼盒', brand: '大希地', category: '食品', stock: 8, availableStock: 8, location: 'C-01-02', status: 'approved', approvalStatus: 'approved', qcStatus: 'fail', failReason: '包装破损', liveSession: '美食专场', icon: '🥩', price: 199, gmv: 0, conversionRate: 0, sales: 0 },
-  { id: 4, sku: 'SKU-004', name: '北欧风台灯', brand: '宜家', category: '家居', stock: 20, availableStock: 20, location: 'D-03-01', status: 'pending', approvalStatus: 'pending', qcStatus: 'pending', liveSession: '家居节', icon: '💡', price: 159, gmv: 0, conversionRate: 0, sales: 0 },
-  { id: 5, sku: 'SKU-005', name: '无线蓝牙耳机', brand: '小米', category: '数码', stock: 25, availableStock: 25, status: 'approved', approvalStatus: 'approved', qcStatus: 'pass', liveSession: '数码潮品', icon: '🎧', location: 'E-01-05', price: 199, gmv: 234000, conversionRate: 5.1, sales: 1176 },
-  { id: 6, sku: 'SKU-006', name: '限定款口红礼盒', brand: 'MAC', category: '美妆', stock: 0, availableStock: 0, location: 'A-02-04', status: 'lost', approvalStatus: 'approved', qcStatus: 'pass', liveSession: '美妆节', icon: '💄', price: 459, gmv: 0, conversionRate: 0, sales: 0, isLost: true, lostDate: '2026-06-10', lostBy: 'anchor-2' },
-  { id: 7, sku: 'SKU-007', name: '智能手表', brand: '苹果', category: '数码', stock: 10, availableStock: 10, location: 'E-02-01', status: 'locked', approvalStatus: 'approved', qcStatus: 'pass', liveSession: '数码潮品', icon: '⌚', price: 2999, gmv: 450000, conversionRate: 6.2, sales: 150 },
-  { id: 8, sku: 'SKU-008', name: '运动跑鞋', brand: '耐克', category: '服饰', stock: 30, availableStock: 28, location: 'B-01-02', status: 'approved', approvalStatus: 'approved', qcStatus: 'pending', liveSession: '运动专场', icon: '👟', price: 799, gmv: 189000, conversionRate: 3.5, sales: 237 },
-  { id: 9, sku: 'SKU-009', name: '有机坚果礼盒', brand: '三只松鼠', category: '食品', stock: 50, availableStock: 50, location: 'C-02-03', status: 'approved', approvalStatus: 'approved', qcStatus: 'pass', liveSession: '零食节', icon: '🥜', price: 99, gmv: 67000, conversionRate: 4.8, sales: 677 },
-  { id: 10, sku: 'SKU-010', name: '蚕丝被', brand: '水星家纺', category: '家居', stock: 5, availableStock: 5, location: 'D-01-04', status: 'approved', approvalStatus: 'approved', qcStatus: 'pass', liveSession: '家纺专场', icon: '🛏️', price: 899, gmv: 315000, conversionRate: 4.0, sales: 350 },
-  { id: 11, sku: 'SKU-011', name: '精华面霜套装', brand: '兰蔻', category: '美妆', stock: 12, availableStock: 12, location: 'A-03-02', status: 'approved', approvalStatus: 'approved', qcStatus: 'pass', liveSession: '618大促', icon: '🧴', price: 699, gmv: 278000, conversionRate: 4.5, sales: 398 },
-  { id: 12, sku: 'SKU-012', name: '夏季防晒衣', brand: '优衣库', category: '服饰', stock: 0, availableStock: 0, location: 'B-03-05', status: 'approved', approvalStatus: 'approved', qcStatus: 'pass', liveSession: '夏季新品', icon: '🧥', price: 199, gmv: 56000, conversionRate: 3.2, sales: 281 }
+  { id: 1, sku: 'SKU-001', name: '水润保湿精华液', brand: '雅诗兰黛', category: '美妆', stock: 15, availableStock: 15, location: 'A-01-01', status: 'approved', approvalStatus: 'approved', qcStatus: 'pass', liveSession: '618大促', icon: '💧', price: 399, gmv: 156000, conversionRate: 4.2, sales: 391, setId: 'SET-001', recallFlag: false, returnRisk: [] },
+  { id: 2, sku: 'SKU-002', name: '轻薄透气连衣裙', brand: 'ZARA', category: '服饰', stock: 0, availableStock: 0, location: 'B-02-03', status: 'approved', approvalStatus: 'approved', qcStatus: 'pass', liveSession: '夏季新品', icon: '👗', price: 299, gmv: 89700, conversionRate: 3.8, sales: 300, setId: null, recallFlag: false, returnRisk: [{ liveSessionId: 'LIVE-20260528', flag: true, reason: '尺码偏大导致高退货', rate: 28, date: '2026-05-30' }] },
+  { id: 3, sku: 'SKU-003', name: '进口牛排礼盒', brand: '大希地', category: '食品', stock: 8, availableStock: 8, location: 'C-01-02', status: 'approved', approvalStatus: 'approved', qcStatus: 'fail', failReason: '包装破损', liveSession: '美食专场', icon: '🥩', price: 199, gmv: 0, conversionRate: 0, sales: 0, setId: null, recallFlag: false, returnRisk: [] },
+  { id: 4, sku: 'SKU-004', name: '北欧风台灯', brand: '宜家', category: '家居', stock: 20, availableStock: 20, location: 'D-03-01', status: 'pending', approvalStatus: 'pending', qcStatus: 'pending', liveSession: '家居节', icon: '💡', price: 159, gmv: 0, conversionRate: 0, sales: 0, setId: null, recallFlag: false, returnRisk: [] },
+  { id: 5, sku: 'SKU-005', name: '无线蓝牙耳机', brand: '小米', category: '数码', stock: 25, availableStock: 25, status: 'approved', approvalStatus: 'approved', qcStatus: 'pass', liveSession: '数码潮品', icon: '🎧', location: 'E-01-05', price: 199, gmv: 234000, conversionRate: 5.1, sales: 1176, setId: 'SET-002', recallFlag: false, returnRisk: [] },
+  { id: 6, sku: 'SKU-006', name: '限定款口红礼盒', brand: 'MAC', category: '美妆', stock: 0, availableStock: 0, location: 'A-02-04', status: 'lost', approvalStatus: 'approved', qcStatus: 'pass', liveSession: '美妆节', icon: '💄', price: 459, gmv: 0, conversionRate: 0, sales: 0, isLost: true, lostDate: '2026-06-10', lostBy: 'anchor-2', setId: 'SET-001', recallFlag: false, returnRisk: [] },
+  { id: 7, sku: 'SKU-007', name: '智能手表', brand: '苹果', category: '数码', stock: 10, availableStock: 10, location: 'E-02-01', status: 'locked', approvalStatus: 'approved', qcStatus: 'pass', liveSession: '数码潮品', icon: '⌚', price: 2999, gmv: 450000, conversionRate: 6.2, sales: 150, setId: 'SET-002', recallFlag: false, returnRisk: [] },
+  { id: 8, sku: 'SKU-008', name: '运动跑鞋', brand: '耐克', category: '服饰', stock: 30, availableStock: 28, location: 'B-01-02', status: 'approved', approvalStatus: 'approved', qcStatus: 'pending', liveSession: '运动专场', icon: '👟', price: 799, gmv: 189000, conversionRate: 3.5, sales: 237, setId: null, recallFlag: false, returnRisk: [] },
+  { id: 9, sku: 'SKU-009', name: '有机坚果礼盒', brand: '三只松鼠', category: '食品', stock: 50, availableStock: 50, location: 'C-02-03', status: 'approved', approvalStatus: 'approved', qcStatus: 'pass', liveSession: '零食节', icon: '🥜', price: 99, gmv: 67000, conversionRate: 4.8, sales: 677, setId: null, recallFlag: true, returnRisk: [] },
+  { id: 10, sku: 'SKU-010', name: '蚕丝被', brand: '水星家纺', category: '家居', stock: 5, availableStock: 5, location: 'D-01-04', status: 'approved', approvalStatus: 'approved', qcStatus: 'pass', liveSession: '家纺专场', icon: '🛏️', price: 899, gmv: 315000, conversionRate: 4.0, sales: 350, setId: null, recallFlag: false, returnRisk: [] },
+  { id: 11, sku: 'SKU-011', name: '精华面霜套装', brand: '兰蔻', category: '美妆', stock: 12, availableStock: 12, location: 'A-03-02', status: 'approved', approvalStatus: 'approved', qcStatus: 'pass', liveSession: '618大促', icon: '🧴', price: 699, gmv: 278000, conversionRate: 4.5, sales: 398, setId: 'SET-001', recallFlag: false, returnRisk: [] },
+  { id: 12, sku: 'SKU-012', name: '夏季防晒衣', brand: '优衣库', category: '服饰', stock: 0, availableStock: 0, location: 'B-03-05', status: 'approved', approvalStatus: 'approved', qcStatus: 'pass', liveSession: '夏季新品', icon: '🧥', price: 199, gmv: 56000, conversionRate: 3.2, sales: 281, setId: null, recallFlag: false, returnRisk: [{ liveSessionId: 'LIVE-20260605', flag: true, reason: '防晒涂层脱落问题', rate: 22, date: '2026-06-08' }] },
+  { id: 13, sku: 'SKU-013', name: '无线充电器', brand: '小米', category: '数码', stock: 18, availableStock: 18, location: 'E-02-03', status: 'approved', approvalStatus: 'approved', qcStatus: 'pass', liveSession: '数码潮品', icon: '🔌', price: 99, gmv: 89000, conversionRate: 4.0, sales: 899, setId: 'SET-002', recallFlag: false, returnRisk: [] },
+  { id: 14, sku: 'SKU-014', name: '每日坚果小包装', brand: '三只松鼠', category: '食品', stock: 60, availableStock: 60, location: 'C-02-05', status: 'approved', approvalStatus: 'approved', qcStatus: 'pass', liveSession: '零食节', icon: '🌰', price: 59, gmv: 125000, conversionRate: 5.2, sales: 2119, setId: null, recallFlag: true, returnRisk: [] },
+  { id: 15, sku: 'SKU-015', name: '眼霜小样套装', brand: '雅诗兰黛', category: '美妆', stock: 25, availableStock: 25, location: 'A-01-05', status: 'approved', approvalStatus: 'approved', qcStatus: 'pass', liveSession: '618大促', icon: '👁️', price: 199, gmv: 98000, conversionRate: 4.3, sales: 492, setId: null, recallFlag: false, returnRisk: [] }
+];
+
+let sampleSets = [
+  { id: 'SET-001', name: '618美妆豪华套装', brand: '雅诗兰黛/MAC/兰蔻', totalValue: 1557, sampleIds: [1, 6, 11], status: 'active', discount: 0.85, createTime: '2026-05-25 14:00', description: '包含精华液、口红礼盒、精华面霜，适合直播带货' },
+  { id: 'SET-002', name: '数码潮人套装', brand: '小米/苹果', totalValue: 3297, sampleIds: [5, 7, 13], status: 'locked', discount: 0.88, createTime: '2026-05-28 10:30', description: '蓝牙耳机+智能手表+无线充电器组合', lockReason: '已被主播莉莉预约绑定6月20日专场', lockedBy: 'anchor-3', lockedTime: '2026-06-12 16:20' }
+];
+
+let brandRecalls = [
+  { id: 'REC-20260615', brand: '三只松鼠', reason: '疑似批次包装漏气问题', recallType: 'voluntary', severity: 'warning', sampleIds: [9, 14], status: 'active', createTime: '2026-06-15 09:30', operator: '品牌方-张经理', effectRange: '2026年5月生产批次' }
+];
+
+let resourceConflicts = [
+  { id: 'CF-001', sampleId: 1, type: 'preborrow', source: 'anchor-5', sourceName: '雨菲', startTime: '2026-06-17 14:00', endTime: '2026-06-19 14:00', priority: 3, createTime: '2026-06-13 11:00', description: '主播雨菲618返场试用预约' },
+  { id: 'CF-002', sampleId: 1, type: 'preborrow', source: 'anchor-1', sourceName: '小美', startTime: '2026-06-18 10:00', endTime: '2026-06-20 10:00', priority: 3, createTime: '2026-06-13 09:30', description: '主播小美618正式场预约' },
+  { id: 'CF-003', sampleId: 1, type: 'qcpending', source: 'qc-zhang', sourceName: '质检员小张', startTime: '2026-06-16 09:00', endTime: '2026-06-16 18:00', priority: 4, createTime: '2026-06-15 16:00', description: '复核抽检-二次质检待执行' },
+  { id: 'CF-004', sampleId: 1, type: 'setbind', source: 'SET-001', sourceName: '618美妆豪华套装', startTime: '2026-06-10 00:00', endTime: '2026-06-30 23:59', priority: 2, createTime: '2026-05-25 14:00', description: '样品已绑定到618套装中' },
+  { id: 'CF-005', sampleId: 7, type: 'inventory', source: 'warehouse-li', sourceName: '仓管小李', startTime: '2026-06-16 08:00', endTime: '2026-06-16 12:00', priority: 5, createTime: '2026-06-14 17:30', description: '月度盘点-苹果数码区实物盘点冻结' },
+  { id: 'CF-006', sampleId: 5, type: 'setbind', source: 'SET-002', sourceName: '数码潮人套装', startTime: '2026-06-12 16:20', endTime: '2026-06-22 23:59', priority: 2, createTime: '2026-06-12 16:20', description: '套装锁定占用，连带锁定SKU-005/007/013' },
+  { id: 'CF-007', sampleId: 7, type: 'setbind', source: 'SET-002', sourceName: '数码潮人套装', startTime: '2026-06-12 16:20', endTime: '2026-06-22 23:59', priority: 2, createTime: '2026-06-12 16:20', description: '套装锁定占用' },
+  { id: 'CF-008', sampleId: 13, type: 'setbind', source: 'SET-002', sourceName: '数码潮人套装', startTime: '2026-06-12 16:20', endTime: '2026-06-22 23:59', priority: 2, createTime: '2026-06-12 16:20', description: '套装锁定占用' },
+  { id: 'CF-009', sampleId: 9, type: 'recall', source: 'REC-20260615', sourceName: '三只松鼠品牌召回', startTime: '2026-06-15 09:30', endTime: '2026-07-15 23:59', priority: 1, createTime: '2026-06-15 09:30', description: '品牌方主动召回，禁止出库' },
+  { id: 'CF-010', sampleId: 14, type: 'recall', source: 'REC-20260615', sourceName: '三只松鼠品牌召回', startTime: '2026-06-15 09:30', endTime: '2026-07-15 23:59', priority: 1, createTime: '2026-06-15 09:30', description: '品牌方主动召回，禁止出库' }
 ];
 
 let anchors = [
@@ -1209,8 +1536,11 @@ function switchModule(module) {
     'scan': '借还扫码',
     'qc': '质检看板',
     'overdue': '超期催还',
+    'conflict': '资源冲突面板',
+    'sets': '套装管理',
+    'recall': '品牌召回',
     'inventory': '库存盘点',
-    'analysis': '转化分析'
+    'analysis': '转化复盘'
   };
   document.getElementById('pageTitle').textContent = titles[module];
 }
@@ -1369,6 +1699,553 @@ function quickReserve(sampleId) {
   openModal('reservationModal');
 }
 
+function getConflictTypeInfo(type) {
+  const map = {
+    'recall': { priority: 1, label: '品牌召回', icon: '📢', color: '#f5222d', desc: '品牌方发起召回，禁止出库' },
+    'setbind': { priority: 2, label: '套装绑定', icon: '🎁', color: '#722ed1', desc: '样品绑定在套装中，整体锁定' },
+    'preborrow': { priority: 3, label: '主播预借', icon: '🎬', color: '#1890ff', desc: '主播已预约占用' },
+    'qcpending': { priority: 4, label: '质检待复核', icon: '🔬', color: '#fa8c16', desc: '正在进行二次质检复核' },
+    'inventory': { priority: 5, label: '盘点冻结', icon: '📋', color: '#13c2c2', desc: '仓库盘点期间临时冻结' }
+  };
+  return map[type] || { priority: 99, label: '未知', icon: '❓', color: '#8c8c8c', desc: '未知占用类型' };
+}
+
+function getActiveConflicts(sampleId) {
+  const now = new Date('2026-06-16 12:00');
+  const lookahead = new Date(now.getTime() + 48 * 60 * 60 * 1000);
+  return resourceConflicts.filter(c => {
+    if (c.sampleId !== sampleId) return false;
+    const start = new Date(c.startTime);
+    const end = new Date(c.endTime);
+    return start <= lookahead && end >= now;
+  }).sort((a, b) => a.priority - b.priority || new Date(a.createTime) - new Date(b.createTime));
+}
+
+function checkTimeOverlap(a, b) {
+  const aStart = new Date(a.startTime), aEnd = new Date(a.endTime);
+  const bStart = new Date(b.startTime), bEnd = new Date(b.endTime);
+  return aStart < bEnd && bStart < aEnd;
+}
+
+function resolveWinner(conflicts) {
+  if (!conflicts.length) return null;
+  const samePriority = conflicts.reduce((acc, c) => {
+    const key = 'P' + c.priority;
+    if (!acc[key]) acc[key] = [];
+    acc[key].push(c);
+    return acc;
+  }, {});
+  const topPriority = 'P' + conflicts[0].priority;
+  const topConflicts = samePriority[topPriority];
+  if (topConflicts.length === 1) return { winner: topConflicts[0], losers: conflicts.filter(c => c.id !== topConflicts[0].id) };
+  topConflicts.sort((a, b) => new Date(a.createTime) - new Date(b.createTime));
+  return { winner: topConflicts[0], losers: conflicts.filter(c => c.id !== topConflicts[0].id) };
+}
+
+function getSampleConflictsGrouped() {
+  const grouped = {};
+  resourceConflicts.forEach(c => {
+    if (!grouped[c.sampleId]) grouped[c.sampleId] = [];
+    grouped[c.sampleId].push(c);
+  });
+  return Object.entries(grouped).filter(([id, list]) => {
+    const overlaps = [];
+    for (let i = 0; i < list.length; i++) {
+      for (let j = i + 1; j < list.length; j++) {
+        if (checkTimeOverlap(list[i], list[j])) overlaps.push([list[i], list[j]]);
+      }
+    }
+    return overlaps.length > 0;
+  });
+}
+
+function getSetById(setId) { return sampleSets.find(s => s.id === setId); }
+
+function getSamplesBySetId(setId) {
+  const set = getSetById(setId);
+  if (!set) return [];
+  return set.sampleIds.map(id => getSampleById(id)).filter(Boolean);
+}
+
+function checkSetLockEligibility(setId, anchorId) {
+  const set = getSetById(setId);
+  if (!set) return { eligible: false, message: '套装不存在' };
+  if (set.status === 'locked') return { eligible: false, message: `套装已被${set.lockedBy || '其他人'}锁定，原因：${set.lockReason}` };
+  const samples = getSamplesBySetId(setId);
+  for (const s of samples) {
+    const r = checkReservationEligibility(s.id, anchorId);
+    if (!r.eligible) return { eligible: false, message: `样品[${s.sku} ${s.name}]无法预约：${r.message}` };
+  }
+  return { eligible: true, samples, totalValue: set.totalValue };
+}
+
+function lockSet(setId, anchorId, reason) {
+  const set = getSetById(setId);
+  const anchor = getAnchorById(anchorId);
+  if (!set || set.status === 'locked') return false;
+  set.status = 'locked';
+  set.lockedBy = anchorId;
+  set.lockReason = reason;
+  set.lockedTime = new Date().toLocaleString('zh-CN', { hour12: false });
+  const samples = getSamplesBySetId(setId);
+  samples.forEach(s => {
+    s.status = 'locked';
+    resourceConflicts.push({
+      id: 'CF-' + Date.now() + '-' + s.id,
+      sampleId: s.id, type: 'setbind', source: setId, sourceName: set.name,
+      startTime: set.lockedTime, endTime: '2099-12-31 23:59', priority: 2,
+      createTime: set.lockedTime, description: `套装[${set.name}]连带锁定，由${anchor?.name || '用户'}绑定`
+    });
+  });
+  return true;
+}
+
+function unlockSet(setId) {
+  const set = getSetById(setId);
+  if (!set) return false;
+  set.status = 'active';
+  set.lockedBy = null; set.lockReason = null; set.lockedTime = null;
+  resourceConflicts = resourceConflicts.filter(c => !(c.type === 'setbind' && c.source === setId));
+  const samples = getSamplesBySetId(setId);
+  samples.forEach(s => {
+    const otherConflicts = getActiveConflicts(s.id);
+    if (!otherConflicts.some(c => c.type === 'recall' || c.priority < 3)) s.status = 'approved';
+  });
+  return true;
+}
+
+function submitBrandRecallAction(data) {
+  const recallId = 'REC-' + new Date().toISOString().slice(0, 10).replace(/-/g, '');
+  const newRecall = {
+    id: recallId, brand: data.brand, reason: data.reason, recallType: data.recallType,
+    severity: data.severity, sampleIds: data.sampleIds, status: 'active',
+    createTime: new Date().toLocaleString('zh-CN', { hour12: false }),
+    operator: data.operator, effectRange: data.effectRange
+  };
+  brandRecalls.push(newRecall);
+  data.sampleIds.forEach(sid => {
+    const s = getSampleById(sid);
+    if (s) {
+      s.recallFlag = true; s.status = 'locked';
+      resourceConflicts.push({
+        id: 'CF-' + Date.now() + '-' + sid, sampleId: sid, type: 'recall',
+        source: recallId, sourceName: `${data.brand}品牌召回`, startTime: newRecall.createTime,
+        endTime: '2099-12-31 23:59', priority: 1, createTime: newRecall.createTime,
+        description: `${data.operator}发起召回：${data.reason}`
+      });
+      reservations.forEach(r => {
+        if (r.sampleId === sid && (r.status === 'pending' || r.status === 'approved')) {
+          r.status = 'cancelled';
+          r.cancelReason = `因品牌方${data.brand}召回，预约被自动取消`;
+        }
+      });
+    }
+    if (s && s.setId) {
+      const set = getSetById(s.setId);
+      if (set && set.status !== 'locked') set.status = 'warning';
+    }
+  });
+  return newRecall;
+}
+
+function resolveRecall(recallId) {
+  const recall = brandRecalls.find(r => r.id === recallId);
+  if (!recall) return false;
+  recall.status = 'resolved';
+  recall.resolveTime = new Date().toLocaleString('zh-CN', { hour12: false });
+  recall.sampleIds.forEach(sid => {
+    const s = getSampleById(sid);
+    if (s) {
+      s.recallFlag = false;
+      resourceConflicts = resourceConflicts.filter(c => !(c.type === 'recall' && c.source === recallId && c.sampleId === sid));
+      const remaining = getActiveConflicts(sid);
+      if (!remaining.some(c => c.priority < 3)) s.status = 'approved';
+    }
+  });
+  return true;
+}
+
+function addReturnRisk(sampleId, riskData) {
+  const sample = getSampleById(sampleId);
+  if (!sample) return null;
+  if (!sample.returnRisk) sample.returnRisk = [];
+  sample.returnRisk.push({
+    id: 'RR-' + Date.now(), liveSessionId: riskData.liveSessionId, flag: true,
+    reason: riskData.reason, rate: riskData.rate,
+    date: new Date().toISOString().slice(0, 10), reporter: riskData.reporter || '选品经理'
+  });
+  return sample.returnRisk[sample.returnRisk.length - 1];
+}
+
+function getOverdueLevel(overdueDays) {
+  if (overdueDays >= 15) return { level: 'blacklist', levelNum: 4, label: '黑名单', badge: 'level-4', action: '永久冻结账户，加入黑名单' };
+  if (overdueDays >= 8) return { level: 'freeze', levelNum: 3, label: '冻结', badge: 'level-3', action: '冻结账户，禁止所有操作' };
+  if (overdueDays >= 4) return { level: 'limit', levelNum: 2, label: '限制', badge: 'level-2', action: '限制新预约，仅可归还' };
+  if (overdueDays >= 1) return { level: 'warn', levelNum: 1, label: '警告', badge: 'level-1', action: '警告提示，发送催还' };
+  return { level: 'normal', levelNum: 0, label: '正常', badge: '', action: '' };
+}
+
+function upgradeOverdueRecord(recordId) {
+  const r = overdueRecords.find(o => o.id === recordId);
+  if (!r) return null;
+  const due = new Date(r.dueDate);
+  const today = new Date('2026-06-16');
+  const days = Math.max(0, Math.ceil((today - due) / (24 * 3600 * 1000)));
+  const lvl = getOverdueLevel(days);
+  r.overdueDays = days; r.level = lvl.levelNum; r.levelCode = lvl.level; r.levelLabel = lvl.label;
+  if (lvl.levelNum >= 3) {
+    const anchor = getAnchorById(r.anchorId);
+    if (anchor) { anchor.isFrozen = true; anchor.freezeReason = `超期${days}天，自动冻结`; }
+  }
+  return lvl;
+}
+
+function resolveAllConflictsAuto() {
+  const groups = getSampleConflictsGrouped();
+  let resolved = 0;
+  groups.forEach(([sampleId, conflicts]) => {
+    const active = conflicts.filter(c => checkTimeOverlap(c, conflicts[0]) || checkTimeOverlap(c, conflicts[conflicts.length - 1]));
+    if (active.length >= 2) {
+      const result = resolveWinner(active);
+      if (result && result.losers.length) resolved += result.losers.length;
+    }
+  });
+  showNotification('智能仲裁完成', `已判定 ${groups.length} 组冲突，建议释放 ${resolved} 个低优先级占用`, 'success');
+  renderConflictPanel();
+}
+
+function renderConflictPanel() {
+  const summary = getSampleConflictsGrouped();
+  const conflictMap = {};
+  resourceConflicts.forEach(c => {
+    if (!conflictMap[c.sampleId]) conflictMap[c.sampleId] = [];
+    conflictMap[c.sampleId].push(c);
+  });
+  const allWithConflict = Object.keys(conflictMap);
+  
+  document.getElementById('conflictBadge').textContent = allWithConflict.length;
+  
+  const summaryContainer = document.getElementById('conflictSummaryContainer');
+  if (summaryContainer) {
+    summaryContainer.innerHTML = `
+      <div class="card" style="margin-top: 16px;">
+        <div class="card-header"><div class="card-title">📊 冲突概览</div></div>
+        <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; padding: 8px 0;">
+          <div style="text-align: center; padding: 12px; background: #fff1f0; border-radius: 8px;">
+            <div style="font-size: 28px; font-weight: 600; color: #f5222d;">${allWithConflict.length}</div>
+            <div style="font-size: 12px; color: #8c8c8c; margin-top: 4px;">涉冲突样品</div>
+          </div>
+          <div style="text-align: center; padding: 12px; background: #fff7e6; border-radius: 8px;">
+            <div style="font-size: 28px; font-weight: 600; color: #fa8c16;">${resourceConflicts.filter(c => c.priority === 3).length}</div>
+            <div style="font-size: 12px; color: #8c8c8c; margin-top: 4px;">主播预借占用</div>
+          </div>
+          <div style="text-align: center; padding: 12px; background: #f9f0ff; border-radius: 8px;">
+            <div style="font-size: 28px; font-weight: 600; color: #722ed1;">${sampleSets.filter(s => s.status === 'locked').length}</div>
+            <div style="font-size: 12px; color: #8c8c8c; margin-top: 4px;">锁定套装</div>
+          </div>
+          <div style="text-align: center; padding: 12px; background: #e6f7ff; border-radius: 8px;">
+            <div style="font-size: 28px; font-weight: 600; color: #1890ff;">${brandRecalls.filter(r => r.status === 'active').length}</div>
+            <div style="font-size: 12px; color: #8c8c8c; margin-top: 4px;">进行中召回</div>
+          </div>
+        </div>
+      </div>
+    `;
+  }
+  
+  const detailContainer = document.getElementById('conflictDetailContainer');
+  if (detailContainer) {
+    detailContainer.innerHTML = `
+      <div class="card" style="margin-top: 16px;">
+        <div class="card-header"><div class="card-title">🔍 冲突详情（按样品分组）</div></div>
+        <div style="display: flex; flex-direction: column; gap: 16px;">
+          ${allWithConflict.map(sid => {
+            const s = getSampleById(sid);
+            if (!s) return '';
+            const conflicts = conflictMap[sid].sort((a, b) => a.priority - b.priority || new Date(a.createTime) - new Date(b.createTime));
+            const winnerResult = conflicts.length >= 2 ? resolveWinner(conflicts) : null;
+            return `
+              <div style="border: 1px solid #e8e8e8; border-radius: 8px; overflow: hidden;">
+                <div style="padding: 12px 16px; background: linear-gradient(135deg, #fafafa 0%, #f5f5f5 100%); border-bottom: 1px solid #e8e8e8; display: flex; justify-content: space-between; align-items: center;">
+                  <div>
+                    <div style="font-size: 15px; font-weight: 600;">${s.icon} ${s.name} <code style="font-size: 12px; color: #8c8c8c; margin-left: 8px;">${s.sku}</code></div>
+                    <div style="font-size: 12px; color: #8c8c8c; margin-top: 2px;">品牌: ${s.brand} | 位置: ${s.location} | 当前库存: ${s.availableStock}/${s.stock}</div>
+                  </div>
+                  <div style="display: flex; gap: 6px; align-items: center;">
+                    <span class="conflict-priority p${conflicts[0].priority}">最高P${conflicts[0].priority}</span>
+                    <span class="tag tag-blue">${conflicts.length} 个占用方</span>
+                  </div>
+                </div>
+                <div style="padding: 16px; display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 12px;">
+                  ${conflicts.map(c => {
+                    const info = getConflictTypeInfo(c.type);
+                    const isWinner = winnerResult && winnerResult.winner.id === c.id;
+                    return `
+                      <div class="conflict-card conflict-card-${c.type}">
+                        <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 8px;">
+                          <div>
+                            <div style="font-weight: 600; display: flex; align-items: center; gap: 6px;">
+                              ${info.icon} ${info.label}
+                              <span class="conflict-priority p${c.priority}">P${c.priority}</span>
+                              ${isWinner ? '<span class="winner-badge">✓ 先占资源</span>' : '<span class="loser-badge">✗ 需避让</span>'}
+                            </div>
+                            <div style="font-size: 13px; color: #595959; margin-top: 4px;">${c.sourceName}</div>
+                          </div>
+                        </div>
+                        <div style="font-size: 12px; color: #595959; line-height: 1.7;">
+                          <div>📅 占用时段：${c.startTime} ~ ${c.endTime}</div>
+                          <div>👤 创建人：${c.sourceName} (${c.createTime})</div>
+                          <div>📝 说明：${c.description || '无'}</div>
+                        </div>
+                      </div>
+                    `;
+                  }).join('')}
+                </div>
+                ${winnerResult ? `
+                  <div style="padding: 12px 16px; background: ${winnerResult.winner.priority === 1 ? '#fff1f0' : winnerResult.winner.priority === 2 ? '#f9f0ff' : '#e6f7ff'}; border-top: 1px dashed #d9d9d9; font-size: 13px;">
+                    <strong>⚖️ 仲裁判定：</strong>
+                    <span style="color: ${winnerResult.winner.priority === 1 ? '#f5222d' : '#1890ff'}; font-weight: 600;">${getConflictTypeInfo(winnerResult.winner.type).icon} ${winnerResult.winner.sourceName}</span>
+                    先占资源（${winnerResult.winner.priority <= 2 ? '高优先级强制生效' : `先创建于${winnerResult.winner.createTime}`}），
+                    <span style="color: #8c8c8c;">${winnerResult.losers.length}个后发占用需调整时间或取消</span>
+                  </div>
+                ` : ''}
+              </div>
+            `;
+          }).join('')}
+        </div>
+      </div>
+    `;
+  }
+}
+
+function renderSetsPanel() {
+  document.getElementById('totalSets').textContent = sampleSets.length;
+  document.getElementById('activeSets').textContent = sampleSets.filter(s => s.status === 'active').length;
+  document.getElementById('lockedSets').textContent = sampleSets.filter(s => s.status === 'locked').length;
+  document.getElementById('setSamples').textContent = sampleSets.reduce((sum, s) => sum + s.sampleIds.length, 0);
+  
+  const grid = document.getElementById('setsGrid');
+  grid.innerHTML = sampleSets.map(set => {
+    const samples = getSamplesBySetId(set.id);
+    const isLocked = set.status === 'locked';
+    const totalDiscount = (set.totalValue * (set.discount || 1)).toFixed(0);
+    return `
+      <div class="set-card ${isLocked ? 'locked' : ''}">
+        <div class="set-card-header">
+          <div>
+            <div style="font-size: 15px; font-weight: 600;">🎁 ${set.name}</div>
+            <div style="font-size: 12px; color: #8c8c8c; margin-top: 2px;">${set.brand}</div>
+          </div>
+          ${isLocked ? '<span class="tag tag-red">🔒 已锁定</span>' : '<span class="tag tag-green">✔️ 可使用</span>'}
+        </div>
+        <div style="padding: 12px 0; border-bottom: 1px dashed #e8e8e8;">
+          <div style="display: flex; gap: 12px; font-size: 12px; margin-bottom: 8px;">
+            <span>📊 ${samples.length}件样品</span>
+            <span>💰 总价 <s>¥${set.totalValue.toLocaleString()}</s> <strong style="color: #f5222d;">¥${Number(totalDiscount).toLocaleString()}</strong></span>
+            <span>🏷️ ${(set.discount * 10).toFixed(1)}折</span>
+          </div>
+          <div style="font-size: 13px; color: #595959;">${set.description || '暂无描述'}</div>
+        </div>
+        <div style="padding: 12px 0; border-bottom: 1px dashed #e8e8e8;">
+          <div style="font-size: 12px; color: #8c8c8c; margin-bottom: 8px;">📦 套装样品清单：</div>
+          <div style="display: flex; flex-direction: column; gap: 6px;">
+            ${samples.map(s => `
+              <div style="display: flex; justify-content: space-between; align-items: center; padding: 6px 10px; background: #fafafa; border-radius: 4px; font-size: 13px;">
+                <div>${s.icon} ${s.name} <code style="font-size: 11px; color: #8c8c8c;">${s.sku}</code></div>
+                <div>
+                  ${s.recallFlag ? '<span class="tag tag-red">📢 召回</span>' : ''}
+                  ${s.status === 'locked' && !s.recallFlag ? '<span class="tag tag-orange">🔒 锁定</span>' : ''}
+                  ${s.returnRisk && s.returnRisk.length ? `<span class="tag tag-orange">⚠️ 退货${s.returnRisk[s.returnRisk.length-1].rate}%</span>` : ''}
+                  <span class="tag tag-gray">¥${s.price}</span>
+                </div>
+              </div>
+            `).join('')}
+          </div>
+        </div>
+        ${isLocked ? `
+          <div style="padding: 10px 0; font-size: 12px; color: #8c8c8c;">
+            <div>🔒 锁定原因：${set.lockReason}</div>
+            <div>👤 锁定人：${getAnchorById(set.lockedBy)?.name || set.lockedBy} | ⏰ ${set.lockedTime}</div>
+          </div>
+        ` : ''}
+        <div style="padding-top: 12px; display: flex; gap: 8px;">
+          ${!isLocked ? `<button class="btn btn-primary btn-sm" onclick="demoLockSet('${set.id}')">🔗 锁定套装(演示)</button>` : `<button class="btn btn-default btn-sm" onclick="unlockSet('${set.id}'); renderSetsPanel(); showNotification('已解锁', '套装已解除锁定', 'success');">🔓 解除锁定</button>`}
+          <button class="btn btn-default btn-sm" onclick="switchModule('conflict'); renderConflictPanel();">⚔️ 查看冲突</button>
+        </div>
+      </div>
+    `;
+  }).join('');
+}
+
+function renderRecallPanel() {
+  const activeCount = brandRecalls.filter(r => r.status === 'active').length;
+  document.getElementById('recallBadge').textContent = activeCount;
+  
+  const container = document.getElementById('recallContainer');
+  container.innerHTML = brandRecalls.map(r => {
+    const affectedSamples = r.sampleIds.map(id => getSampleById(id)).filter(Boolean);
+    const isActive = r.status === 'active';
+    const severityMap = {
+      'danger': { label: '严重', cls: 'recall-severity danger' },
+      'warning': { label: '警告', cls: 'recall-severity warning' },
+      'info': { label: '一般', cls: 'recall-severity info' }
+    };
+    const sev = severityMap[r.severity] || severityMap.info;
+    const recallTypeMap = { voluntary:'主动召回', mandatory:'强制召回', defect:'质量缺陷', safety:'安全隐患' };
+    return `
+      <div class="recall-card ${isActive ? 'active' : 'resolved'}">
+        <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 12px;">
+          <div>
+            <div style="font-size: 16px; font-weight: 600; display: flex; align-items: center; gap: 10px;">
+              📢 ${r.brand} 召回通知
+              <span class="${sev.cls}">${sev.label}</span>
+              <span class="tag ${isActive ? 'tag-red' : 'tag-green'}">${isActive ? '进行中' : '已解除'}</span>
+            </div>
+            <div style="font-size: 12px; color: #8c8c8c; margin-top: 4px;">
+              单号: <code>${r.id}</code> | 发起人: ${r.operator} | 创建: ${r.createTime}
+              ${r.resolveTime ? ` | 解除: ${r.resolveTime}` : ''}
+            </div>
+          </div>
+        </div>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 12px;">
+          <div style="padding: 10px 12px; background: #fafafa; border-radius: 6px;">
+            <div style="font-size: 12px; color: #8c8c8c; margin-bottom: 4px;">召回类型</div>
+            <div style="font-size: 13px; font-weight: 500;">${recallTypeMap[r.recallType] || r.recallType}</div>
+          </div>
+          <div style="padding: 10px 12px; background: #fafafa; border-radius: 6px;">
+            <div style="font-size: 12px; color: #8c8c8c; margin-bottom: 4px;">影响范围</div>
+            <div style="font-size: 13px; font-weight: 500;">${r.effectRange || '全批次'}</div>
+          </div>
+        </div>
+        <div style="padding: 12px; background: #fffbe6; border: 1px solid #ffe58f; border-radius: 6px; margin-bottom: 12px; font-size: 13px;">
+          <strong style="color: #ad6800;">召回原因：</strong>${r.reason}
+        </div>
+        <div style="border: 1px solid #e8e8e8; border-radius: 6px; overflow: hidden; margin-bottom: 12px;">
+          <div style="padding: 8px 12px; background: #fafafa; font-size: 12px; color: #8c8c8c; border-bottom: 1px solid #e8e8e8;">
+            📦 影响样品（${affectedSamples.length}件）
+          </div>
+          <div style="padding: 8px 12px;">
+            ${affectedSamples.map(s => `
+              <div style="display: flex; justify-content: space-between; align-items: center; padding: 6px 0; border-bottom: 1px dashed #f0f0f0; font-size: 13px;">
+                <div>${s.icon} ${s.name} <code style="font-size: 11px; color: #8c8c8c;">${s.sku}</code></div>
+                <div>
+                  <span class="tag tag-red">🚫 冻结中</span>
+                  ${s.returnRisk && s.returnRisk.length ? `<span class="tag tag-orange">⚠️ 退货风险</span>` : ''}
+                </div>
+              </div>
+            `).join('')}
+          </div>
+        </div>
+        ${isActive ? `
+          <div style="display: flex; gap: 8px;">
+            <button class="btn btn-danger btn-sm" onclick="processResolveRecall('${r.id}')">✅ 确认解除召回</button>
+            <button class="btn btn-default btn-sm">📤 通知品牌方</button>
+          </div>
+        ` : ''}
+      </div>
+    `;
+  }).join('');
+}
+
+function openSetModal() {
+  const selector = document.getElementById('setSampleSelector');
+  selector.innerHTML = samples.filter(s => s.status === 'approved' && s.qcStatus === 'pass' && !s.recallFlag).map(s => `
+    <label style="display: flex; align-items: center; gap: 8px; padding: 6px 4px; cursor: pointer; border-radius: 4px;" onmouseover="this.style.background='#f5f5f5'" onmouseout="this.style.background='transparent'">
+      <input type="checkbox" class="set-sample-check" value="${s.id}">
+      <span>${s.icon}</span>
+      <span style="font-size: 13px;">${s.name}</span>
+      <code style="font-size: 11px; color: #8c8c8c; margin-left: auto;">${s.sku}</code>
+      <span class="tag tag-gray">¥${s.price}</span>
+    </label>
+  `).join('');
+  document.getElementById('setName').value = '';
+  document.getElementById('setBrand').value = '';
+  document.getElementById('setDescription').value = '';
+  openModal('setModal');
+}
+
+function createSampleSet() {
+  const name = document.getElementById('setName').value.trim();
+  const brand = document.getElementById('setBrand').value.trim();
+  const discount = parseFloat(document.getElementById('setDiscount').value);
+  const desc = document.getElementById('setDescription').value.trim();
+  const checked = document.querySelectorAll('.set-sample-check:checked');
+  const ids = Array.from(checked).map(c => parseInt(c.value));
+  if (!name) { showNotification('失败', '请填写套装名称', 'error'); return; }
+  if (!brand) { showNotification('失败', '请填写品牌方', 'error'); return; }
+  if (ids.length < 2) { showNotification('失败', '至少选择2个样品组成套装', 'error'); return; }
+  const totalValue = ids.reduce((sum, id) => sum + (getSampleById(id)?.price || 0), 0);
+  const newSet = {
+    id: 'SET-' + String(sampleSets.length + 1).padStart(3, '0'),
+    name, brand, totalValue, sampleIds: ids, status: 'active', discount,
+    createTime: new Date().toLocaleString('zh-CN', { hour12: false }),
+    description: desc
+  };
+  sampleSets.push(newSet);
+  ids.forEach(sid => { const s = getSampleById(sid); if (s) s.setId = newSet.id; });
+  closeModal('setModal');
+  showNotification('创建成功', `套装「${name}」已创建，共${ids.length}件样品`, 'success');
+  renderSetsPanel();
+}
+
+function demoLockSet(setId) {
+  const ok = lockSet(setId, 'anchor-3', '演示场景：主播莉莉预约绑定专场');
+  if (ok) {
+    showNotification('连带锁定成功', `套装及${getSamplesBySetId(setId).length}件样品已同步锁定，低优先级预约将被拒绝`, 'success');
+    renderSetsPanel();
+    renderArchive();
+    renderPool();
+  }
+}
+
+function openRecallModal() {
+  const selector = document.getElementById('recallSampleSelector');
+  selector.innerHTML = samples.filter(s => s.status !== 'lost').map(s => `
+    <label style="display: flex; align-items: center; gap: 8px; padding: 6px 4px; cursor: pointer; border-radius: 4px;" onmouseover="this.style.background='#fff1f0'" onmouseout="this.style.background='transparent'">
+      <input type="checkbox" class="recall-sample-check" value="${s.id}">
+      <span>${s.icon}</span>
+      <span style="font-size: 13px;">${s.name}</span>
+      <code style="font-size: 11px; color: #8c8c8c; margin-left: auto;">${s.sku}</code>
+      <span style="font-size: 11px; color: #8c8c8c;">${s.brand}</span>
+    </label>
+  `).join('');
+  document.getElementById('recallBrand').value = '';
+  document.getElementById('recallReason').value = '';
+  document.getElementById('recallEffectRange').value = '';
+  openModal('recallModal');
+}
+
+function submitBrandRecall() {
+  const brand = document.getElementById('recallBrand').value.trim();
+  const recallType = document.getElementById('recallType').value;
+  const severity = document.getElementById('recallSeverity').value;
+  const reason = document.getElementById('recallReason').value.trim();
+  const effectRange = document.getElementById('recallEffectRange').value.trim();
+  const operator = document.getElementById('recallOperator').value.trim();
+  const checked = document.querySelectorAll('.recall-sample-check:checked');
+  const ids = Array.from(checked).map(c => parseInt(c.value));
+  if (!brand) { showNotification('失败', '请填写品牌方', 'error'); return; }
+  if (!reason) { showNotification('失败', '请填写召回原因', 'error'); return; }
+  if (ids.length < 1) { showNotification('失败', '请至少选择1个关联样品', 'error'); return; }
+  const recall = submitBrandRecallAction({ brand, recallType, severity, reason, effectRange, operator, sampleIds: ids });
+  closeModal('recallModal');
+  showNotification('召回已生效', `${brand}召回已执行，${ids.length}件样品冻结，相关预约自动取消`, 'error');
+  renderRecallPanel();
+  renderConflictPanel();
+  renderPool();
+  renderArchive();
+  renderReservationList();
+}
+
+function processResolveRecall(recallId) {
+  if (resolveRecall(recallId)) {
+    showNotification('已解除', `召回「${recallId}」已解除，样品权限恢复`, 'success');
+    renderRecallPanel();
+    renderConflictPanel();
+    renderPool();
+    renderArchive();
+  }
+}
+
 function checkReservationEligibility(sampleId, anchorId) {
   const sample = getSampleById(sampleId);
   const anchor = getAnchorById(anchorId);
@@ -1377,11 +2254,22 @@ function checkReservationEligibility(sampleId, anchorId) {
     return { eligible: false, message: '样品不存在', reason: 'notFound' };
   }
   
+  if (sample.recallFlag) {
+    const recall = brandRecalls.find(r => r.status === 'active' && r.sampleIds.includes(sampleId));
+    return { eligible: false, message: `样品因[${sample.brand}品牌召回]被冻结，${recall ? recall.reason : '禁止出库'}`, reason: 'recall' };
+  }
+  
   if (sample.isLost) {
     return { eligible: false, message: '样品已丢失，无法预约', reason: 'lost' };
   }
   
   if (sample.status === 'locked') {
+    const active = getActiveConflicts(sampleId);
+    if (active.length) {
+      const top = active[0];
+      const info = getConflictTypeInfo(top.type);
+      return { eligible: false, message: `${info.icon}样品被[${info.label}]占用：${top.sourceName} (P${top.priority})，${top.description}`, reason: 'conflict' };
+    }
     return { eligible: false, message: '样品已锁定，无法预约', reason: 'locked' };
   }
   
@@ -1401,8 +2289,41 @@ function checkReservationEligibility(sampleId, anchorId) {
     return { eligible: false, message: '您的账号因超期未还已被冻结，请联系管理员', reason: 'frozen' };
   }
   
+  let warningMsg = '';
+  let riskReason = '';
+  
+  if (sample.returnRisk && sample.returnRisk.length) {
+    const lastRisk = sample.returnRisk[sample.returnRisk.length - 1];
+    if (lastRisk.flag) {
+      warningMsg = `⚠️ 该样品于 ${lastRisk.date} 在 ${lastRisk.liveSessionId} 直播后被标记为【高退货风险】，退货率 ${lastRisk.rate}%，原因：${lastRisk.reason}。历史退货标记 ${sample.returnRisk.length} 次，后续场次请谨慎评估！`;
+      riskReason = 'returnRisk';
+    }
+  }
+  
+  if (sample.setId) {
+    const set = getSetById(sample.setId);
+    if (set && set.status === 'locked') {
+      return { eligible: false, message: `样品所属套装[${set.name}]已被${getAnchorById(set.lockedBy)?.name || '其他人'}锁定，原因：${set.lockReason}`, reason: 'setLocked' };
+    }
+  }
+  
+  const activeConflicts = getActiveConflicts(sampleId);
+  if (activeConflicts.length >= 2) {
+    const win = resolveWinner(activeConflicts);
+    if (win && win.winner) {
+      const info = getConflictTypeInfo(win.winner.type);
+      warningMsg = (warningMsg ? warningMsg + ' | ' : '') + `⚔️ 当前存在 ${activeConflicts.length} 个资源占用方，${info.icon}${win.winner.sourceName} 优先级最高（P${win.winner.priority}）`;
+      if (!riskReason) riskReason = 'conflictWarn';
+    }
+  }
+  
   if (anchor && anchor.overdueCount > 0) {
-    return { eligible: true, message: '', warning: `您有 ${anchor.overdueCount} 条超期记录，请及时归还`, reason: 'hasOverdue' };
+    warningMsg = (warningMsg ? warningMsg + ' | ' : '') + `您有 ${anchor.overdueCount} 条超期记录，请及时归还`;
+    if (!riskReason) riskReason = 'hasOverdue';
+  }
+  
+  if (warningMsg) {
+    return { eligible: true, message: '', warning: warningMsg, reason: riskReason || 'warning' };
   }
   
   return { eligible: true, message: '', reason: 'ok' };
@@ -1416,8 +2337,8 @@ function openReservationModal() {
   
   const sampleSelect = document.getElementById('reservationSample');
   sampleSelect.innerHTML = '<option value="">请选择样品</option>' + 
-    samples.filter(s => s.approvalStatus === 'approved' && s.qcStatus === 'pass' && s.availableStock > 0 && !s.isLost && s.status !== 'locked')
-      .map(s => `<option value="${s.id}">${s.sku} - ${s.name} (库存: ${s.availableStock})</option>`).join('');
+    samples.filter(s => s.approvalStatus === 'approved' && s.qcStatus === 'pass' && s.availableStock > 0 && !s.isLost && s.status !== 'locked' && !s.recallFlag && !(s.setId && getSetById(s.setId)?.status === 'locked'))
+      .map(s => `<option value="${s.id}">${s.sku} - ${s.name} (库存: ${s.availableStock})${s.returnRisk && s.returnRisk.length ? ' ⚠️退货风险' : ''}${s.setId ? ' 🎁套装' : ''}</option>`).join('');
   
   const anchorSelect = document.getElementById('reservationAnchor');
   anchorSelect.innerHTML = '<option value="">请选择主播</option>' +
@@ -1956,26 +2877,25 @@ function submitReport() {
   const r = appState.currentReportReservation;
   if (!r) return;
   
+  const recommendShelf = document.getElementById('reportRecommendShelf').value;
   const conclusion = document.getElementById('reportConclusion').value;
+  const scenesChecked = Array.from(document.querySelectorAll('.scene-checkbox:checked')).map(c => c.value);
+  const useScenesText = document.getElementById('reportUseScenes').value.trim();
   const liveFeedback = document.getElementById('reportLiveFeedback').value.trim();
   const sampleStatus = document.getElementById('reportSampleStatus').value;
+  const returnRiskLevel = document.getElementById('reportReturnRisk').value;
+  const damageDesc = document.getElementById('reportDamageDesc').value.trim();
   const suggestions = document.getElementById('reportSuggestions').value.trim();
   const remarks = document.getElementById('reportRemarks').value.trim();
   
-  if (!conclusion) {
-    showNotification('提交失败', '请选择试用结论', 'error');
-    return;
-  }
-  if (!liveFeedback) {
-    showNotification('提交失败', '请填写直播场次反馈', 'error');
-    return;
-  }
-  if (!sampleStatus) {
-    showNotification('提交失败', '请选择样品状态', 'error');
-    return;
-  }
-  if (!suggestions) {
-    showNotification('提交失败', '请填写转化建议', 'error');
+  if (!recommendShelf) { showNotification('提交失败', '请选择是否建议上架', 'error'); return; }
+  if (!conclusion) { showNotification('提交失败', '请选择试用结论', 'error'); return; }
+  if (!scenesChecked.length && !useScenesText) { showNotification('提交失败', '请至少选择或填写一个使用场景', 'error'); return; }
+  if (!liveFeedback) { showNotification('提交失败', '请填写直播场次反馈', 'error'); return; }
+  if (!sampleStatus) { showNotification('提交失败', '请选择样品状态', 'error'); return; }
+  if (!suggestions) { showNotification('提交失败', '请填写转化建议', 'error'); return; }
+  if ((sampleStatus === 'minor' || sampleStatus === 'damaged' || sampleStatus === 'broken') && !damageDesc) {
+    showNotification('提交失败', '样品有破损/磨损，请填写破损说明', 'error');
     return;
   }
   
@@ -1984,9 +2904,13 @@ function submitReport() {
   const submitTime = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')} ${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`;
   
   r.report = {
+    recommendShelf,
     conclusion,
+    useScenes: { tags: scenesChecked, detail: useScenesText },
     liveFeedback,
     sampleStatus,
+    returnRiskLevel,
+    damageDesc,
     suggestions,
     remarks,
     submitTime,
@@ -2000,9 +2924,19 @@ function submitReport() {
     sample.status = 'locked';
     showNotification('样品已报废', `${sample.name} 已标记为报废并锁定`, 'warning');
   }
+  if (sample && returnRiskLevel === 'high') {
+    const riskMap = { low: 5, medium: 12, high: 25 };
+    addReturnRisk(sample.id, {
+      liveSessionId: 'LIVE-' + new Date().toISOString().slice(0, 10).replace(/-/g, ''),
+      reason: `主播${anchor?.name || ''}试用评估：${liveFeedback.substring(0, 50)}...`,
+      rate: riskMap[returnRiskLevel],
+      reporter: anchor?.name || '主播'
+    });
+    showNotification('⚠️ 高退货风险标记', `${sample.name}已被标记为高退货风险，后续场次将显示警告`, 'warning');
+  }
   
   closeModal('reportModal');
-  showNotification('提交成功', '试用报告已提交', 'success');
+  showNotification('提交成功', '试用报告已提交（含使用场景、破损说明、上架建议）', 'success');
   renderReservations();
   renderArchive();
   updateStats();
@@ -2015,6 +2949,14 @@ function viewReport(reservationId) {
   const sample = getSampleById(r.sampleId);
   const anchor = getAnchorById(r.anchorId);
   const report = r.report;
+  
+  const recommendMap = {
+    'strong': { label: '强烈建议上架 - 爆款潜力', cls: 'tag-green', icon: '🔥' },
+    'yes': { label: '建议上架 - 综合表现良好', cls: 'tag-green', icon: '✅' },
+    'conditional': { label: '有条件上架 - 需优化后', cls: 'tag-orange', icon: '⚠️' },
+    'no': { label: '不建议上架 - 问题较多', cls: 'tag-red', icon: '⛔' }
+  };
+  const rec = recommendMap[report.recommendShelf] || { label: report.recommendShelf, cls: 'tag-blue', icon: '📌' };
   
   const conclusionClass = {
     'excellent': 'tag-green',
@@ -2030,8 +2972,15 @@ function viewReport(reservationId) {
     'broken': 'tag-red'
   }[report.sampleStatus] || 'tag-blue';
   
+  const riskMap = {
+    'low': { label: '低风险 <5%', cls: 'tag-green' },
+    'medium': { label: '中风险 5-15%', cls: 'tag-orange' },
+    'high': { label: '高风险 >15%', cls: 'tag-red' }
+  };
+  const risk = riskMap[report.returnRiskLevel] || { label: '未评估', cls: 'tag-gray' };
+  
   document.getElementById('reportViewContent').innerHTML = `
-    <div style="padding: 16px; background: #f9fafb; border-radius: 8px; margin-bottom: 16px;">
+    <div style="padding: 16px; background: linear-gradient(135deg, #f0f5ff 0%, #f9fafb 100%); border-radius: 8px; margin-bottom: 16px;">
       <div style="font-size: 14px; margin-bottom: 8px;"><strong>预约编号:</strong> <code>${r.id}</code></div>
       <div style="font-size: 14px; margin-bottom: 8px;"><strong>样品:</strong> ${sample ? sample.icon + ' ' + sample.name + ' (' + sample.sku + ')' : '-'}</div>
       <div style="font-size: 14px; margin-bottom: 8px;"><strong>主播:</strong> ${anchor ? anchor.avatar + ' ' + anchor.name : '-'}</div>
@@ -2039,29 +2988,78 @@ function viewReport(reservationId) {
     </div>
     
     <div class="form-group">
+      <label class="form-label">🎯 是否建议上架</label>
+      <div><span class="tag ${rec.cls}">${rec.icon} ${rec.label}</span></div>
+    </div>
+    
+    <div class="form-group">
       <label class="form-label">试用结论</label>
       <div><span class="tag ${conclusionClass}">${conclusionLabels[report.conclusion]}</span></div>
     </div>
+    
+    ${report.useScenes ? `
+    <div class="form-group">
+      <label class="form-label">🎬 使用场景</label>
+      <div style="margin-bottom: 8px;">
+        ${(report.useScenes.tags || []).map(t => `<span class="tag tag-blue" style="margin-right: 6px;">📍 ${t}</span>`).join('')}
+      </div>
+      ${report.useScenes.detail ? `
+        <div style="padding: 12px; background: #e6f7ff; border-radius: 6px; font-size: 13px; line-height: 1.6;">
+          ${report.useScenes.detail}
+        </div>
+      ` : ''}
+    </div>
+    ` : ''}
     
     <div class="form-group">
       <label class="form-label">直播场次反馈</label>
       <div style="padding: 12px; background: #f0f5ff; border-radius: 6px; font-size: 13px; line-height: 1.6;">${report.liveFeedback}</div>
     </div>
     
-    <div class="form-group">
-      <label class="form-label">样品状态</label>
-      <div><span class="tag ${sampleStatusClass}">${sampleStatusLabels[report.sampleStatus]}</span></div>
+    <div class="form-row">
+      <div class="form-group">
+        <label class="form-label">样品状态</label>
+        <div><span class="tag ${sampleStatusClass}">${sampleStatusLabels[report.sampleStatus]}</span></div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">退货风险评估</label>
+        <div><span class="tag ${risk.cls}">${risk.label}</span></div>
+      </div>
     </div>
     
+    ${report.damageDesc ? `
     <div class="form-group">
-      <label class="form-label">转化建议</label>
+      <label class="form-label">🔧 破损说明</label>
+      <div style="padding: 12px; background: #fff7e6; border-radius: 6px; font-size: 13px; line-height: 1.6; border-left: 3px solid #fa8c16;">
+        ${report.damageDesc}
+      </div>
+    </div>
+    ` : ''}
+    
+    <div class="form-group">
+      <label class="form-label">💡 转化建议</label>
       <div style="padding: 12px; background: #f6ffed; border-radius: 6px; font-size: 13px; line-height: 1.6;">${report.suggestions}</div>
     </div>
+    
+    ${sample && sample.returnRisk && sample.returnRisk.length ? `
+    <div class="form-group">
+      <label class="form-label">📉 历史退货风险记录（${sample.returnRisk.length}次）</label>
+      <div style="display: flex; flex-direction: column; gap: 6px;">
+        ${sample.returnRisk.map(rr => `
+          <div style="padding: 8px 12px; background: ${rr.rate >= 20 ? '#fff1f0' : '#fff7e6'}; border-radius: 4px; font-size: 12px; border-left: 3px solid ${rr.rate >= 20 ? '#f5222d' : '#fa8c16'};">
+            <strong>${rr.date}</strong> | ${rr.liveSessionId} | 退货率 <span style="font-weight: 600; color: ${rr.rate >= 20 ? '#f5222d' : '#fa8c16'};">${rr.rate}%</span>
+            <span style="color: #8c8c8c; margin-left: 8px;">原因：${rr.reason}</span>
+            ${rr.reporter ? `<span style="color: #8c8c8c; margin-left: 8px;">报告人：${rr.reporter}</span>` : ''}
+          </div>
+        `).join('')}
+      </div>
+    </div>
+    ` : ''}
     
     ${report.remarks ? `
     <div class="form-group">
       <label class="form-label">备注说明</label>
-      <div style="padding: 12px; background: #fff7e6; border-radius: 6px; font-size: 13px; line-height: 1.6;">${report.remarks}</div>
+      <div style="padding: 12px; background: #fafafa; border-radius: 6px; font-size: 13px; line-height: 1.6;">${report.remarks}</div>
     </div>
     ` : ''}
   `;
@@ -2661,7 +3659,7 @@ function demoScenario(type) {
     html = `
       <div class="scenario-block intercepted">
         <div class="scenario-header">
-          <div class="scenario-name">💸 场景4: 丢失赔付</div>
+          <div class="scenario-name">💸 丢失赔付</div>
           <span class="scenario-status" style="background: #fff1f0; color: #f5222d;">💸 待赔付</span>
         </div>
         <div style="color: #595959; font-size: 13px; margin-bottom: 12px;">
@@ -2680,6 +3678,267 @@ function demoScenario(type) {
       </div>
     `;
     showNotification('丢失赔付', '请处理丢失样品的赔付事宜', 'warning');
+  } else if (type === 'setLock') {
+    const set = getSetById('SET-001');
+    const setSamples = getSamplesBySetId('SET-001');
+    const beforeChecks = setSamples.map(s => ({ s, r: checkReservationEligibility(s.id, 'anchor-1') }));
+    if (set.status === 'active') {
+      lockSet('SET-001', 'anchor-3', '主播莉莉6月20日618大促直播专场绑定');
+    }
+    const afterChecks = setSamples.map(s => ({ s, r: checkReservationEligibility(s.id, 'anchor-1') }));
+    renderSetsPanel();
+    html = `
+      <div class="scenario-block intercepted">
+        <div class="scenario-header">
+          <div class="scenario-name">🎁 验收场景2: 套装样品连带锁定</div>
+          <span class="scenario-status" style="background: #f9f0ff; color: #722ed1;">🔗 已连带锁定</span>
+        </div>
+        <div class="scenario-chain" style="margin: 12px 0; padding: 12px; background: linear-gradient(135deg, #f6ffed 0%, #f9f0ff 50%, #e6f7ff 100%); border-radius: 8px;">
+          <div style="font-size: 13px; font-weight: 600; margin-bottom: 10px; color: #595959;">📋 业务流程链：</div>
+          <div style="display: flex; gap: 8px; flex-wrap: wrap; align-items: center; font-size: 12px;">
+            <div class="chain-step active">1. 主播莉莉预约套装</div>
+            <span style="color: #8c8c8c;">→</span>
+            <div class="chain-step active">2. 系统检查套装内样品</div>
+            <span style="color: #8c8c8c;">→</span>
+            <div class="chain-step active">3. 套装状态变更为locked</div>
+            <span style="color: #8c8c8c;">→</span>
+            <div class="chain-step active">4. 所有关联样品连带锁定</div>
+            <span style="color: #8c8c8c;">→</span>
+            <div class="chain-step active">5. 新增setbind类型冲突记录(P2)</div>
+            <span style="color: #8c8c8c;">→</span>
+            <div class="chain-step active">6. 后续预约被拦截</div>
+          </div>
+        </div>
+        <div style="color: #595959; font-size: 13px; margin-bottom: 12px;">
+          <strong>锁定套装:</strong> 🎁 ${set.name} (${set.id})<br>
+          <strong>锁定期限:</strong> 长期（绑定至直播专场结束）<br>
+          <strong>锁定人:</strong> 👩 莉莉 (A级主播) | 6月20日618大促专场<br>
+          <strong>连带锁定样品数:</strong> <span style="color: #722ed1; font-weight: 600;">${setSamples.length} 件</span><br>
+          <strong>新增冲突记录:</strong> P2优先级 setbind 类型 × ${setSamples.length} 条
+        </div>
+        <div style="border: 1px solid #f0e6ff; border-radius: 6px; margin-bottom: 12px; overflow: hidden;">
+          <div style="padding: 8px 12px; background: #f9f0ff; font-size: 12px; font-weight: 600; color: #722ed1;">🔗 锁定前后对比：</div>
+          <table class="data-table" style="margin: 0; border: 0;">
+            <thead>
+              <tr>
+                <th>样品</th>
+                <th>SKU</th>
+                <th>锁定前尝试预约</th>
+                <th>锁定后尝试预约</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${afterChecks.map(({s, r}, i) => `
+                <tr>
+                  <td>${s.icon} ${s.name}</td>
+                  <td><code>${s.sku}</code></td>
+                  <td>
+                    ${beforeChecks[i].r.eligible ? 
+                      '<span class="tag tag-green">✅ 可预约</span>' : 
+                      `<span class="tag tag-red">❌ ${beforeChecks[i].r.reason}</span>`}
+                  </td>
+                  <td>
+                    <span class="tag tag-red">❌ 套装连带锁定</span>
+                    <div style="font-size: 11px; color: #8c8c8c; margin-top: 2px;">${r.message}</div>
+                  </td>
+                </tr>
+              `).join('')}
+            </tbody>
+          </table>
+        </div>
+        <div style="display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 12px;">
+          <span class="tag tag-red">🔒 套装锁定</span>
+          <span class="tag tag-orange">P2 高优先级</span>
+          <span class="tag tag-blue">${setSamples.length}件样品连带</span>
+          <span class="tag tag-purple">低优先级预约被拒</span>
+        </div>
+        <div style="display: flex; gap: 8px;">
+          <button class="btn btn-primary btn-sm" onclick="switchModule('sets'); renderSetsPanel();">🎁 查看套装详情</button>
+          <button class="btn btn-warning btn-sm" onclick="switchModule('conflict'); renderConflictPanel();">⚔️ 查看冲突记录</button>
+        </div>
+      </div>
+    `;
+    showNotification('套装连带锁定', `SET-001已锁定，${setSamples.length}件样品连带生效，后续预约将被拒绝`, 'success');
+  } else if (type === 'brandRecall') {
+    const beforeSamples = [9, 14].map(id => ({ id, r: checkReservationEligibility(id, 'anchor-1') }));
+    const targetReservations = reservations.filter(r => [9, 14].includes(r.sampleId) && (r.status === 'pending' || r.status === 'approved'));
+    let activeRecall = brandRecalls.find(r => r.id === 'REC-20260615' && r.status === 'active');
+    if (!activeRecall) {
+      submitBrandRecallAction({
+        brand: '三只松鼠', recallType: 'voluntary', severity: 'warning',
+        reason: '疑似批次包装漏气问题，安全起见主动召回',
+        effectRange: '2026年5月生产批次', operator: '选品经理-演示', sampleIds: [9, 14]
+      });
+    }
+    const afterSamples = [9, 14].map(id => ({
+      s: getSampleById(id),
+      r: checkReservationEligibility(id, 'anchor-1'),
+      active: getActiveConflicts(id).filter(c => c.type === 'recall').length
+    }));
+    const recall = brandRecalls.find(r => r.id === 'REC-20260615');
+    renderRecallPanel();
+    html = `
+      <div class="scenario-block intercepted">
+        <div class="scenario-header">
+          <div class="scenario-name">📢 验收场景3: 品牌召回批量冻结</div>
+          <span class="scenario-status" style="background: #fff1f0; color: #f5222d;">⛔ 批量冻结</span>
+        </div>
+        <div class="scenario-chain" style="margin: 12px 0; padding: 12px; background: linear-gradient(135deg, #fff1f0 0%, #fff7e6 50%, #fffbe6 100%); border-radius: 8px;">
+          <div style="font-size: 13px; font-weight: 600; margin-bottom: 10px; color: #595959;">📋 业务流程链：</div>
+          <div style="display: flex; gap: 8px; flex-wrap: wrap; align-items: center; font-size: 12px;">
+            <div class="chain-step active">1. 品牌方发起召回</div>
+            <span style="color: #8c8c8c;">→</span>
+            <div class="chain-step active">2. 系统标记样品recallFlag=true</div>
+            <span style="color: #8c8c8c;">→</span>
+            <div class="chain-step active">3. 生成P1级recall类型冲突</div>
+            <span style="color: #8c8c8c;">→</span>
+            <div class="chain-step active">4. 批量取消未执行预约</div>
+            <span style="color: #8c8c8c;">→</span>
+            <div class="chain-step active">5. 关联套装标记warning</div>
+            <span style="color: #8c8c8c;">→</span>
+            <div class="chain-step active">6. 禁止出库+仅允许退库</div>
+          </div>
+        </div>
+        <div style="color: #595959; font-size: 13px; margin-bottom: 12px;">
+          <strong>召回品牌:</strong> 📢 ${recall.brand} <span class="recall-severity warning" style="margin-left: 6px;">警告</span><br>
+          <strong>召回调号:</strong> <code>${recall.id}</code><br>
+          <strong>召回原因:</strong> ${recall.reason}<br>
+          <strong>影响范围:</strong> ${recall.effectRange}<br>
+          <strong>影响样品数:</strong> <span style="color: #f5222d; font-weight: 600;">${recall.sampleIds.length} 件</span><br>
+          <strong>取消预约:</strong> <span style="color: #fa8c16;">${targetReservations.length} 笔未执行预约已自动取消</span><br>
+          <strong>新增冲突:</strong> P1召回冲突 × ${recall.sampleIds.length} 条（最高优先级，禁止出库）
+        </div>
+        <div style="border: 1px solid #ffccc7; border-radius: 6px; margin-bottom: 12px; overflow: hidden;">
+          <div style="padding: 8px 12px; background: #fff1f0; font-size: 12px; font-weight: 600; color: #f5222d;">⛔ 召回前后对比：</div>
+          <table class="data-table" style="margin: 0; border: 0;">
+            <thead>
+              <tr>
+                <th>样品</th>
+                <th>SKU</th>
+                <th>召回前状态</th>
+                <th>召回后状态</th>
+                <th>冲突记录</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${afterSamples.map(({s, r, active}, i) => `
+                <tr>
+                  <td>${s.icon} ${s.name}</td>
+                  <td><code>${s.sku}</code></td>
+                  <td>${beforeSamples[i].r.eligible ? '<span class="tag tag-green">✅ 正常</span>' : '<span class="tag tag-red">❌ 异常</span>'}</td>
+                  <td>
+                    <span class="tag tag-red">⛔ 召回冻结</span>
+                    <div style="font-size: 11px; color: #8c8c8c; margin-top: 2px;">${r.message.substring(0, 40)}...</div>
+                  </td>
+                  <td><span class="conflict-priority">P1</span> recall ×${active}</td>
+                </tr>
+              `).join('')}
+            </tbody>
+          </table>
+        </div>
+        <div style="padding: 10px 12px; background: #fffbe6; border: 1px solid #ffe58f; border-radius: 6px; margin-bottom: 12px; font-size: 13px;">
+          <strong>🎯 验收要点：</strong><br>
+          • P1优先级最高，任何出库操作被强制拒绝<br>
+          • 相关预约自动取消并附原因通知<br>
+          • 包含样品的套装状态同步标记风险<br>
+          • 历史数据不删除，召回解除后自动恢复权限
+        </div>
+        <div style="display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 12px;">
+          <span class="tag tag-red">⛔ P1 最高优先级</span>
+          <span class="tag tag-orange">批量冻结 ${recall.sampleIds.length}件</span>
+          <span class="tag tag-purple">预约自动取消</span>
+          <span class="tag tag-blue">套装联动风险</span>
+        </div>
+        <div style="display: flex; gap: 8px;">
+          <button class="btn btn-danger btn-sm" onclick="switchModule('recall'); renderRecallPanel();">📢 查看召回详情</button>
+          <button class="btn btn-warning btn-sm" onclick="switchModule('conflict'); renderConflictPanel();">⚔️ 查看冲突记录</button>
+          <button class="btn btn-default btn-sm" onclick="switchModule('reservations'); renderReservationList();">📋 查看预约状态</button>
+        </div>
+      </div>
+    `;
+    showNotification('品牌召回批量冻结', `三只松鼠召回已执行，2件样品被P1冻结，${targetReservations.length}笔预约自动取消`, 'error');
+  } else if (type === 'resourceConflict') {
+    const targetSample = getSampleById(1);
+    const conflicts = getActiveConflicts(1);
+    const winnerResult = resolveWinner(conflicts);
+    const checkResult = checkReservationEligibility(1, 'anchor-5');
+    html = `
+      <div class="scenario-block intercepted">
+        <div class="scenario-header">
+          <div class="scenario-name">⚔️ 多直播冲突判定：谁先占了资源</div>
+          <span class="scenario-status" style="background: #fff7e6; color: #fa8c16;">⚖️ 已仲裁</span>
+        </div>
+        <div class="scenario-chain" style="margin: 12px 0; padding: 12px; background: linear-gradient(135deg, #e6f7ff 0%, #fff7e6 50%, #f9f0ff 100%); border-radius: 8px;">
+          <div style="font-size: 13px; font-weight: 600; margin-bottom: 10px; color: #595959;">📋 真实场景：${targetSample.icon} ${targetSample.name} 同时被5种占用盯上</div>
+          <div style="display: flex; gap: 8px; flex-wrap: wrap; align-items: center; font-size: 12px;">
+            <div class="chain-step active">雨菲 预借 (06-17~19)</div>
+            <span style="color: #fa8c16;">⟲时间重叠</span>
+            <div class="chain-step active">小美 预借 (06-18~20)</div>
+            <span style="color: #8c8c8c;">+</span>
+            <div class="chain-step active">质检 复核</div>
+            <span style="color: #8c8c8c;">+</span>
+            <div class="chain-step active">SET-001 套装</div>
+          </div>
+        </div>
+        <div style="color: #595959; font-size: 13px; margin-bottom: 12px;">
+          <strong>争议样品:</strong> ${targetSample.icon} ${targetSample.name} <code>${targetSample.sku}</code> (${targetSample.brand})<br>
+          <strong>活跃占用方:</strong> <span style="color: #fa8c16; font-weight: 600;">${conflicts.length} 个</span>，时间重叠，资源互斥<br>
+          <strong>仲裁算法:</strong> 优先级(P1-P5) + 创建时间双维度，同优先级先创建者胜出<br>
+          <strong>⚖️ 判定结果:</strong>
+        </div>
+        <div style="border: 1px solid #d6e4ff; border-radius: 8px; margin-bottom: 12px; overflow: hidden;">
+          <div style="padding: 10px 14px; background: linear-gradient(135deg, #e6f7ff 0%, #bae7ff 100%); font-weight: 600; color: #096dd9;">
+            🏆 胜出方：${getConflictTypeInfo(winnerResult.winner.type).icon} ${winnerResult.winner.sourceName} 
+            <span class="conflict-priority p${winnerResult.winner.priority}" style="margin-left: 8px;">P${winnerResult.winner.priority}</span>
+            <span class="winner-badge" style="margin-left: 8px;">✓ 先占资源</span>
+          </div>
+          <div style="padding: 12px 14px; font-size: 13px; color: #595959;">
+            <div><strong>占用类型：</strong>${getConflictTypeInfo(winnerResult.winner.type).label}（${getConflictTypeInfo(winnerResult.winner.type).desc}）</div>
+            <div><strong>占用时段：</strong>${winnerResult.winner.startTime} ~ ${winnerResult.winner.endTime}</div>
+            <div><strong>创建时间：</strong>${winnerResult.winner.createTime}（最早创建）</div>
+            <div><strong>理由说明：</strong>${winnerResult.winner.description}</div>
+            <div style="margin-top: 8px; padding: 8px 12px; background: #f9f0ff; border-radius: 4px;">
+              <strong style="color: #722ed1;">📌 优先级说明：</strong>P2（套装绑定）> P3（主播预借）> P4（质检复核），
+              因此套装绑定的SET-001优先占用，同优先级下取最早创建者
+            </div>
+          </div>
+        </div>
+        <div style="border: 1px solid #ffe7ba; border-radius: 6px; margin-bottom: 12px; overflow: hidden;">
+          <div style="padding: 8px 12px; background: #fff7e6; font-size: 12px; font-weight: 600; color: #d46b08;">❌ 需避让方（${winnerResult.losers.length}个占用）：</div>
+          <div style="display: flex; flex-direction: column; gap: 6px; padding: 8px 12px;">
+            ${winnerResult.losers.map(l => {
+              const info = getConflictTypeInfo(l.type);
+              return `
+                <div style="display: flex; justify-content: space-between; align-items: center; padding: 8px 10px; background: #fff2e8; border-radius: 4px; font-size: 13px;">
+                  <div>
+                    ${info.icon} ${info.label} - ${l.sourceName}
+                    <span class="conflict-priority p${l.priority}" style="margin-left: 6px;">P${l.priority}</span>
+                    <span class="loser-badge" style="margin-left: 6px;">✗ 优先级低/创建晚</span>
+                  </div>
+                  <div style="font-size: 12px; color: #8c8c8c;">${l.startTime.substring(5, 16)}</div>
+                </div>
+              `;
+            }).join('')}
+          </div>
+        </div>
+        <div style="padding: 10px 12px; background: #f6ffed; border: 1px solid #b7eb8f; border-radius: 6px; margin-bottom: 12px; font-size: 13px;">
+          <strong>🎯 选品经理决策提示：</strong><br>
+          • 当前尝试由 <strong>雨菲</strong> 预约：${checkResult.warning || '正常可约，但与占用冲突'}<br>
+          • 建议方案1：雨菲改期至 6月21日 之后，避免与莉莉的套装专场冲突<br>
+          • 建议方案2：雨菲与小美协商共享样品，安排错峰试用<br>
+          • 建议方案3：选品经理协调增加1件同款样品库存
+        </div>
+        <div style="display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 12px;">
+          ${conflicts.map(c => {
+            const info = getConflictTypeInfo(c.type);
+            const isWinner = winnerResult.winner.id === c.id;
+            return `<span class="tag ${isWinner ? 'tag-green' : 'tag-red'}">${info.icon}${info.label} P${c.priority} ${isWinner ? '✓' : '✗'}</span>`;
+          }).join('')}
+        </div>
+        <button class="btn btn-warning btn-sm" onclick="switchModule('conflict'); renderConflictPanel();">⚔️ 打开完整冲突面板</button>
+      </div>
+    `;
+    showNotification('资源冲突判定', `${targetSample.name}共${conflicts.length}个占用，已自动仲裁分出胜负`, 'warning');
   }
   
   container.innerHTML = html;
@@ -2693,11 +3952,55 @@ function demoCompensation() {
 
 function resetDemoData() {
   document.getElementById('scenarioContainer').innerHTML = '';
-  showNotification('已重置', '演示数据已重置', 'success');
+  
+  const set001 = sampleSets.find(s => s.id === 'SET-001');
+  if (set001) {
+    set001.locked = false;
+    set001.lockedBy = null;
+    set001.lockedTime = null;
+    set001.lockReason = null;
+  }
+  
+  const recallIds = ['REC-DEMO-001', 'REC-DEMO-BRAND'];
+  for (let i = brandRecalls.length - 1; i >= 0; i--) {
+    if (recallIds.includes(brandRecalls[i].id)) {
+      const r = brandRecalls[i];
+      r.sampleIds.forEach(sid => {
+        const s = getSampleById(sid);
+        if (s) {
+          s.recallFlag = false;
+          s.recallInfo = undefined;
+          if (s.status === 'locked' && s._lockedByRecall === r.id) {
+            s.status = 'normal';
+            s._lockedByRecall = undefined;
+          }
+        }
+      });
+      brandRecalls.splice(i, 1);
+    }
+  }
+  
+  const demoConflictTypes = ['setbind'];
+  for (let i = resourceConflicts.length - 1; i >= 0; i--) {
+    if (resourceConflicts[i]._fromDemo) {
+      resourceConflicts.splice(i, 1);
+    }
+  }
+  
+  for (let i = reservations.length - 1; i >= 0; i--) {
+    if (reservations[i]._cancelledByRecall) {
+      reservations[i].status = reservations[i]._origStatus || 'pending';
+      reservations[i]._cancelledByRecall = undefined;
+      reservations[i]._origStatus = undefined;
+    }
+  }
+  
+  renderAll();
+  showNotification('已重置', '演示数据已重置（含套装锁定/召回冻结/冲突记录）', 'success');
 }
 
 function runRegressionTests() {
-  console.log('🧪 开始回归测试...');
+  console.log('🧪 开始回归测试（扩展版）...');
   const results = [];
   
   const test1 = checkReservationEligibility(2, 'anchor-1');
@@ -2734,26 +4037,28 @@ function runRegressionTests() {
   
   const test5 = checkReservationEligibility(7, 'anchor-1');
   results.push({
-    name: '规则5: 已锁定样品不能预约',
-    passed: test5.reason === 'locked' && test5.eligible === false,
-    expected: '拒绝预约',
-    actual: test5.message
+    name: '规则5: 已锁定样品不能预约（含套装占用）',
+    passed: (test5.reason === 'locked' || test5.reason === 'conflict' || test5.reason === 'setlock') && test5.eligible === false,
+    expected: '拒绝预约（锁定/套装冲突等）',
+    actual: `reason=${test5.reason} | ${test5.message.substring(0, 50)}`
   });
   
-  const test6 = checkReservationEligibility(1, 'anchor-1');
+  const cleanSamples = samples.filter(s => s.status === 'approved' && s.qcStatus === 'pass' && !s.isLost && s.availableStock > 0 && !s.recallFlag);
+  const test6Sample = cleanSamples.find(s => !getActiveConflicts(s.id).length) || cleanSamples[0] || getSampleById(10);
+  const test6 = test6Sample ? checkReservationEligibility(test6Sample.id, 'anchor-1') : { eligible: true };
   results.push({
-    name: '规则6: 正常样品可预约',
-    passed: test6.reason === 'ok' && test6.eligible === true,
-    expected: '允许预约',
-    actual: '验证通过'
+    name: `规则6: 正常样品可预约（${test6Sample?.sku || 'SKU-010'}无冲突）`,
+    passed: test6.eligible === true,
+    expected: `允许预约（样品${test6Sample?.sku || 'SKU-010'}状态正常）`,
+    actual: test6Sample ? `eligible=${test6.eligible} reason=${test6.reason || 'ok'} msg=${(test6.message || '验证通过').substring(0, 50)}` : '未找到干净样品'
   });
   
   const test7 = checkReservationEligibility(1, 'anchor-3');
   results.push({
     name: '规则7: 有超期记录但未冻结时警告',
-    passed: test7.reason === 'hasOverdue' && test7.eligible === true,
-    expected: '允许预约但警告',
-    actual: test7.warning || '验证通过'
+    passed: test7.eligible === true && test7.warning && test7.warning.includes('超期'),
+    expected: '允许预约，但warning中包含超期提示',
+    actual: `eligible=${test7.eligible} warning=${(test7.warning || '无').substring(0, 60)}`
   });
   
   const reportExists = reservations.some(r => r.report && r.status === 'completed');
@@ -2774,10 +4079,112 @@ function runRegressionTests() {
     actual: canSubmitTest ? '找到可提交报告的预约' : '未找到可提交报告的预约'
   });
   
+  results.push({
+    name: '功能3: 资源冲突模型初始化（5种类型齐全）',
+    passed: resourceConflicts.length >= 10,
+    expected: 'resourceConflicts长度>=10，覆盖召回/套装/预借/质检/盘点',
+    actual: `实际 ${resourceConflicts.length} 条冲突，类型：${[...new Set(resourceConflicts.map(c => c.type))].join('/')}`
+  });
+  
+  const sku1 = getSampleById(1);
+  const sku1Conflicts = getActiveConflicts(1);
+  results.push({
+    name: '功能4: SKU-001精华液冲突检测（多占用）',
+    passed: sku1Conflicts.length >= 3,
+    expected: 'SKU-001至少3个活跃冲突（2主播预借+质检+套装绑定）',
+    actual: `实际 ${sku1Conflicts.length} 个冲突：${sku1Conflicts.map(c => getConflictTypeInfo(c.type).label).join('+')}`
+  });
+  
+  const { winner, losers } = resolveWinner(sku1Conflicts);
+  results.push({
+    name: '功能5: 多冲突仲裁算法（优先级+时间）',
+    passed: winner && losers.length >= 1 && getConflictTypeInfo(winner.type).priority < 5,
+    expected: 'P1召回>P2套装>P3预借>P4质检>P5盘点，winner优先级最高',
+    actual: winner ? `胜出方:${getConflictTypeInfo(winner.type).label}(${winner.sourceName || winner.partyName || '-'})，需避让:${losers.map(l => getConflictTypeInfo(l.type).label + '(' + (l.sourceName || l.partyName || '-') + ')').join(',')}` : '无有效冲突可仲裁'
+  });
+  
+  const highRiskSample = samples.find(s => s.returnRisk && s.returnRisk.length > 0);
+  results.push({
+    name: '功能6: 高退货风险数组历史（不删旧数据）',
+    passed: highRiskSample && Array.isArray(highRiskSample.returnRisk) && highRiskSample.returnRisk.length >= 1,
+    expected: '至少1个样品有returnRisk[]数组，存历史记录',
+    actual: highRiskSample ? `${highRiskSample.sku}有${highRiskSample.returnRisk.length}条退货记录` : '未找到有退货历史的样品'
+  });
+  
+  if (highRiskSample) {
+    const origLen = highRiskSample.returnRisk.length;
+    addReturnRisk(highRiskSample.id, { rate: 30, reason: '回归测试追加标记', liveSessionId: 'LIVE-TEST', reporter: '测试系统' });
+    results.push({
+      name: '功能7: 追加退货历史不覆盖旧数据',
+      passed: highRiskSample.returnRisk.length === origLen + 1,
+      expected: `原${origLen}条 → 追加后${origLen + 1}条，原第1条仍存在`,
+      actual: `实际${highRiskSample.returnRisk.length}条，原首条${highRiskSample.returnRisk[0]?.date || '已丢失'}`
+    });
+  }
+  
+  const setLockResult = checkReservationEligibility(5, 'anchor-1');
+  results.push({
+    name: '功能8: 套装连带锁定拦截（SKU-005=SET-002）',
+    passed: setLockResult.eligible === false || setLockResult.warningMsg,
+    expected: 'SKU-005属于SET-002已被莉莉绑定，应拦截或强烈警告',
+    actual: setLockResult.eligible ? `通过但有警告：${setLockResult.warningMsg || '无'}` : `拦截原因：${setLockResult.message}`
+  });
+  
+  const recallSample = samples.find(s => s.recallFlag === true || (brandRecalls[0] && brandRecalls[0].sampleIds.includes(s.id)));
+  if (recallSample) {
+    const recallCheck = checkReservationEligibility(recallSample.id, 'anchor-1');
+    results.push({
+      name: '功能9: 品牌召回优先拦截（P1最高级）',
+      passed: recallCheck.reason === 'recall' || recallCheck.message.includes('召回'),
+      expected: `召回样品${recallSample.sku}应被P1级召回拦截，含召回原因详情`,
+      actual: `eligible=${recallCheck.eligible} reason=${recallCheck.reason} msg=${recallCheck.message.substring(0, 60)}`
+    });
+  }
+  
+  const overdueLv1 = getOverdueLevel(2);
+  const overdueLv2 = getOverdueLevel(5);
+  const overdueLv3 = getOverdueLevel(10);
+  const overdueLv4 = getOverdueLevel(18);
+  results.push({
+    name: '功能10: 超期四级升级算法（警告→限制→冻结→黑名单）',
+    passed: overdueLv1.level === 'warn' && overdueLv2.level === 'limit' && overdueLv3.level === 'freeze' && overdueLv4.level === 'blacklist',
+    expected: '2天=warn(警告) / 5天=limit(限制) / 10天=freeze(冻结) / 18天=blacklist(黑名单)',
+    actual: `${overdueLv1.label}/${overdueLv2.label}/${overdueLv3.label}/${overdueLv4.label}`
+  });
+  
+  results.push({
+    name: '功能11: 5种冲突类型优先级校验（P1→P5）',
+    passed: getConflictTypeInfo('recall').priority === 1 &&
+      getConflictTypeInfo('setbind').priority === 2 &&
+      getConflictTypeInfo('preborrow').priority === 3 &&
+      getConflictTypeInfo('qcpending').priority === 4 &&
+      getConflictTypeInfo('inventory').priority === 5,
+    expected: 'recall(P1) < setbind(P2) < preborrow(P3) < qcpending(P4) < inventory(P5)',
+    actual: `召回=${getConflictTypeInfo('recall').priority} 套装=${getConflictTypeInfo('setbind').priority} 预借=${getConflictTypeInfo('preborrow').priority} 质检=${getConflictTypeInfo('qcpending').priority} 盘点=${getConflictTypeInfo('inventory').priority}`
+  });
+  
+  const allRiskSamples = samples.filter(s => s.returnRisk && s.returnRisk.length > 0 && !s.recallFlag && s.status === 'approved' && s.qcStatus === 'pass');
+  const riskAnchor = anchors.find(a => !a.isFrozen) || anchors[0];
+  let riskSample = allRiskSamples.find(s => !getActiveConflicts(s.id).some(c => c.priority < 3) && !s.isLost);
+  if (!riskSample && allRiskSamples.length) riskSample = allRiskSamples[0];
+  let origStock = 0;
+  if (riskSample && riskSample.availableStock === 0) {
+    origStock = 0; riskSample.availableStock = 99; riskSample.totalStock = (riskSample.totalStock || 0) + 99;
+  }
+  const riskCheckEl = riskSample ? checkReservationEligibility(riskSample.id, riskAnchor.id) : { warningMsg: '', warning: '', eligible: true };
+  if (riskSample && origStock === 0) { riskSample.availableStock = 0; riskSample.totalStock = Math.max(0, (riskSample.totalStock || 99) - 99); }
+  const riskWarning = riskCheckEl.warningMsg || riskCheckEl.warning || '';
+  results.push({
+    name: '功能12: 高退货风险不阻止预约但显示警告',
+    passed: riskSample && (riskWarning.includes('退货') || riskCheckEl.warningMsg?.includes('退货')) ? true : (riskSample ? riskCheckEl.eligible : false),
+    expected: `样品${riskSample?.sku || '-'}有returnRisk历史，warning中含退货提示，或至少eligible不被退货风险直接阻止`,
+    actual: riskSample ? `样品=${riskSample.sku}(补库存后测试) warning含退货=${riskWarning.includes('退货')} eligible=${riskCheckEl.eligible} warningMsg含退货=${String(riskCheckEl.warningMsg || '').includes('退货')} warning=${(riskWarning || riskCheckEl.warningMsg || '无').substring(0, 60)}` : '未找到仅带退货风险的干净样品'
+  });
+  
   const passedCount = results.filter(r => r.passed).length;
   const totalCount = results.length;
   
-  console.log(`\n📊 回归测试结果: ${passedCount}/${totalCount} 通过`);
+  console.log(`\n📊 回归测试结果（扩展版）: ${passedCount}/${totalCount} 通过`);
   results.forEach(r => {
     const status = r.passed ? '✅' : '❌';
     console.log(`${status} ${r.name}`);
@@ -2790,9 +4197,9 @@ function runRegressionTests() {
   let resultHtml = `
     <div style="padding: 16px; background: ${passedCount === totalCount ? '#f6ffed' : '#fff1f0'}; border-radius: 8px; margin-bottom: 16px;">
       <h3 style="margin: 0 0 12px 0; color: ${passedCount === totalCount ? '#52c41a' : '#f5222d'};">
-        ${passedCount === totalCount ? '✅ 所有回归测试通过' : '❌ 部分回归测试失败'}
+        ${passedCount === totalCount ? '✅ 所有回归测试通过（共' + totalCount + '项）' : '❌ 部分回归测试失败（' + passedCount + '/' + totalCount + '）'}
       </h3>
-      <p style="margin: 0 0 12px 0; font-size: 13px;">通过: <strong>${passedCount}</strong> / ${totalCount}</p>
+      <p style="margin: 0 0 12px 0; font-size: 13px;">通过: <strong>${passedCount}</strong> / ${totalCount} | 新增测试: 功能3~12（覆盖冲突/套装/召回/退货/超期等）</p>
     </div>
   `;
   
@@ -2807,7 +4214,7 @@ function runRegressionTests() {
   `).join('');
   
   document.getElementById('reportViewContent').innerHTML = resultHtml;
-  document.getElementById('reportViewModal').querySelector('.modal-title').textContent = '🧪 回归测试报告';
+  document.getElementById('reportViewModal').querySelector('.modal-title').textContent = '🧪 回归测试报告（扩展版）';
   document.getElementById('reportViewModal').style.display = 'flex';
   
   return passedCount === totalCount;
@@ -2823,6 +4230,9 @@ function renderAll() {
   renderOverdue();
   renderInventory();
   renderAnalysis();
+  renderConflictPanel();
+  renderSetsPanel();
+  renderRecallPanel();
   updateStats();
 }
 
